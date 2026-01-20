@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="header.css">
     <style>
         :root { --bg-darkest: #070B12; --bg-dark: #0A1120; --bg-medium: #0F1A2E; --primary: #00D4AA; --secondary: #00B4D8; --white: #FFFFFF; --text-primary: rgba(255,255,255,0.95); --text-secondary: rgba(255,255,255,0.7); --text-muted: rgba(255,255,255,0.5); --border: rgba(255,255,255,0.08); --border-light: rgba(255,255,255,0.15); --gradient-primary: linear-gradient(135deg, #00B4D8 0%, #00D4AA 100%); --gradient-text: linear-gradient(135deg, #00D4AA 0%, #00B4D8 50%, #7DD3E8 100%); }
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -118,20 +119,52 @@
 <body>
     <div class="bg-effects"><div class="bg-gradient"></div><div class="bg-glow glow-1"></div><div class="bg-glow glow-2"></div></div>
 
-    <nav class="nav">
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+    <!-- Mobile Menu Panel -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <a href="index.html" class="mobile-menu-logo">
+                <img src="logo_icon_nav.png" alt="SnapShot Health" class="logo-mark">
+                <div class="logo-text">SnapShot Health</div>
+            </a>
+        </div>
+        <nav class="mobile-menu-nav">
+            <div class="mobile-menu-item"><a href="index.html#how-it-works" class="mobile-menu-link"><span class="mobile-menu-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>How It Works</a></div>
+            <div class="mobile-menu-item"><a href="clinicians.html" class="mobile-menu-link"><span class="mobile-menu-icon"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>For Doctors</a></div>
+            <div class="mobile-menu-item"><a href="health-systems.html" class="mobile-menu-link"><span class="mobile-menu-icon"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg></span>For Hospitals</a></div>
+            <div class="mobile-menu-item"><a href="patients.html" class="mobile-menu-link"><span class="mobile-menu-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>For Patients</a></div>
+            <div class="mobile-menu-item"><a href="about.html" class="mobile-menu-link"><span class="mobile-menu-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span>About Us</a></div>
+            <div class="mobile-menu-item"><a href="news.html" class="mobile-menu-link"><span class="mobile-menu-icon"><svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/></svg></span>News</a></div>
+        </nav>
+        <div class="mobile-menu-cta"><a href="contact.html" class="btn btn-primary">Schedule a Demo</a></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
         <div class="nav-container">
             <a href="index.html" class="logo">
                 <img src="logo_icon_nav.png" alt="SnapShot Health" class="logo-mark">
                 <div class="logo-text">SnapShot Health</div>
             </a>
-            <ul class="nav-menu">
-                <li><a href="patients.html" class="nav-link">For Patients</a></li>
-                <li><a href="clinicians.html" class="nav-link">For Clinicians</a></li>
-                <li><a href="health-systems.html" class="nav-link">Health Systems</a></li>
-                <li><a href="about.html" class="nav-link">About</a></li>
-                <li><a href="news.html" class="nav-link">News</a></li>
+            <ul class="nav-links">
+                <li><a href="index.html#how-it-works">How It Works</a></li>
+                <li><a href="clinicians.html">For Doctors</a></li>
+                <li><a href="health-systems.html">For Hospitals</a></li>
+                <li><a href="patients.html">For Patients</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="news.html">News</a></li>
             </ul>
-            <a href="contact.html" class="nav-cta"><span class="nav-cta-dot"></span>Schedule Demo</a>
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle mobile menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+            <a href="contact.html" class="nav-cta">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                Get Started
+            </a>
         </div>
     </nav>
 
@@ -288,5 +321,6 @@
             <p class="footer-copyright">© 2025 SnapShot Health. All rights reserved. | HIPAA Compliant</p>
         </div>
     </footer>
+    <script src="header.js"></script>
 </body>
 </html>
