@@ -1,0 +1,2082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnapShot Health | Connected Care. Better Outcomes.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-darkest: #070B12;
+            --bg-dark: #0A1120;
+            --bg-medium: #0F1A2E;
+            --bg-light: #162240;
+            --primary: #00D4AA;
+            --primary-bright: #00FFD1;
+            --primary-glow: rgba(0, 212, 170, 0.4);
+            --secondary: #00B4D8;
+            --secondary-light: #7DD3E8;
+            --accent: #4DA8DA;
+            --white: #FFFFFF;
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.5);
+            --border: rgba(255, 255, 255, 0.08);
+            --border-light: rgba(255, 255, 255, 0.12);
+            --gradient-primary: linear-gradient(135deg, #00B4D8 0%, #00D4AA 100%);
+            --gradient-bg: linear-gradient(180deg, #070B12 0%, #0A1120 50%, #0F1A2E 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-darkest);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           BACKGROUND EFFECTS
+           ============================================ */
+        .bg-effects {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-gradient {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-bg);
+        }
+
+        .bg-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(150px);
+            opacity: 0.6;
+        }
+
+        .glow-1 {
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(0, 180, 216, 0.15) 0%, transparent 70%);
+            top: -400px;
+            right: -200px;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .glow-2 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 212, 170, 0.12) 0%, transparent 70%);
+            bottom: -300px;
+            left: -200px;
+            animation: float 25s ease-in-out infinite reverse;
+        }
+
+        .glow-3 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(77, 168, 218, 0.1) 0%, transparent 70%);
+            top: 50%;
+            left: 30%;
+            animation: float 30s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.05); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
+        }
+
+        /* Geometric Pattern */
+        .geometric-pattern {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 600px;
+            height: 600px;
+            opacity: 0.08;
+        }
+
+        .geometric-pattern svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Grid Lines */
+        .grid-lines {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(0, 212, 170, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 170, 0.03) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 70%);
+        }
+
+        /* ============================================
+           NAVIGATION
+           ============================================ */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 0.875rem 2rem;
+            background: rgba(7, 11, 18, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 0.625rem;
+        }
+
+        .logo-mark {
+            height: 42px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.375rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--white);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--white);
+            color: var(--bg-darkest);
+            padding: 0.625rem 1.25rem;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 30px rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-cta svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+        .hero {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 8rem 2rem 4rem;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content {
+            animation: fadeUp 1s ease-out;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.625rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 212, 170, 0.1);
+            border: 1px solid rgba(0, 212, 170, 0.2);
+            border-radius: 100px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--primary);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        .hero-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-title .gradient {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 520px;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.75rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.9375rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: var(--bg-darkest);
+            box-shadow: 0 4px 30px var(--primary-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 40px var(--primary-glow);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-light);
+            color: var(--white);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .stat {
+            position: relative;
+        }
+
+        .stat::after {
+            content: '';
+            position: absolute;
+            right: -1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 40px;
+            background: var(--border);
+        }
+
+        .stat:last-child::after {
+            display: none;
+        }
+
+        .stat-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.25rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* ============================================
+           HOLOGRAPHIC DASHBOARD
+           ============================================ */
+        .hero-visual {
+            position: relative;
+            height: 600px;
+            animation: fadeUp 1s ease-out 0.2s both;
+        }
+
+        .holo-dashboard {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            perspective: 1500px;
+            transform-style: preserve-3d;
+        }
+
+        /* Central Hub */
+        .holo-hub {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 0 40px var(--primary-glow),
+                0 0 80px rgba(0, 180, 216, 0.3),
+                inset 0 0 20px rgba(255, 255, 255, 0.2);
+            animation: hubPulse 3s ease-in-out infinite;
+            z-index: 10;
+        }
+
+        .holo-hub svg {
+            width: 36px;
+            height: 36px;
+            color: var(--bg-darkest);
+        }
+
+        @keyframes hubPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 40px var(--primary-glow), 0 0 80px rgba(0, 180, 216, 0.3); }
+            50% { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 0 60px var(--primary-glow), 0 0 100px rgba(0, 180, 216, 0.4); }
+        }
+
+        /* Connection Lines */
+        .connection-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .conn-line {
+            stroke: url(#lineGradient);
+            stroke-width: 1.5;
+            stroke-dasharray: 8, 4;
+            fill: none;
+            opacity: 0.6;
+            animation: dashMove 20s linear infinite;
+        }
+
+        @keyframes dashMove {
+            to { stroke-dashoffset: -100; }
+        }
+
+        /* Holographic Panels */
+        .holo-panel {
+            position: absolute;
+            background: linear-gradient(
+                135deg,
+                rgba(0, 212, 170, 0.08) 0%,
+                rgba(0, 180, 216, 0.05) 50%,
+                rgba(7, 11, 18, 0.9) 100%
+            );
+            border: 1px solid rgba(0, 212, 170, 0.2);
+            border-radius: 16px;
+            backdrop-filter: blur(20px);
+            overflow: hidden;
+            transition: all 0.4s ease;
+            animation: panelFloat 6s ease-in-out infinite;
+        }
+
+        .holo-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
+
+        .holo-panel::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .holo-panel:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 0 20px 60px rgba(0, 212, 170, 0.15);
+        }
+
+        @keyframes panelFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Panel 1: Vitals */
+        .panel-vitals {
+            width: 200px;
+            padding: 1.25rem;
+            top: 8%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        /* Panel 2: KPI */
+        .panel-kpi {
+            width: 220px;
+            padding: 1.25rem;
+            top: 5%;
+            right: 8%;
+            animation-delay: -2s;
+        }
+
+        /* Panel 3: Patient */
+        .panel-patient {
+            width: 240px;
+            padding: 1.25rem;
+            bottom: 10%;
+            left: 0;
+            animation-delay: -4s;
+        }
+
+        /* Panel 4: Alert */
+        .panel-alert {
+            width: 210px;
+            padding: 1.25rem;
+            bottom: 12%;
+            right: 5%;
+            animation-delay: -1s;
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .panel-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .panel-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 212, 170, 0.15);
+            border-radius: 6px;
+            color: var(--primary);
+            font-size: 0.75rem;
+        }
+
+        .panel-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1;
+        }
+
+        .panel-value.gradient {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .panel-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .panel-value-row {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+        }
+
+        .panel-unit {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* Vitals Grid */
+        .vitals-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .vital-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.75rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .vital-label {
+            font-size: 0.625rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        .vital-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .vital-value.good {
+            color: var(--primary);
+        }
+
+        /* KPI Grid */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .kpi-item {
+            text-align: center;
+        }
+
+        .kpi-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .kpi-label {
+            font-size: 0.625rem;
+            color: var(--text-muted);
+        }
+
+        /* Patient Card */
+        .patient-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .patient-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--bg-darkest);
+            font-size: 0.875rem;
+        }
+
+        .patient-name {
+            font-weight: 600;
+            color: var(--white);
+            font-size: 0.9375rem;
+        }
+
+        .patient-condition {
+            font-size: 0.75rem;
+            color: var(--secondary);
+        }
+
+        .patient-vitals {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .patient-vital-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8125rem;
+        }
+
+        .patient-vital-label {
+            color: var(--text-muted);
+        }
+
+        .patient-vital-value {
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        /* Alert Card */
+        .alert-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .alert-dot {
+            width: 8px;
+            height: 8px;
+            background: #F59E0B;
+            border-radius: 50%;
+            animation: alertPulse 1s infinite;
+        }
+
+        @keyframes alertPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .alert-status {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #F59E0B;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .alert-message {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .alert-message .highlight {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* ============================================
+           ABOUT SECTION
+           ============================================ */
+        .about {
+            position: relative;
+            z-index: 1;
+            padding: 4rem 2rem 8rem;
+            overflow: hidden;
+            background: linear-gradient(180deg, rgba(7, 11, 18, 0) 0%, rgba(5, 8, 14, 0.8) 15%, rgba(5, 8, 14, 1) 50%, rgba(7, 11, 18, 0.9) 100%);
+        }
+
+        .about::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(0, 212, 170, 0.3) 50%, transparent 100%);
+        }
+
+        .about::after {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 150px;
+            background: radial-gradient(ellipse at center, rgba(0, 180, 216, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .about-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .about-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-icon svg {
+            width: 100%;
+            height: 100%;
+            color: var(--primary);
+        }
+
+        .about-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .about-text {
+            color: var(--text-secondary);
+            font-size: 1.0625rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .about-text strong {
+            color: var(--white);
+        }
+
+        .about-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--white);
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            font-weight: 500;
+            margin-top: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .about-link:hover {
+            color: var(--primary);
+        }
+
+        /* About Visual */
+        .about-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 450px;
+        }
+
+        .about-hub {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            box-shadow: 0 0 40px var(--primary-glow), 0 0 80px rgba(0, 212, 170, 0.2);
+        }
+
+        .about-hub svg {
+            width: 32px;
+            height: 32px;
+            color: white;
+        }
+
+        .about-conn-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .about-conn-lines path {
+            stroke: url(#aboutLineGrad);
+            stroke-width: 1.5;
+            stroke-dasharray: 6 4;
+            fill: none;
+            opacity: 0.5;
+        }
+
+        .about-panel {
+            position: absolute;
+            background: linear-gradient(145deg, rgba(15, 26, 46, 0.9) 0%, rgba(7, 11, 18, 0.95) 100%);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 1rem;
+            backdrop-filter: blur(10px);
+            z-index: 5;
+        }
+
+        .about-panel-1 {
+            top: 0;
+            right: 10%;
+            width: 220px;
+            animation: floatPanel1 4s ease-in-out infinite;
+        }
+
+        .about-panel-2 {
+            bottom: 15%;
+            right: 5%;
+            width: 200px;
+            animation: floatPanel2 4.5s ease-in-out infinite;
+        }
+
+        .about-panel-3 {
+            bottom: 5%;
+            left: 10%;
+            width: 210px;
+            animation: floatPanel3 5s ease-in-out infinite;
+        }
+
+        @keyframes floatPanel1 {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes floatPanel2 {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes floatPanel3 {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .panel-avatar {
+            width: 28px;
+            height: 28px;
+            background: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 0.7rem;
+        }
+
+        .panel-header-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .panel-name {
+            font-weight: 600;
+            color: var(--white);
+            font-size: 0.8rem;
+        }
+
+        .panel-role {
+            font-size: 0.65rem;
+            color: var(--secondary);
+        }
+
+        .panel-message {
+            background: rgba(0, 180, 216, 0.1);
+            border-radius: 10px;
+            padding: 0.75rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .panel-message .highlight {
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .panel-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+
+        .panel-time {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
+        .panel-reply {
+            background: var(--secondary);
+            color: white;
+            padding: 0.3rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+
+        .panel-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--primary);
+        }
+
+        /* ============================================
+           TRUSTED BY SECTION
+           ============================================ */
+        .trusted {
+            position: relative;
+            z-index: 1;
+            padding: 4rem 2rem;
+        }
+
+        .trusted-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .trusted-title {
+            text-align: center;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 3rem;
+        }
+
+        .trusted-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            overflow: hidden;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .trusted-logo {
+            flex: 0 0 auto;
+            padding: 1.25rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .trusted-logo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .trusted-logo:hover {
+            color: var(--white);
+            border-color: var(--primary);
+            background: rgba(0, 212, 170, 0.05);
+        }
+
+        .trusted-logo:hover::before {
+            transform: scaleX(1);
+        }
+
+        /* ============================================
+           SERVICES SECTION
+           ============================================ */
+        .services {
+            position: relative;
+            z-index: 1;
+            padding: 8rem 2rem;
+        }
+
+        .services-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 212, 170, 0.3);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient-primary);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 30px var(--primary-glow);
+        }
+
+        .service-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.375rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .service-description {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-features {
+            list-style: none;
+        }
+
+        .service-features li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .service-features li::before {
+            content: '✓';
+            width: 18px;
+            height: 18px;
+            background: rgba(0, 212, 170, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 0.625rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* ============================================
+           STATS COUNTER SECTION
+           ============================================ */
+        .stats-counter {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+        }
+
+        .stats-counter-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-box {
+            background: linear-gradient(145deg, rgba(15, 26, 46, 0.8) 0%, rgba(7, 11, 18, 0.9) 100%);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #8A2BE2, #00B4D8);
+        }
+
+        .stat-box-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .stat-box-label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .stats-counter-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ============================================
+           CTA SECTION
+           ============================================ */
+        .cta {
+            position: relative;
+            z-index: 1;
+            padding: 8rem 2rem;
+        }
+
+        .cta-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            background: var(--gradient-primary);
+            border-radius: 32px;
+            padding: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.1) 0%, transparent 40%);
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--bg-darkest);
+            margin-bottom: 1rem;
+        }
+
+        .cta-text {
+            font-size: 1.125rem;
+            color: rgba(7, 11, 18, 0.7);
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .cta .btn-primary {
+            background: var(--bg-darkest);
+            color: var(--white);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta .btn-primary:hover {
+            background: var(--bg-dark);
+        }
+
+        .cta .btn-secondary {
+            background: transparent;
+            border-color: var(--bg-darkest);
+            color: var(--bg-darkest);
+        }
+
+        .cta .btn-secondary:hover {
+            background: var(--bg-darkest);
+            color: var(--white);
+        }
+
+        .cta-phone {
+            margin-top: 1.5rem;
+            font-size: 0.9375rem;
+            color: rgba(7, 11, 18, 0.6);
+        }
+
+        .cta-phone a {
+            color: var(--bg-darkest);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        footer {
+            position: relative;
+            z-index: 1;
+            padding: 5rem 2rem 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            max-width: 300px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            margin-bottom: 1rem;
+        }
+
+        .footer-tagline {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .footer-title {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            font-size: 0.9375rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .footer-bottom span {
+            color: var(--primary);
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content {
+                order: 1;
+            }
+
+            .hero-visual {
+                order: 0;
+                height: 450px;
+            }
+
+            .hero-subtitle {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-cta {
+                justify-content: center;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2.25rem;
+            }
+
+            .hero-visual {
+                height: 380px;
+            }
+
+            .panel-kpi, .panel-alert {
+                display: none;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .cta-title {
+                font-size: 1.75rem;
+            }
+
+            .cta-container {
+                padding: 3rem 2rem;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-brand {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-effects">
+        <div class="bg-gradient"></div>
+        <div class="bg-glow glow-1"></div>
+        <div class="bg-glow glow-2"></div>
+        <div class="bg-glow glow-3"></div>
+        <div class="grid-lines"></div>
+        
+        <!-- Geometric Pattern -->
+        <div class="geometric-pattern">
+            <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M200 50L350 150V300L200 400L50 300V150L200 50Z" stroke="url(#patternGrad)" stroke-width="1"/>
+                <path d="M200 100L300 166V266L200 333L100 266V166L200 100Z" stroke="url(#patternGrad)" stroke-width="1"/>
+                <path d="M200 150L250 183V250L200 283L150 250V183L200 150Z" stroke="url(#patternGrad)" stroke-width="1"/>
+                <defs>
+                    <linearGradient id="patternGrad" x1="50" y1="50" x2="350" y2="400">
+                        <stop offset="0%" stop-color="#00B4D8"/>
+                        <stop offset="100%" stop-color="#00D4AA"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <img src="logo_icon_nav.png" alt="SnapShot Health" class="logo-mark">
+                <div class="logo-text">SnapShot Health</div>
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="#">Patients</a></li>
+                <li><a href="#">Clinicians</a></li>
+                <li><a href="#">Health Systems</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Resources</a></li>
+            </ul>
+            
+            <a href="#" class="nav-cta">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                </svg>
+                Get Started
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">Remote Concierge Care</div>
+                
+                <h1 class="hero-title">
+                    Connected Care.<br>
+                    <span class="gradient">Better Outcomes.</span>
+                </h1>
+                
+                <p class="hero-subtitle">
+                    With real-time data and personalized support, we partner with physicians to monitor patient health, spot concerns early, and deliver care that technology alone can't provide.
+                </p>
+                
+                <div class="hero-cta">
+                    <a href="#" class="btn btn-primary">
+                        Schedule a Demo
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="btn btn-secondary">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polygon points="10,8 16,12 10,16" fill="currentColor"/>
+                        </svg>
+                        Watch Demo
+                    </a>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-value">250K+</div>
+                        <div class="stat-label">Patients Referred</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">98%</div>
+                        <div class="stat-label">Satisfaction Rate</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">24/7</div>
+                        <div class="stat-label">Care Support</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="holo-dashboard">
+                    <!-- Connection Lines SVG -->
+                    <svg class="connection-lines" viewBox="0 0 600 600">
+                        <defs>
+                            <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#00B4D8" stop-opacity="0.6"/>
+                                <stop offset="100%" stop-color="#00D4AA" stop-opacity="0.6"/>
+                            </linearGradient>
+                        </defs>
+                        <path class="conn-line" d="M300,300 L100,80"/>
+                        <path class="conn-line" d="M300,300 L500,60"/>
+                        <path class="conn-line" d="M300,300 L60,400"/>
+                        <path class="conn-line" d="M300,300 L520,480"/>
+                    </svg>
+                    
+                    <!-- Central Hub -->
+                    <div class="holo-hub">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                        </svg>
+                    </div>
+                    
+                    <!-- Panel 1: Angie Care Concierge -->
+                    <div class="holo-panel panel-vitals">
+                        <div class="panel-header">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <div style="width: 32px; height: 32px; background: var(--secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; font-size: 0.75rem;">A</div>
+                                <div>
+                                    <div style="font-weight: 600; color: var(--white); font-size: 0.875rem;">Angie</div>
+                                    <div style="font-size: 0.65rem; color: var(--secondary);">Your Care Concierge</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="background: rgba(0, 180, 216, 0.08); border-radius: 12px; padding: 0.875rem; margin-top: 0.5rem;">
+                            <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+                                "Hi Mrs. Jones! I noticed your BP reading was a bit elevated this morning. Just checking in — <span style="color: var(--secondary); font-weight: 500;">how are you feeling today?</span>"
+                            </p>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem;">
+                            <span style="font-size: 0.7rem; color: var(--text-muted);">Just now</span>
+                            <span style="background: var(--secondary); color: white; padding: 0.35rem 0.875rem; border-radius: 100px; font-size: 0.7rem; font-weight: 600;">Reply</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Panel 2: KPI Dashboard -->
+                    <div class="holo-panel panel-kpi">
+                        <div class="panel-header">
+                            <span class="panel-title">Monthly KPIs</span>
+                            <span class="panel-icon">📈</span>
+                        </div>
+                        <div class="kpi-grid">
+                            <div class="kpi-item">
+                                <div class="kpi-value" style="color: var(--primary);">1,201</div>
+                                <div class="kpi-label">Active Patients</div>
+                            </div>
+                            <div class="kpi-item">
+                                <div class="kpi-value">75%</div>
+                                <div class="kpi-label">Adherence</div>
+                            </div>
+                            <div class="kpi-item">
+                                <div class="kpi-value" style="color: var(--secondary);">$275K</div>
+                                <div class="kpi-label">Net Revenue</div>
+                            </div>
+                            <div class="kpi-item">
+                                <div class="kpi-value">36,030</div>
+                                <div class="kpi-label">Readings</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Panel 3: Patient Card -->
+                    <div class="holo-panel panel-patient">
+                        <div class="patient-header">
+                            <div class="patient-avatar">CJ</div>
+                            <div>
+                                <div class="patient-name">Cathy Jones</div>
+                                <div class="patient-condition">Hypertension</div>
+                            </div>
+                        </div>
+                        <div class="patient-vitals">
+                            <div class="patient-vital-row">
+                                <span class="patient-vital-label">Blood Pressure</span>
+                                <span class="patient-vital-value">185/85</span>
+                            </div>
+                            <div class="patient-vital-row">
+                                <span class="patient-vital-label">Heart Rate</span>
+                                <span class="patient-vital-value">82 bpm</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Panel 4: Proactive Alert -->
+                    <div class="holo-panel panel-alert">
+                        <div class="alert-indicator">
+                            <span class="alert-dot"></span>
+                            <span class="alert-status">Proactive Alert</span>
+                        </div>
+                        <p class="alert-message">
+                            BP trending higher this week. <span class="highlight">Dr. Smith has been notified</span> and your care plan is being reviewed.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="about-container">
+            <div class="about-content">
+                <div class="about-icon">
+                    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 12L24 6L42 12V24C42 36 24 44 24 44C24 44 6 36 6 24V12Z"/>
+                        <path d="M24 18L24 30M18 24L30 24"/>
+                    </svg>
+                </div>
+                
+                <h2 class="about-title">Nurses Who Know<br>Your Name</h2>
+                
+                <p class="about-text" style="font-size: 1.25rem; font-style: italic; color: var(--primary); margin-bottom: 1.5rem;">
+                    "Because your health deserves daily attention — not just during office visits."
+                </p>
+                
+                <p class="about-text">
+                    <strong>Here's what we do:</strong> We send easy-to-use devices to patients' homes that check things like blood pressure and weight. The readings are sent to us automatically — no apps or WiFi needed.
+                </p>
+                
+                <p class="about-text">
+                    Our AI reviews thousands of readings and flags what matters most — so our care team spends their time on real conversations, not chasing numbers. If something looks off, we call the patient to check in. If it's serious, we let the doctor know right away.
+                </p>
+                
+                <p class="about-text">
+                    For doctors, we handle everything — the devices, the phone calls, the paperwork, and the billing. They get healthier patients and extra income without extra work.
+                </p>
+                
+                <a href="#" class="about-link">
+                    Learn More About Us
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+            
+            <div class="about-visual">
+                <!-- Connection Lines SVG -->
+                <svg class="about-conn-lines" viewBox="0 0 500 450" style="position: absolute; width: 100%; height: 100%;">
+                    <defs>
+                        <linearGradient id="aboutLineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#00B4D8" stop-opacity="0.5"/>
+                            <stop offset="100%" stop-color="#00D4AA" stop-opacity="0.5"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M250,225 L380,80"/>
+                    <path d="M250,225 L400,320"/>
+                    <path d="M250,225 L120,380"/>
+                </svg>
+                
+                <!-- Central Phone Hub -->
+                <div class="about-hub">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+                    </svg>
+                </div>
+                
+                <!-- Panel 1: Monthly Check-in -->
+                <div class="about-panel about-panel-1">
+                    <div class="panel-header-row">
+                        <div class="panel-avatar">S</div>
+                        <div>
+                            <div class="panel-name">Sarah</div>
+                            <div class="panel-role">Concierge Care Nurse</div>
+                        </div>
+                    </div>
+                    <div class="panel-message">
+                        "Hi Mr. Thompson! This is your monthly check-in. <span class="highlight">How have you been feeling?</span> Any concerns since we last spoke?"
+                    </div>
+                    <div class="panel-footer">
+                        <span class="panel-time">Monthly Call</span>
+                        <span class="panel-reply">Connected</span>
+                    </div>
+                </div>
+                
+                <!-- Panel 2: Medication Reminder -->
+                <div class="about-panel about-panel-2">
+                    <div class="panel-header-row">
+                        <svg class="panel-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M10.5 20.5L3.5 13.5C2.5 12.5 2.5 10.5 3.5 9.5L9.5 3.5C10.5 2.5 12.5 2.5 13.5 3.5L20.5 10.5C21.5 11.5 21.5 13.5 20.5 14.5L14.5 20.5C13.5 21.5 11.5 21.5 10.5 20.5Z"/>
+                            <line x1="8.5" y1="8.5" x2="15.5" y2="15.5"/>
+                        </svg>
+                        <div>
+                            <div class="panel-name">Medication Review</div>
+                            <div class="panel-role">Adherence Check</div>
+                        </div>
+                    </div>
+                    <div class="panel-message">
+                        "Are you still taking your <span class="highlight">Lisinopril</span> each morning? Any side effects?"
+                    </div>
+                </div>
+                
+                <!-- Panel 3: Care Coordination -->
+                <div class="about-panel about-panel-3">
+                    <div class="panel-header-row">
+                        <svg class="panel-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <path d="M12 8v4M12 16h.01"/>
+                        </svg>
+                        <div>
+                            <div class="panel-name">Dr. Garcia Notified</div>
+                            <div class="panel-role">Care Coordination</div>
+                        </div>
+                    </div>
+                    <div class="panel-message">
+                        "We noticed your readings. <span class="highlight">Your doctor has been updated</span> and will follow up at your next visit."
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trusted By -->
+    <section class="trusted">
+        <div class="trusted-container">
+            <h2 class="trusted-title">Trusted By Leaders in Healthcare</h2>
+            
+            <div class="trusted-logos">
+                <div class="trusted-logo">UT Health East Texas</div>
+                <div class="trusted-logo">Signet Heart Group</div>
+                <div class="trusted-logo">Wellnesspointe</div>
+                <div class="trusted-logo">Woodland Heights Medical Center</div>
+                <div class="trusted-logo">Texas Cardiovascular Institute</div>
+                <div class="trusted-logo">WellMed Network</div>
+                <div class="trusted-logo">Veritas Physicians Group</div>
+                <div class="trusted-logo">Frisco Urgent Care</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="services">
+        <div class="services-container">
+            <div class="section-header">
+                <h2 class="section-title">Comprehensive Care Programs</h2>
+                <p class="section-subtitle">
+                    High-tech solutions powered by high-touch care. We partner with physicians to deliver results that matter.
+                </p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">📡</div>
+                    <h3 class="service-title">Remote Patient Monitoring</h3>
+                    <p class="service-description">
+                        Real-time vital signs monitoring with 4G cellular devices. No WiFi, no apps — just take your reading and we handle the rest.
+                    </p>
+                    <ul class="service-features">
+                        <li>4G cellular devices ship to home</li>
+                        <li>Automated alerts for abnormal readings</li>
+                        <li>Daily care team oversight</li>
+                        <li>99453, 99454, 99457, 99458 billing</li>
+                    </ul>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">💬</div>
+                    <h3 class="service-title">Chronic Care Management</h3>
+                    <p class="service-description">
+                        Dedicated care coordination for patients with multiple chronic conditions. Monthly touchpoints that make a real difference.
+                    </p>
+                    <ul class="service-features">
+                        <li>Named Care Concierge assigned</li>
+                        <li>Comprehensive care plans</li>
+                        <li>Medication reconciliation</li>
+                        <li>99490, 99439 billing</li>
+                    </ul>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🩺</div>
+                    <h3 class="service-title">APCM & Behavioral Health</h3>
+                    <p class="service-description">
+                        Advanced Primary Care Management and integrated behavioral health for whole-person care that addresses mind and body.
+                    </p>
+                    <ul class="service-features">
+                        <li>Principal care management</li>
+                        <li>Depression & anxiety screening</li>
+                        <li>Integrated care coordination</li>
+                        <li>Full billing optimization</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Counter -->
+    <section class="stats-counter">
+        <div class="stats-counter-container">
+            <div class="stat-box">
+                <div class="stat-box-value" data-target="-15" data-suffix="%">-15%</div>
+                <div class="stat-box-label">90-Day Stage II Hypertension Reduction, Monitored in 2024</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-box-value" data-target="8" data-prefix="$" data-suffix="M">$8M</div>
+                <div class="stat-box-label">Estimated Healthcare Savings in 2024 (Avg. $13,500 per hospital stay)</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-box-value" data-target="550">550</div>
+                <div class="stat-box-label">Estimated number of hospitalizations prevented in 2024</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="cta-container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready for Connected Care?</h2>
+                <p class="cta-text">
+                    Join hundreds of physicians and thousands of patients who trust SnapShot Health for high-tech, high-touch remote care.
+                </p>
+                <div class="cta-buttons">
+                    <a href="#" class="btn btn-primary">
+                        Schedule a Demo
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="btn btn-secondary">
+                        View Case Studies
+                    </a>
+                </div>
+                <p class="cta-phone">
+                    Or call us: <a href="tel:4693423753">(469) 342-3753</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <a href="#" class="footer-logo">
+                    <img src="logo_icon_nav.png" alt="SnapShot Health" class="logo-mark">
+                    <div class="logo-text">SnapShot Health</div>
+                </a>
+                <p class="footer-tagline">Focused Data. Better Health.</p>
+                <p class="footer-text">
+                    Empowering physicians with high-tech, high-touch remote patient monitoring and chronic care management solutions.
+                </p>
+            </div>
+            
+            <div>
+                <h4 class="footer-title">Services</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Remote Patient Monitoring</a></li>
+                    <li><a href="#">Chronic Care Management</a></li>
+                    <li><a href="#">Behavioral Health</a></li>
+                    <li><a href="#">APCM</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="footer-title">Company</h4>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">News</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="footer-title">Resources</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Case Studies</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2025 SnapShot Health. All rights reserved. | <span>HIPAA Compliant</span></p>
+        </div>
+    </footer>
+
+    <script>
+        // Stats Counter Animation
+        const statBoxes = document.querySelectorAll('.stat-box-value');
+        
+        const animateCounter = (element) => {
+            const target = parseFloat(element.getAttribute('data-target'));
+            const prefix = element.getAttribute('data-prefix') || '';
+            const suffix = element.getAttribute('data-suffix') || '';
+            const duration = 2000;
+            const steps = 60;
+            const stepDuration = duration / steps;
+            const increment = target / steps;
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if ((target >= 0 && current >= target) || (target < 0 && current <= target)) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                
+                if (Number.isInteger(target)) {
+                    element.textContent = prefix + Math.round(current).toLocaleString() + suffix;
+                } else {
+                    element.textContent = prefix + current.toFixed(0) + suffix;
+                }
+            }, stepDuration);
+        };
+
+        // Intersection Observer to trigger animation when visible
+        const observerOptions = {
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        statBoxes.forEach(box => observer.observe(box));
+    </script>
+</body>
+</html>

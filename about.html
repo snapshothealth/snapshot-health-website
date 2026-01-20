@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | SnapShot Health - Our Story, Mission & Team</title>
+    <meta name="description" content="Learn about SnapShot Health's mission to transform healthcare through connected care. Meet our leadership team and discover why we're passionate about better patient outcomes.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-darkest: #070B12;
+            --bg-dark: #0A1120;
+            --bg-medium: #0F1A2E;
+            --bg-light: #162240;
+            --primary: #00D4AA;
+            --primary-bright: #00FFD1;
+            --primary-glow: rgba(0, 212, 170, 0.4);
+            --secondary: #00B4D8;
+            --secondary-light: #7DD3E8;
+            --accent: #4DA8DA;
+            --white: #FFFFFF;
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.5);
+            --border: rgba(255, 255, 255, 0.08);
+            --border-light: rgba(255, 255, 255, 0.15);
+            --gradient-primary: linear-gradient(135deg, #00B4D8 0%, #00D4AA 100%);
+            --gradient-text: linear-gradient(135deg, #00D4AA 0%, #00B4D8 50%, #7DD3E8 100%);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-darkest);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .bg-effects { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+        .bg-gradient { position: absolute; width: 100%; height: 100%; background: linear-gradient(180deg, #070B12 0%, #0A1120 40%, #0F1A2E 100%); }
+        .bg-glow { position: absolute; border-radius: 50%; filter: blur(150px); }
+        .glow-1 { width: 800px; height: 800px; background: radial-gradient(circle, rgba(0, 180, 216, 0.12) 0%, transparent 70%); top: -300px; left: -200px; animation: glowPulse 25s ease-in-out infinite; }
+        .glow-2 { width: 700px; height: 700px; background: radial-gradient(circle, rgba(0, 212, 170, 0.1) 0%, transparent 70%); bottom: -200px; right: -300px; animation: glowPulse 30s ease-in-out infinite reverse; }
+        @keyframes glowPulse { 0%, 100% { opacity: 0.6; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.1); } }
+
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem 2rem; background: rgba(7, 11, 18, 0.9); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; text-decoration: none; gap: 0.75rem; }
+        .logo-mark { height: 44px; width: auto; }
+        .logo-text { font-family: 'Outfit', sans-serif; font-size: 1.375rem; font-weight: 700; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .nav-menu { display: flex; align-items: center; gap: 0.25rem; list-style: none; }
+        .nav-link { padding: 0.75rem 1.125rem; color: var(--text-secondary); text-decoration: none; font-size: 0.9375rem; font-weight: 500; border-radius: 10px; transition: all 0.25s; }
+        .nav-link:hover { color: var(--white); background: rgba(255, 255, 255, 0.05); }
+        .nav-cta { display: flex; align-items: center; gap: 0.625rem; background: var(--white); color: var(--bg-darkest); padding: 0.75rem 1.5rem; border-radius: 100px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.3s; margin-left: 1.5rem; }
+        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255, 255, 255, 0.2); }
+        .nav-cta-dot { width: 8px; height: 8px; background: var(--gradient-primary); border-radius: 50%; }
+
+        .page-header { position: relative; z-index: 1; padding: 10rem 2rem 5rem; text-align: center; }
+        .page-header-container { max-width: 800px; margin: 0 auto; animation: fadeUp 0.8s ease-out; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .page-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(0, 212, 170, 0.1); border: 1px solid rgba(0, 212, 170, 0.2); border-radius: 100px; font-size: 0.75rem; font-weight: 600; color: var(--primary); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.5rem; }
+        .page-title { font-family: 'Outfit', sans-serif; font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -0.02em; }
+        .page-title .highlight { background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .page-subtitle { font-size: 1.25rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+
+        .section-container { max-width: 1200px; margin: 0 auto; padding: 5rem 2rem; }
+        .section-header { text-align: center; max-width: 700px; margin: 0 auto 4rem; }
+        .section-title { font-family: 'Outfit', sans-serif; font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 700; margin-bottom: 1rem; letter-spacing: -0.02em; }
+        .section-subtitle { font-size: 1.125rem; color: var(--text-secondary); line-height: 1.7; }
+
+        .story { position: relative; z-index: 1; }
+        .story-content { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .story-text h2 { font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .story-text p { color: var(--text-secondary); font-size: 1.0625rem; line-height: 1.8; margin-bottom: 1.5rem; }
+        .story-text strong { color: var(--primary); }
+        .story-card { background: linear-gradient(145deg, rgba(15, 26, 46, 0.9) 0%, rgba(7, 11, 18, 0.95) 100%); border: 1px solid var(--border-light); border-radius: 20px; padding: 2.5rem; position: relative; overflow: hidden; }
+        .story-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--gradient-primary); }
+        .story-tagline { font-family: 'Outfit', sans-serif; font-size: 1.75rem; font-weight: 700; margin-bottom: 1.5rem; background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .story-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+        .story-stat { text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 12px; }
+        .story-stat-value { font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 700; color: var(--primary); margin-bottom: 0.25rem; }
+        .story-stat-label { font-size: 0.8rem; color: var(--text-muted); }
+
+        .mission-values { position: relative; z-index: 1; background: linear-gradient(180deg, transparent 0%, rgba(15, 26, 46, 0.3) 50%, transparent 100%); }
+        .mission-card { background: linear-gradient(145deg, rgba(0, 212, 170, 0.08) 0%, rgba(15, 26, 46, 0.5) 100%); border: 1px solid rgba(0, 212, 170, 0.15); border-radius: 24px; padding: 3rem; text-align: center; margin-bottom: 4rem; }
+        .mission-icon { width: 72px; height: 72px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1.5rem; }
+        .mission-title { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; }
+        .mission-text { font-size: 1.25rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto; line-height: 1.7; }
+        .values-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+        .value-card { background: rgba(15, 26, 46, 0.6); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; text-align: center; transition: all 0.3s; }
+        .value-card:hover { transform: translateY(-4px); border-color: var(--border-light); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); }
+        .value-icon { width: 56px; height: 56px; background: rgba(0, 212, 170, 0.1); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 1.25rem; }
+        .value-title { font-size: 1.125rem; font-weight: 700; margin-bottom: 0.75rem; }
+        .value-description { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+
+        .team { position: relative; z-index: 1; }
+        .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+        .team-card { background: linear-gradient(145deg, rgba(15, 26, 46, 0.8) 0%, rgba(7, 11, 18, 0.9) 100%); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; text-align: center; transition: all 0.3s; }
+        .team-card:hover { transform: translateY(-4px); border-color: var(--border-light); }
+        .specialty-count { font-family: 'Outfit', sans-serif; font-size: 3rem; font-weight: 700; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; margin-bottom: 0.75rem; }
+        .specialty-name { font-family: 'Outfit', sans-serif; font-size: 1.125rem; font-weight: 600; color: var(--white); margin-bottom: 0.5rem; }
+        .specialty-desc { font-size: 0.875rem; color: var(--text-muted); }
+        .team-avatar { width: 100px; height: 100px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 700; margin: 0 auto 1.25rem; }
+        .team-name { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.25rem; }
+        .team-role { font-size: 0.9rem; color: var(--primary); font-weight: 600; margin-bottom: 1rem; }
+        .team-bio { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.25rem; }
+        .team-social { display: flex; justify-content: center; gap: 0.75rem; }
+        .team-social a { width: 36px; height: 36px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); text-decoration: none; transition: all 0.3s; }
+        .team-social a:hover { background: rgba(0, 212, 170, 0.1); border-color: var(--primary); color: var(--primary); }
+        .team-social svg { width: 16px; height: 16px; }
+
+        .why-different { position: relative; z-index: 1; background: linear-gradient(180deg, transparent 0%, rgba(0, 180, 216, 0.05) 50%, transparent 100%); }
+        .difference-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .difference-card { background: rgba(15, 26, 46, 0.6); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; transition: all 0.3s; }
+        .difference-card:hover { transform: translateY(-4px); border-color: var(--border-light); }
+        .difference-icon { width: 48px; height: 48px; background: var(--gradient-primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 1.25rem; }
+        .difference-title { font-size: 1.125rem; font-weight: 700; margin-bottom: 0.75rem; }
+        .difference-description { font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.6; }
+
+        .partners { position: relative; z-index: 1; }
+        .partners-logos { display: flex; justify-content: center; align-items: center; gap: 4rem; flex-wrap: wrap; }
+        .partner-logo { font-size: 1.125rem; font-weight: 600; color: var(--text-muted); padding: 1.5rem 2rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); border-radius: 12px; transition: all 0.3s; }
+        .partner-logo:hover { color: var(--text-primary); border-color: var(--border-light); }
+
+        .cta-section { position: relative; z-index: 1; padding: 5rem 2rem; }
+        .cta-card { max-width: 900px; margin: 0 auto; background: linear-gradient(145deg, rgba(0, 212, 170, 0.1) 0%, rgba(0, 180, 216, 0.08) 100%); border: 1px solid rgba(0, 212, 170, 0.2); border-radius: 24px; padding: 4rem; text-align: center; position: relative; overflow: hidden; }
+        .cta-card::before { content: ''; position: absolute; top: -100px; right: -100px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(0, 212, 170, 0.15) 0%, transparent 70%); border-radius: 50%; }
+        .cta-title { font-family: 'Outfit', sans-serif; font-size: 2.25rem; font-weight: 700; margin-bottom: 1rem; position: relative; }
+        .cta-text { font-size: 1.125rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto 2rem; position: relative; }
+        .cta-buttons { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; position: relative; }
+        .btn { display: inline-flex; align-items: center; gap: 0.625rem; padding: 1rem 1.75rem; border-radius: 100px; font-weight: 600; font-size: 0.9375rem; text-decoration: none; transition: all 0.3s; }
+        .btn-primary { background: var(--white); color: var(--bg-darkest); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(255, 255, 255, 0.25); }
+        .btn-primary svg { width: 18px; height: 18px; transition: transform 0.3s; }
+        .btn-primary:hover svg { transform: translateX(4px); }
+        .btn-secondary { background: rgba(255, 255, 255, 0.08); color: var(--white); border: 1px solid var(--border-light); }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.12); }
+
+        footer { position: relative; z-index: 1; border-top: 1px solid var(--border); padding: 3rem 2rem; }
+        .footer-container { max-width: 1200px; margin: 0 auto; text-align: center; }
+        .footer-logo { display: inline-flex; align-items: center; gap: 0.75rem; text-decoration: none; margin-bottom: 1rem; }
+        .footer-tagline { color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1.5rem; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--white); }
+        .footer-copyright { color: var(--text-muted); font-size: 0.8rem; }
+
+        @media (max-width: 1024px) {
+            .story-content { grid-template-columns: 1fr; gap: 3rem; }
+            .values-grid { grid-template-columns: repeat(2, 1fr); }
+            .team-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .nav-menu { display: none; }
+            .values-grid, .difference-grid { grid-template-columns: 1fr; }
+            .team-grid { grid-template-columns: 1fr; }
+            .partners-logos { gap: 1.5rem; }
+            .cta-card { padding: 2.5rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-effects">
+        <div class="bg-gradient"></div>
+        <div class="bg-glow glow-1"></div>
+        <div class="bg-glow glow-2"></div>
+    </div>
+
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="logo_icon_nav.png" alt="SnapShot Health" class="logo-mark">
+                <div class="logo-text">SnapShot Health</div>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="patients.html" class="nav-link">For Patients</a></li>
+                <li><a href="clinicians.html" class="nav-link">For Clinicians</a></li>
+                <li><a href="health-systems.html" class="nav-link">Health Systems</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="news.html" class="nav-link">News</a></li>
+            </ul>
+            <a href="contact.html" class="nav-cta"><span class="nav-cta-dot"></span>Schedule Demo</a>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="page-header-container">
+            <div class="page-badge">Our Story</div>
+            <h1 class="page-title">Healthcare Powered by<br><span class="highlight">Heart & Technology</span></h1>
+            <p class="page-subtitle">We believe the best outcomes happen when cutting-edge technology meets genuine human connection. That's the SnapShot Health difference.</p>
+        </div>
+    </section>
+
+    <section class="story">
+        <div class="section-container">
+            <div class="story-content">
+                <div class="story-text">
+                    <h2>Why We Started</h2>
+                    <p>SnapShot Health was born from a simple observation: <strong>the healthcare system was failing patients between visits</strong>. Chronic conditions don't pause when patients leave the clinic. They need continuous care, real-time monitoring, and someone who genuinely cares about their wellbeing.</p>
+                    <p>We saw physicians overwhelmed with administrative burden, patients struggling to manage complex conditions alone, and a system that <strong style="color: var(--primary);">rewarded volume over outcomes</strong>. We knew technology could bridge that gap — but only if it was paired with real human support.</p>
+                    <p>Today, we partner with practices across Texas and beyond to deliver remote patient monitoring and chronic care management that actually works. Our Care Concierges become trusted extensions of your team. Our technology captures every vital sign. And our outcomes speak for themselves.</p>
+                </div>
+                <div class="story-visual">
+                    <div class="story-card">
+                        <div class="story-tagline">Connected Care.<br>Better Outcomes.</div>
+                        <div class="story-stats">
+                            <div class="story-stat"><div class="story-stat-value">3,000+</div><div class="story-stat-label">Patients Monitored</div></div>
+                            <div class="story-stat"><div class="story-stat-value">50+</div><div class="story-stat-label">Partner Practices</div></div>
+                            <div class="story-stat"><div class="story-stat-value">$80M+</div><div class="story-stat-label">Revenue Generated Since 2016</div></div>
+                            <div class="story-stat"><div class="story-stat-value">98%</div><div class="story-stat-label">Partner Satisfaction</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mission-values">
+        <div class="section-container">
+            <div class="mission-card">
+                <div class="mission-icon">🎯</div>
+                <h3 class="mission-title">Our Mission</h3>
+                <p class="mission-text">To transform healthcare delivery by connecting patients, providers, and technology in ways that improve outcomes, reduce costs, and restore the human element to medicine.</p>
+            </div>
+            <div class="section-header"><h2 class="section-title">Our Values</h2><p class="section-subtitle">The principles that guide everything we do</p></div>
+            <div class="values-grid">
+                <div class="value-card"><div class="value-icon">❤️</div><h3 class="value-title">Patient First</h3><p class="value-description">Every decision starts with one question: what's best for the patient? Technology serves people, not the other way around.</p></div>
+                <div class="value-card"><div class="value-icon">🤝</div><h3 class="value-title">True Partnership</h3><p class="value-description">We succeed when our partners succeed. We're not vendors — we're extensions of your care team, invested in your outcomes.</p></div>
+                <div class="value-card"><div class="value-icon">💡</div><h3 class="value-title">Relentless Innovation</h3><p class="value-description">Healthcare is evolving fast. We stay ahead with cutting-edge technology, AI-driven insights, and continuous improvement.</p></div>
+                <div class="value-card"><div class="value-icon">✨</div><h3 class="value-title">Integrity Always</h3><p class="value-description">We do what's right, even when no one's watching. Transparency, honesty, and ethical practice are non-negotiable.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="team">
+        <div class="section-container">
+            <div class="section-header"><h2 class="section-title">Built by Doctors, for Doctors</h2><p class="section-subtitle">Over the last 10 years, 125+ physicians across 8 specialties have helped shape our platform and build the foundation of our company</p></div>
+            <div class="team-grid specialty-grid">
+                <div class="team-card specialty-card">
+                    <div class="specialty-count">95</div>
+                    <h3 class="specialty-name">Primary Care</h3>
+                    <p class="specialty-desc">Family Medicine & Internal Medicine</p>
+                </div>
+                <div class="team-card specialty-card">
+                    <div class="specialty-count">8</div>
+                    <h3 class="specialty-name">Cardiology</h3>
+                    <p class="specialty-desc">Heart & Vascular Specialists</p>
+                </div>
+                <div class="team-card specialty-card">
+                    <div class="specialty-count">5</div>
+                    <h3 class="specialty-name">Nephrology</h3>
+                    <p class="specialty-desc">Kidney Care Specialists</p>
+                </div>
+                <div class="team-card specialty-card">
+                    <div class="specialty-count">5</div>
+                    <h3 class="specialty-name">Oncology</h3>
+                    <p class="specialty-desc">Cancer Care Specialists</p>
+                </div>
+                <div class="team-card specialty-card">
+                    <div class="specialty-count">4</div>
+                    <h3 class="specialty-name">Neurology</h3>
+                    <p class="specialty-desc">Brain & Nervous System</p>
+                </div>
+                <div class="team-card specialty-card">
+                    <div class="specialty-count">3</div>
+                    <h3 class="specialty-name">Endocrinology</h3>
+                    <p class="specialty-desc">Diabetes & Hormone Specialists</p>
+                </div>
+                <div class="team-card specialty-card">
+                    <div class="specialty-count">3</div>
+                    <h3 class="specialty-name">Pulmonology</h3>
+                    <p class="specialty-desc">Lung & Respiratory Care</p>
+                </div>
+                <div class="team-card specialty-card">
+                    <div class="specialty-count">2</div>
+                    <h3 class="specialty-name">Pain Management</h3>
+                    <p class="specialty-desc">Chronic Pain Specialists</p>
+                </div>
+            </div>
+        </div>
+    </section>
+        </div>
+    </section>
+
+    <section class="why-different">
+        <div class="section-container">
+            <div class="section-header"><h2 class="section-title">What Makes Us Different</h2><p class="section-subtitle">We're not just another healthcare technology company</p></div>
+            <div class="difference-grid">
+                <div class="difference-card"><div class="difference-icon">🏠</div><h3 class="difference-title">Texas-Based, Texas-Focused</h3><p class="difference-description">Our headquarters, our team, and our patients are right here in Texas. We understand the local healthcare landscape and build relationships that last.</p></div>
+                <div class="difference-card"><div class="difference-icon">👥</div><h3 class="difference-title">Real Humans, Real Care</h3><p class="difference-description">No call centers in faraway places. Our Care Concierges are clinical professionals who know your patients by name and genuinely care about their wellbeing.</p></div>
+                <div class="difference-card"><div class="difference-icon">📊</div><h3 class="difference-title">Outcomes-Obsessed</h3><p class="difference-description">We track everything — because what gets measured gets improved. Our partners see real clinical improvements and revenue growth, backed by data.</p></div>
+                <div class="difference-card"><div class="difference-icon">🔧</div><h3 class="difference-title">Truly Turnkey</h3><p class="difference-description">We handle eligibility verification, enrollment, devices, monitoring, engagement, documentation, and billing. Your team focuses on what they do best: patient care.</p></div>
+                <div class="difference-card"><div class="difference-icon">🚀</div><h3 class="difference-title">Fast Implementation</h3><p class="difference-description">From contract to first enrolled patient in under 30 days. No lengthy implementations, no IT headaches, no disruption to your workflow.</p></div>
+                <div class="difference-card"><div class="difference-icon">💪</div><h3 class="difference-title">Zero Risk Model</h3><p class="difference-description">No upfront costs, no long-term contracts, no hidden fees. We only succeed when you succeed. It's that simple.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="partners">
+        <div class="section-container">
+            <div class="section-header"><h2 class="section-title">Trusted Partners</h2><p class="section-subtitle">Proud to work with leading healthcare organizations across Texas</p></div>
+            <div class="partners-logos">
+                <div class="partner-logo">Signet Heart Group</div>
+                <div class="partner-logo">UT Southwestern</div>
+                <div class="partner-logo">Cornerstone Health</div>
+                <div class="partner-logo">Remix Medical</div>
+                <div class="partner-logo">Prima Health</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-card">
+            <h2 class="cta-title">Join the SnapShot Health Family</h2>
+            <p class="cta-text">Whether you're a physician looking to improve patient outcomes, or a patient seeking better care between visits — we're here to help.</p>
+            <div class="cta-buttons">
+                <a href="contact.html" class="btn btn-primary">Get in Touch<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                <a href="tel:4693423753" class="btn btn-secondary">Call (469) 342-3753</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <a href="index.html" class="footer-logo">
+                <img src="logo_icon_nav.png" alt="SnapShot Health" class="logo-mark" style="height: 32px;">
+                <div class="logo-text" style="font-size: 1.125rem;">SnapShot Health</div>
+            </a>
+            <p class="footer-tagline">Focused Data. Better Health.</p>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="patients.html">For Patients</a>
+                <a href="clinicians.html">For Clinicians</a>
+                <a href="health-systems.html">Health Systems</a>
+                <a href="news.html">News</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <p class="footer-copyright">© 2025 SnapShot Health. All rights reserved. | HIPAA Compliant</p>
+        </div>
+    </footer>
+</body>
+</html>

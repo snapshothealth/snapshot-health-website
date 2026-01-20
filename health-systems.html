@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Health Systems | SnapShot Health - Enterprise RPM & CCM Solutions</title>
+    <meta name="description" content="Scalable remote patient monitoring and chronic care management solutions for health systems, hospitals, and ACOs. Reduce readmissions, improve quality metrics, and generate new revenue.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-darkest: #070B12;
+            --bg-dark: #0A1120;
+            --bg-medium: #0F1A2E;
+            --bg-light: #162240;
+            --primary: #00D4AA;
+            --primary-bright: #00FFD1;
+            --primary-glow: rgba(0, 212, 170, 0.4);
+            --secondary: #00B4D8;
+            --secondary-light: #7DD3E8;
+            --accent: #4DA8DA;
+            --white: #FFFFFF;
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.5);
+            --border: rgba(255, 255, 255, 0.08);
+            --border-light: rgba(255, 255, 255, 0.15);
+            --gradient-primary: linear-gradient(135deg, #00B4D8 0%, #00D4AA 100%);
+            --gradient-text: linear-gradient(135deg, #00D4AA 0%, #00B4D8 50%, #7DD3E8 100%);
+            --enterprise: #6366F1;
+            --enterprise-glow: rgba(99, 102, 241, 0.3);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-darkest);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Background Effects */
+        .bg-effects {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-gradient {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #070B12 0%, #0A1120 40%, #0F1A2E 100%);
+        }
+
+        .bg-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(150px);
+        }
+
+        .glow-1 {
+            width: 1000px;
+            height: 1000px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+            top: -400px;
+            right: -300px;
+            animation: glowPulse 25s ease-in-out infinite;
+        }
+
+        .glow-2 {
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(0, 212, 170, 0.1) 0%, transparent 70%);
+            bottom: -300px;
+            left: -400px;
+            animation: glowPulse 30s ease-in-out infinite reverse;
+        }
+
+        .glow-3 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 180, 216, 0.08) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: glowPulse 20s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        /* Grid pattern */
+        .grid-pattern {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 70%);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            background: rgba(7, 11, 18, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 0.75rem;
+        }
+
+        .logo-mark { height: 44px; width: auto; }
+
+        .logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .logo-text span { color: var(--primary); }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            padding: 0.75rem 1.125rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            border-radius: 10px;
+            transition: all 0.25s;
+        }
+
+        .nav-link:hover {
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-cta {
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+            background: var(--white);
+            color: var(--bg-darkest);
+            padding: 0.75rem 1.5rem;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            margin-left: 1.5rem;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-cta-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+        }
+
+        /* Page Hero */
+        .page-hero {
+            position: relative;
+            z-index: 1;
+            padding: 10rem 2rem 6rem;
+        }
+
+        .page-hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .page-hero-content { animation: fadeUp 0.8s ease-out; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #818CF8;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-badge svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .page-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .page-title .highlight {
+            background: linear-gradient(135deg, #6366F1 0%, #00D4AA 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 520px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-stat {
+            text-align: left;
+        }
+
+        .hero-stat-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.625rem;
+            padding: 1rem 1.75rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.9375rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--white);
+            color: var(--bg-darkest);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(255, 255, 255, 0.25);
+        }
+
+        .btn-primary svg {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.3s;
+        }
+
+        .btn-primary:hover svg {
+            transform: translateX(4px);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--white);
+            border: 1px solid var(--border-light);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* Hero Visual */
+        .hero-visual {
+            position: relative;
+            animation: fadeUp 0.8s ease-out 0.2s both;
+        }
+
+        .enterprise-dashboard {
+            position: relative;
+            background: linear-gradient(145deg, rgba(15, 26, 46, 0.9) 0%, rgba(7, 11, 18, 0.95) 100%);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .dashboard-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .dashboard-live {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--primary);
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .dashboard-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-value.green { color: var(--primary); }
+        .metric-value.blue { color: var(--secondary); }
+        .metric-value.purple { color: #818CF8; }
+
+        .metric-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .dashboard-chart {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            padding: 1rem;
+            height: 120px;
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(180deg, var(--primary) 0%, rgba(0, 212, 170, 0.3) 100%);
+            border-radius: 4px 4px 0 0;
+            animation: growBar 1s ease-out forwards;
+            transform-origin: bottom;
+        }
+
+        @keyframes growBar {
+            from { transform: scaleY(0); }
+            to { transform: scaleY(1); }
+        }
+
+        .chart-bar:nth-child(1) { height: 45%; animation-delay: 0.1s; }
+        .chart-bar:nth-child(2) { height: 65%; animation-delay: 0.15s; }
+        .chart-bar:nth-child(3) { height: 55%; animation-delay: 0.2s; }
+        .chart-bar:nth-child(4) { height: 80%; animation-delay: 0.25s; }
+        .chart-bar:nth-child(5) { height: 70%; animation-delay: 0.3s; }
+        .chart-bar:nth-child(6) { height: 90%; animation-delay: 0.35s; }
+        .chart-bar:nth-child(7) { height: 75%; animation-delay: 0.4s; }
+        .chart-bar:nth-child(8) { height: 95%; animation-delay: 0.45s; }
+
+        /* Floating Elements */
+        .float-card {
+            position: absolute;
+            background: rgba(15, 26, 46, 0.95);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 0.875rem 1rem;
+            backdrop-filter: blur(20px);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .float-card-1 {
+            top: -20px;
+            right: -30px;
+            animation-delay: 0s;
+        }
+
+        .float-card-2 {
+            bottom: 40px;
+            left: -40px;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .float-content {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .float-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(0, 212, 170, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .float-text {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .float-subtext {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* Sections */
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2rem, 4vw, 2.75rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Challenges Section */
+        .challenges {
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(180deg, transparent 0%, rgba(15, 26, 46, 0.3) 50%, transparent 100%);
+        }
+
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .challenge-card {
+            background: linear-gradient(145deg, rgba(99, 102, 241, 0.08) 0%, rgba(15, 26, 46, 0.5) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .challenge-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.1);
+        }
+
+        .challenge-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .challenge-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .challenge-description {
+            font-size: 0.9375rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .challenge-solution {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .challenge-solution svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Integration Section */
+        .integration {
+            position: relative;
+            z-index: 1;
+        }
+
+        .integration-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .integration-visual {
+            position: relative;
+        }
+
+        .integration-hub {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        .hub-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(145deg, rgba(0, 212, 170, 0.2) 0%, rgba(0, 180, 216, 0.1) 100%);
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        .hub-center-inner {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .hub-orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .orbit-1 { width: 250px; height: 250px; }
+        .orbit-2 { width: 380px; height: 380px; }
+
+        .hub-node {
+            position: absolute;
+            min-width: 80px;
+            padding: 0.5rem 0.75rem;
+            background: rgba(15, 26, 46, 0.95);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-align: center;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .hub-node:hover {
+            transform: scale(1.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 30px var(--primary-glow);
+            color: var(--primary);
+        }
+
+        .node-1 { top: 5%; left: 50%; transform: translateX(-50%); }
+        .node-2 { top: 20%; right: 0%; }
+        .node-3 { top: 50%; right: -5%; transform: translateY(-50%); }
+        .node-4 { bottom: 20%; right: 0%; }
+        .node-5 { bottom: 5%; left: 50%; transform: translateX(-50%); }
+        .node-6 { bottom: 20%; left: 0%; }
+        .node-7 { top: 50%; left: -5%; transform: translateY(-50%); }
+        .node-8 { top: 20%; left: 0%; }
+
+        .integration-info h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .integration-info p {
+            color: var(--text-secondary);
+            font-size: 1.0625rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .integration-list {
+            list-style: none;
+        }
+
+        .integration-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .integration-list li:last-child {
+            border-bottom: none;
+        }
+
+        .integration-list svg {
+            width: 20px;
+            height: 20px;
+            color: var(--primary);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .integration-list span {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+        }
+
+        /* Value Props */
+        .value-props {
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(180deg, transparent 0%, rgba(99, 102, 241, 0.05) 50%, transparent 100%);
+        }
+
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .value-card {
+            background: linear-gradient(145deg, rgba(15, 26, 46, 0.8) 0%, rgba(7, 11, 18, 0.9) 100%);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .value-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .value-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-light);
+        }
+
+        .value-card:hover::before {
+            opacity: 1;
+        }
+
+        .value-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient-primary);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .value-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .value-description {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            line-height: 1.7;
+            margin-bottom: 1.25rem;
+        }
+
+        .value-stat {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 212, 170, 0.1);
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Case Study */
+        .case-study {
+            position: relative;
+            z-index: 1;
+        }
+
+        .case-study-card {
+            background: linear-gradient(145deg, rgba(15, 26, 46, 0.9) 0%, rgba(7, 11, 18, 0.95) 100%);
+            border: 1px solid var(--border-light);
+            border-radius: 24px;
+            padding: 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .case-study-content h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .case-study-content p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .case-study-quote {
+            position: relative;
+            padding-left: 1.5rem;
+            border-left: 3px solid var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .case-study-quote p {
+            font-style: italic;
+            color: var(--text-primary);
+            font-size: 1.0625rem;
+        }
+
+        .case-study-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .author-name {
+            font-weight: 600;
+        }
+
+        .author-role {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .case-study-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .case-metric {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .case-metric-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.25rem;
+        }
+
+        .case-metric-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* Implementation Timeline */
+        .timeline {
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(180deg, transparent 0%, rgba(15, 26, 46, 0.3) 50%, transparent 100%);
+        }
+
+        .timeline-container {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            width: calc(50% - 40px);
+            background: rgba(15, 26, 46, 0.8);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            text-align: right;
+            margin-right: 40px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            text-align: left;
+            margin-left: 40px;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: var(--bg-darkest);
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--primary);
+            z-index: 2;
+        }
+
+        .timeline-week {
+            font-size: 0.75rem;
+            color: var(--primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-description {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+        }
+
+        .cta-card {
+            max-width: 900px;
+            margin: 0 auto;
+            background: linear-gradient(145deg, rgba(99, 102, 241, 0.15) 0%, rgba(0, 212, 170, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 24px;
+            padding: 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-card::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .cta-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .cta-text {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 1;
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            margin-bottom: 1rem;
+        }
+
+        .footer-tagline {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+        }
+
+        .footer-copyright {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .page-hero-container,
+            .integration-content,
+            .case-study-card {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .challenges-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero-visual {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu { display: none; }
+            
+            .challenges-grid,
+            .value-grid,
+            .case-study-metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-line { display: none; }
+            .timeline-marker { display: none; }
+            
+            .timeline-item,
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                flex-direction: column;
+            }
+
+            .timeline-content,
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                width: 100%;
+                text-align: left;
+                margin: 0;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .cta-card {
+                padding: 2.5rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-effects">
+        <div class="bg-gradient"></div>
+        <div class="bg-glow glow-1"></div>
+        <div class="bg-glow glow-2"></div>
+        <div class="bg-glow glow-3"></div>
+        <div class="grid-pattern"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="logo_icon_nav.png" alt="SnapShot Health" class="logo-mark">
+                <div class="logo-text">SnapShot Health</div>
+            </a>
+            
+            <ul class="nav-menu">
+                <li><a href="patients.html" class="nav-link">For Patients</a></li>
+                <li><a href="clinicians.html" class="nav-link">For Clinicians</a></li>
+                <li><a href="health-systems.html" class="nav-link">Health Systems</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="news.html" class="nav-link">News</a></li>
+            </ul>
+            
+            <a href="contact.html" class="nav-cta">
+                <span class="nav-cta-dot"></span>
+                Schedule Demo
+            </a>
+        </div>
+    </nav>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div class="page-hero-container">
+            <div class="page-hero-content">
+                <div class="page-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                    Enterprise Solutions
+                </div>
+                
+                <h1 class="page-title">
+                    Scalable RPM & CCM for<br>
+                    <span class="highlight">Health Systems</span>
+                </h1>
+                
+                <p class="page-subtitle">
+                    Enterprise-grade remote patient monitoring and chronic care management that scales across your organization. Reduce readmissions, improve quality scores, and generate sustainable revenue.
+                </p>
+
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">32%</div>
+                        <div class="hero-stat-label">Readmission Reduction</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">$8M</div>
+                        <div class="hero-stat-label">Avg. Annual Revenue</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">15+</div>
+                        <div class="hero-stat-label">EHR Integrations</div>
+                    </div>
+                </div>
+                
+                <div class="hero-buttons">
+                    <a href="contact.html" class="btn btn-primary">
+                        Request Enterprise Demo
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="#case-study" class="btn btn-secondary">View Case Study</a>
+                </div>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="enterprise-dashboard">
+                    <div class="dashboard-header">
+                        <span class="dashboard-title">Enterprise Command Center</span>
+                        <span class="dashboard-live">
+                            <span class="live-dot"></span>
+                            Live
+                        </span>
+                    </div>
+                    
+                    <div class="dashboard-metrics">
+                        <div class="metric-card">
+                            <div class="metric-value green">2,847</div>
+                            <div class="metric-label">Active Patients</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value blue">94.2%</div>
+                            <div class="metric-label">Adherence Rate</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value purple">$750K</div>
+                            <div class="metric-label">Monthly Revenue</div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-chart">
+                        <div class="chart-bar"></div>
+                        <div class="chart-bar"></div>
+                        <div class="chart-bar"></div>
+                        <div class="chart-bar"></div>
+                        <div class="chart-bar"></div>
+                        <div class="chart-bar"></div>
+                        <div class="chart-bar"></div>
+                        <div class="chart-bar"></div>
+                    </div>
+                </div>
+                
+                <div class="float-card float-card-1">
+                    <div class="float-content">
+                        <div class="float-icon">📊</div>
+                        <div>
+                            <div class="float-text">Quality Score +18%</div>
+                            <div class="float-subtext">HEDIS Measures</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="float-card float-card-2">
+                    <div class="float-content">
+                        <div class="float-icon">🏥</div>
+                        <div>
+                            <div class="float-text">12 Facilities</div>
+                            <div class="float-subtext">Connected</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Challenges -->
+    <section class="challenges">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">Challenges We Solve</h2>
+                <p class="section-subtitle">Health systems face unique operational and financial pressures. Our platform addresses them head-on.</p>
+            </div>
+
+            <div class="challenges-grid">
+                <div class="challenge-card">
+                    <div class="challenge-icon">🔄</div>
+                    <h3 class="challenge-title">Readmission Penalties</h3>
+                    <p class="challenge-description">CMS penalties for excess readmissions drain millions. Our proactive monitoring catches deterioration before it becomes an ER visit.</p>
+                    <div class="challenge-solution">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12l5 5L20 7"/>
+                        </svg>
+                        32% reduction in 30-day readmissions
+                    </div>
+                </div>
+
+                <div class="challenge-card">
+                    <div class="challenge-icon">📈</div>
+                    <h3 class="challenge-title">Quality Metrics</h3>
+                    <p class="challenge-description">HEDIS scores, Star ratings, and value-based contracts demand measurable outcomes. We deliver the data and results you need.</p>
+                    <div class="challenge-solution">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12l5 5L20 7"/>
+                        </svg>
+                        18-point quality score improvement
+                    </div>
+                </div>
+
+                <div class="challenge-card">
+                    <div class="challenge-icon">🧩</div>
+                    <h3 class="challenge-title">Fragmented Systems</h3>
+                    <p class="challenge-description">Multiple EHRs, siloed data, and disparate workflows create inefficiency. We integrate seamlessly across your tech stack.</p>
+                    <div class="challenge-solution">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12l5 5L20 7"/>
+                        </svg>
+                        Single pane of glass visibility
+                    </div>
+                </div>
+
+                <div class="challenge-card">
+                    <div class="challenge-icon">👥</div>
+                    <h3 class="challenge-title">Staffing Shortages</h3>
+                    <p class="challenge-description">Clinical staff are stretched thin. Our fully-managed service handles patient engagement while your team focuses on acute care.</p>
+                    <div class="challenge-solution">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12l5 5L20 7"/>
+                        </svg>
+                        Zero additional FTEs required
+                    </div>
+                </div>
+
+                <div class="challenge-card">
+                    <div class="challenge-icon">💰</div>
+                    <h3 class="challenge-title">Revenue Pressure</h3>
+                    <p class="challenge-description">Declining reimbursements and rising costs squeeze margins. RPM/CCM creates new, sustainable revenue streams.</p>
+                    <div class="challenge-solution">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12l5 5L20 7"/>
+                        </svg>
+                        $2.4M average annual revenue
+                    </div>
+                </div>
+
+                <div class="challenge-card">
+                    <div class="challenge-icon">🎯</div>
+                    <h3 class="challenge-title">Population Health</h3>
+                    <p class="challenge-description">Managing chronic populations at scale requires technology and expertise. We provide both, with outcomes to prove it.</p>
+                    <div class="challenge-solution">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12l5 5L20 7"/>
+                        </svg>
+                        Risk stratification at scale
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integration -->
+    <section class="integration">
+        <div class="section-container">
+            <div class="integration-content">
+                <div class="integration-visual">
+                    <div class="integration-hub">
+                        <div class="hub-orbit orbit-1"></div>
+                        <div class="hub-orbit orbit-2"></div>
+                        
+                        <div class="hub-center">
+                            <div class="hub-center-inner">🔗</div>
+                        </div>
+                        
+                        <div class="hub-node node-1">Practice Fusion</div>
+                        <div class="hub-node node-2">Athena</div>
+                        <div class="hub-node node-3">eClinicalWorks</div>
+                        <div class="hub-node node-4">Epic</div>
+                        <div class="hub-node node-5">Cerner</div>
+                        <div class="hub-node node-6">Elation Health</div>
+                        <div class="hub-node node-7">PrognoCIS</div>
+                        <div class="hub-node node-8">Practice EHR</div>
+                    </div>
+                </div>
+                
+                <div class="integration-info">
+                    <h3>Seamless EHR Integration</h3>
+                    <p>Our platform connects with your existing infrastructure — no rip and replace. Bidirectional data flows ensure clinicians have real-time visibility without leaving their workflow.</p>
+                    
+                    <ul class="integration-list">
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12l5 5L20 7"/>
+                            </svg>
+                            <span><strong>Practice Fusion, Athena, Epic, Cerner</strong> — native integrations with bidirectional sync</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12l5 5L20 7"/>
+                            </svg>
+                            <span><strong>eClinicalWorks, Elation Health, PrognoCIS, Practice EHR</strong> — seamless data exchange</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12l5 5L20 7"/>
+                            </svg>
+                            <span><strong>Single sign-on (SSO)</strong> — seamless clinician access via existing credentials</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12l5 5L20 7"/>
+                            </svg>
+                            <span><strong>API-first architecture</strong> — custom integrations for population health platforms</span>
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12l5 5L20 7"/>
+                            </svg>
+                            <span><strong>HIPAA BAA included</strong> — enterprise security and compliance built-in</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Value Props -->
+    <section class="value-props">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">Enterprise-Grade Capabilities</h2>
+                <p class="section-subtitle">Built for the complexity and scale of health systems, with the flexibility to meet your unique needs.</p>
+            </div>
+
+            <div class="value-grid">
+                <div class="value-card">
+                    <div class="value-icon">🎛️</div>
+                    <h3 class="value-title">Multi-Site Command Center</h3>
+                    <p class="value-description">Centralized dashboard provides real-time visibility across all facilities. Drill down by region, department, or provider. Executive reporting and analytics included.</p>
+                    <div class="value-stat">📍 Manage unlimited locations</div>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">🤖</div>
+                    <h3 class="value-title">AI-Powered Risk Engine</h3>
+                    <p class="value-description">Predictive analytics identify at-risk patients before adverse events. Our algorithms continuously learn from your population to improve accuracy over time.</p>
+                    <div class="value-stat">🎯 92% prediction accuracy</div>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">📋</div>
+                    <h3 class="value-title">White-Glove Service</h3>
+                    <p class="value-description">Dedicated implementation team, named account manager, and 24/7 clinical support. We handle enrollment, monitoring, and engagement — you focus on patient care.</p>
+                    <div class="value-stat">👥 Zero FTEs required</div>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">📊</div>
+                    <h3 class="value-title">Outcomes Reporting</h3>
+                    <p class="value-description">Comprehensive dashboards for quality measures, financial performance, and clinical outcomes. Automated reports for board presentations and payer contracts.</p>
+                    <div class="value-stat">📈 Real-time analytics</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Case Study -->
+    <section class="case-study" id="case-study">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">Case Study</h2>
+                <p class="section-subtitle">How a regional health system transformed chronic care management</p>
+            </div>
+
+            <div class="case-study-card">
+                <div class="case-study-content">
+                    <h3>Regional Medical Center Network</h3>
+                    <p>A 6-hospital system in the Southwest struggled with high readmission rates and declining quality scores. Within 12 months of implementing SnapShot Health, they achieved dramatic improvements across every metric.</p>
+                    
+                    <div class="case-study-quote">
+                        <p>"SnapShot Health gave us the visibility and engagement capabilities we needed. Our readmission rates dropped significantly, and the ROI exceeded our projections within the first quarter."</p>
+                    </div>
+                    
+                    <div class="case-study-author">
+                        <div class="author-avatar">CM</div>
+                        <div>
+                            <div class="author-name">Dr. Catherine Martinez, CMO</div>
+                            <div class="author-role">Regional Medical Center Network</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="case-study-metrics">
+                    <div class="case-metric">
+                        <div class="case-metric-value">32%</div>
+                        <div class="case-metric-label">Readmission Reduction</div>
+                    </div>
+                    <div class="case-metric">
+                        <div class="case-metric-value">$13M</div>
+                        <div class="case-metric-label">Annual Revenue Added</div>
+                    </div>
+                    <div class="case-metric">
+                        <div class="case-metric-value">4,200+</div>
+                        <div class="case-metric-label">Patients Enrolled</div>
+                    </div>
+                    <div class="case-metric">
+                        <div class="case-metric-value">18pts</div>
+                        <div class="case-metric-label">Quality Score Increase</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Implementation Timeline -->
+    <section class="timeline">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">Implementation Timeline</h2>
+                <p class="section-subtitle">From contract to first enrolled patient in under 30 days</p>
+            </div>
+
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-week">Week 1</div>
+                        <h4 class="timeline-title">Discovery & Planning</h4>
+                        <p class="timeline-description">Technical requirements, EHR integration planning, and workflow mapping with your IT and clinical teams.</p>
+                    </div>
+                    <div class="timeline-marker">1</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-week">Week 2</div>
+                        <h4 class="timeline-title">Integration & Testing</h4>
+                        <p class="timeline-description">EHR connection, data validation, and end-to-end testing. SSO and clinical workflows configured.</p>
+                    </div>
+                    <div class="timeline-marker">2</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-week">Week 3</div>
+                        <h4 class="timeline-title">Training & Pilot</h4>
+                        <p class="timeline-description">Staff training, pilot patient enrollment, and workflow refinement. Dedicated support during go-live.</p>
+                    </div>
+                    <div class="timeline-marker">3</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-week">Week 4+</div>
+                        <h4 class="timeline-title">Scale & Optimize</h4>
+                        <p class="timeline-description">Full rollout across facilities. Continuous optimization, monthly business reviews, and expansion planning.</p>
+                    </div>
+                    <div class="timeline-marker">4</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="cta-card">
+            <h2 class="cta-title">Ready to Transform Your Health System?</h2>
+            <p class="cta-text">
+                Schedule a consultation with our enterprise team. We'll analyze your population, project your ROI, and design a custom implementation plan.
+            </p>
+            <div class="cta-buttons">
+                <a href="contact.html" class="btn btn-primary">
+                    Request Enterprise Demo
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                <a href="tel:4693423753" class="btn btn-secondary">
+                    Call (469) 342-3753
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <a href="index.html" class="footer-logo">
+                <img src="logo_icon_nav.png" alt="SnapShot Health" class="logo-mark" style="height: 32px;">
+                <div class="logo-text" style="font-size: 1.125rem;">SnapShot Health</div>
+            </a>
+            <p class="footer-tagline">Focused Data. Better Health.</p>
+            
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="patients.html">For Patients</a>
+                <a href="clinicians.html">For Clinicians</a>
+                <a href="about.html">About Us</a>
+                <a href="news.html">News</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            
+            <p class="footer-copyright">© 2025 SnapShot Health. All rights reserved. | HIPAA Compliant</p>
+        </div>
+    </footer>
+</body>
+</html>
