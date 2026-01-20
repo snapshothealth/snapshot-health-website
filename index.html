@@ -153,7 +153,18 @@ h<!DOCTYPE html>
             justify-content: space-between;
             align-items: center;
         }
+/* Hide mobile menu elements on desktop */
+.mobile-menu-btn {
+    display: none;
+}
 
+.mobile-menu {
+    display: none;
+}
+
+.mobile-menu-overlay {
+    display: none;
+}
         .logo {
             display: flex;
             align-items: center;
@@ -1550,7 +1561,166 @@ h<!DOCTYPE html>
    ======================================== */
 
 @media (max-width: 768px) {
+/* ==========================================
+       MOBILE MENU STYLES
+       ========================================== */
     
+    /* Hamburger Button */
+    .mobile-menu-btn {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 44px;
+        height: 44px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        gap: 5px;
+        z-index: 100;
+    }
+    
+    .hamburger-line {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background-color: #ffffff;
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+    
+    /* Mobile Menu Overlay */
+    .mobile-menu-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 998;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .mobile-menu-overlay.active {
+        display: block;
+        opacity: 1;
+    }
+    
+    /* Mobile Menu Drawer */
+    .mobile-menu {
+        position: fixed;
+        top: 0;
+        right: -320px;
+        width: 300px;
+        max-width: 85vw;
+        height: 100%;
+        background: linear-gradient(180deg, #0a1628 0%, #050a12 100%);
+        z-index: 999;
+        transition: right 0.3s ease;
+        overflow-y: auto;
+        box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
+        border-left: 1px solid rgba(0, 212, 170, 0.2);
+    }
+    
+    .mobile-menu.active {
+        right: 0;
+    }
+    
+    .mobile-menu-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .mobile-menu-header .logo-text {
+        font-size: 1rem;
+        color: #00D4AA;
+    }
+    
+    .mobile-menu-close {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        cursor: pointer;
+        color: #ffffff;
+        transition: all 0.2s ease;
+    }
+    
+    .mobile-menu-close:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .mobile-menu-links {
+        padding: 1rem 0;
+    }
+    
+    .mobile-menu-link {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 1rem 1.25rem;
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: 500;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.2s ease;
+    }
+    
+    .mobile-menu-link:hover {
+        background: rgba(0, 212, 170, 0.1);
+        color: #00D4AA;
+    }
+    
+    .menu-icon {
+        font-size: 1.25rem;
+        width: 28px;
+        text-align: center;
+    }
+    
+    .mobile-menu-cta {
+        padding: 1.5rem 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .mobile-cta-btn {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        padding: 0.875rem 1.5rem !important;
+        font-size: 0.95rem !important;
+    }
+    
+    /* Hamburger animation when menu is open */
+    body.menu-open .hamburger-line:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+    
+    body.menu-open .hamburger-line:nth-child(2) {
+        opacity: 0;
+    }
+    
+    body.menu-open .hamburger-line:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+    }
+    
+    /* Prevent body scroll when menu is open */
+    body.menu-open {
+        overflow: hidden;
+    }    
     /* ==========================================
        HEADER & NAVIGATION
        ========================================== */
@@ -1863,28 +2033,82 @@ h<!DOCTYPE html>
 
     <!-- Navigation -->
     <nav>
-        <div class="nav-container">
-            <a href="#" class="logo">
-                <img src="logo_icon_nav.png" alt="SnapShot Health" class="logo-mark">
-                <div class="logo-text">SnapShot Health</div>
-            </a>
-            
-            <ul class="nav-links">
-                <li><a href="patients.html">Patients</a></li>
-                <li><a href="clinicians.html">Clinicians</a></li>
-                <li><a href="health-systems.html">Health Systems</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="news.html">Resources</a></li>
-            </ul>
-            
-            <a href="#" class="nav-cta">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M12 6v6l4 2"/>
-                </svg>
-                Get Started
-            </a>
-        </div>
+       <div class="nav-container">
+    <a href="index.html" class="logo">
+        <img src="logo_icon_nav.png" alt="SnapShot Health" class="logo-mark">
+        <div class="logo-text">SnapShot Health</div>
+    </a>
+    
+    <ul class="nav-links">
+        <li><a href="/patients">Patients</a></li>
+        <li><a href="/clinicians">Clinicians</a></li>
+        <li><a href="/health-systems">Health Systems</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/news">Resources</a></li>
+    </ul>
+    
+    <a href="contact.html" class="nav-cta">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 6v6l4 2"></path>
+        </svg>
+        Get Started
+    </a>
+    
+    <!-- Mobile Hamburger Button -->
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Open menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+    </button>
+</div>
+
+<!-- Mobile Menu Overlay -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="toggleMobileMenu()"></div>
+
+<!-- Mobile Menu Drawer -->
+<div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-header">
+        <a href="index.html" class="logo">
+            <img src="logo_icon_nav.png" alt="SnapShot Health" class="logo-mark">
+            <span class="logo-text">SnapShot Health</span>
+        </a>
+        <button class="mobile-menu-close" onclick="toggleMobileMenu()" aria-label="Close menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+    
+    <div class="mobile-menu-links">
+        <a href="/patients" class="mobile-menu-link">
+            <span class="menu-icon">👤</span>
+            Patients
+        </a>
+        <a href="/clinicians" class="mobile-menu-link">
+            <span class="menu-icon">⚕️</span>
+            Clinicians
+        </a>
+        <a href="/health-systems" class="mobile-menu-link">
+            <span class="menu-icon">🏥</span>
+            Health Systems
+        </a>
+        <a href="/about" class="mobile-menu-link">
+            <span class="menu-icon">ℹ️</span>
+            About
+        </a>
+        <a href="/news" class="mobile-menu-link">
+            <span class="menu-icon">📰</span>
+            Resources
+        </a>
+    </div>
+    
+    <div class="mobile-menu-cta">
+        <a href="contact.html" class="btn btn-primary mobile-cta-btn">Get Started</a>
+        <a href="tel:+14693423753" class="btn btn-secondary mobile-cta-btn">📞 (469) 342-3753</a>
+    </div>
+</div>
     </nav>
 
     <!-- Hero Section -->
@@ -2367,5 +2591,26 @@ h<!DOCTYPE html>
 
         statBoxes.forEach(box => observer.observe(box));
     </script>
+    <script>
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const overlay = document.getElementById('mobileMenuOverlay');
+    const body = document.body;
+    
+    menu.classList.toggle('active');
+    overlay.classList.toggle('active');
+    body.classList.toggle('menu-open');
+}
+
+// Close menu on escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const menu = document.getElementById('mobileMenu');
+        if (menu && menu.classList.contains('active')) {
+            toggleMobileMenu();
+        }
+    }
+});
+</script>
 </body>
 </html>
