@@ -1545,36 +1545,31 @@ h<!DOCTYPE html>
                 max-width: 100%;
             }
         }
-        /* ========================================
+  /* ========================================
    MOBILE RESPONSIVE FIXES
    ======================================== */
 @media (max-width: 768px) {
     
-    /* FIX 1: Hero section floating cards - scale down and space properly */
+    /* FIX 1: Hero section floating cards - stack vertically */
     .hero-visual {
-        transform: scale(0.6) !important;
-        margin-top: -100px !important;
-        margin-bottom: -100px !important;
+        position: relative !important;
     }
     
     .holo-dashboard {
-        transform: scale(0.7) !important;
-    }
-    
-    /* FIX 2: "Nurses Who Know Your Name" section - put image on TOP */
-    .about-container {
         display: flex !important;
-        flex-direction: column-reverse !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 20px !important;
     }
     
-    .about-visual {
-        margin-bottom: 30px !important;
-        transform: scale(0.65) !important;
-        margin-top: -50px !important;
-    }
-    
-    .about-content {
-        order: 2 !important;
+    .holo-dashboard > * {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+        animation: none !important;
     }
 }
     </style>
