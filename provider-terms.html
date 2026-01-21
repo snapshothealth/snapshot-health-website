@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Provider Agreement | SnapShot Health</title>
+    <meta name="description" content="SnapShot Health Provider SaaS Terms & Conditions and Business Associate Agreement for healthcare practices using our RPM and CCM platform.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="header.css">
+    <style>
+        :root {
+            --bg-darkest: #070B12;
+            --bg-dark: #0A1220;
+            --bg-card: #0F172A;
+            --primary: #00D4AA;
+            --secondary: #00B4D8;
+            --text-primary: #FFFFFF;
+            --text-secondary: #94A3B8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-darkest);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.7;
+        }
+        
+        .page-header {
+            padding: 120px 20px 60px;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-darkest) 100%);
+        }
+        
+        .page-header-container { max-width: 800px; margin: 0 auto; }
+        
+        .page-title { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; margin-bottom: 16px; }
+        
+        .page-subtitle { font-size: 1rem; color: var(--text-secondary); }
+        
+        .content-section { max-width: 900px; margin: 0 auto; padding: 40px 20px 80px; }
+        
+        .content-section h2 { font-size: 1.5rem; font-weight: 600; margin-top: 40px; margin-bottom: 16px; color: var(--primary); }
+        
+        .content-section h3 { font-size: 1.2rem; font-weight: 600; margin-top: 28px; margin-bottom: 12px; color: var(--text-primary); }
+        
+        .content-section p { margin-bottom: 16px; color: var(--text-secondary); }
+        
+        .content-section ul { margin-bottom: 16px; padding-left: 24px; color: var(--text-secondary); }
+        
+        .content-section li { margin-bottom: 8px; }
+        
+        .content-section a { color: var(--primary); text-decoration: none; }
+        
+        .content-section a:hover { text-decoration: underline; }
+        
+        .content-section strong { color: var(--text-primary); }
+
+        .document-nav {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 40px;
+        }
+
+        .document-nav h3 {
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin-bottom: 16px;
+            margin-top: 0;
+        }
+
+        .document-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .document-nav li {
+            margin-bottom: 8px;
+        }
+
+        .document-nav a {
+            color: var(--primary);
+        }
+
+        .section-divider {
+            margin: 60px 0 40px;
+            padding: 24px 0;
+            border-top: 2px solid var(--primary);
+        }
+
+        .section-divider h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 8px 0;
+        }
+
+        .section-divider .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .info-box {
+            background: rgba(0, 212, 170, 0.1);
+            border: 1px solid rgba(0, 212, 170, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 24px 0;
+        }
+
+        .info-box p {
+            color: var(--primary);
+            margin-bottom: 0;
+        }
+
+        .contact-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 40px;
+        }
+
+        .contact-box h2 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="logo_icon_nav.png" alt="SnapShot Health" class="logo-mark">
+                <div class="logo-text">SnapShot Health</div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#how-it-works">How It Works</a></li>
+                <li><a href="clinicians.html">For Doctors</a></li>
+                <li><a href="health-systems.html">For Hospitals</a></li>
+                <li><a href="patients.html">For Patients</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="news.html">News</a></li>
+            </ul>
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle mobile menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+            <a href="schedule.html" class="nav-cta">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                Get Started
+            </a>
+        </div>
+    </nav>
+
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <a href="index.html" class="mobile-menu-logo">
+                <img src="logo_icon_nav.png" alt="SnapShot Health" class="logo-mark">
+                <div class="logo-text">SnapShot Health</div>
+            </a>
+        </div>
+        <nav class="mobile-menu-nav">
+            <a href="index.html#how-it-works" class="mobile-menu-link">How It Works</a>
+            <a href="clinicians.html" class="mobile-menu-link">For Doctors</a>
+            <a href="health-systems.html" class="mobile-menu-link">For Hospitals</a>
+            <a href="patients.html" class="mobile-menu-link">For Patients</a>
+            <a href="about.html" class="mobile-menu-link">About Us</a>
+            <a href="news.html" class="mobile-menu-link">News</a>
+        </nav>
+        <div class="mobile-menu-cta">
+            <a href="schedule.html" class="btn btn-primary">Schedule a Demo</a>
+        </div>
+    </div>
+
+    <section class="page-header">
+        <div class="page-header-container">
+            <h1 class="page-title">Provider Agreement</h1>
+            <p class="page-subtitle">Last updated: January 21, 2026</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <p>This page contains the Provider SaaS Terms & Conditions and Business Associate Agreement for healthcare practices using SnapShot Health's platform.</p>
+
+        <div class="document-nav">
+            <h3>On This Page</h3>
+            <ul>
+                <li><a href="#saas-terms">Part I: Provider SaaS Terms & Conditions</a></li>
+                <li><a href="#baa">Part II: Business Associate Agreement</a></li>
+            </ul>
+        </div>
+
+        <!-- PART I: SAAS TERMS -->
+        <div class="section-divider" id="saas-terms">
+            <h2>Part I: Provider SaaS Terms & Conditions</h2>
+            <p class="section-subtitle">Governing access to and use of the SnapShot Health technology platform</p>
+        </div>
+
+        <p>These Provider SaaS Terms & Conditions ("SaaS Terms") govern access to and use of the SnapShot Health Inc technology platform by healthcare practices and professional entities ("Provider").</p>
+        
+        <p>By executing an Order Form or using the Services, Provider agrees to these SaaS Terms.</p>
+
+        <h2>1. Platform-Only Services</h2>
+        
+        <p>SnapShot provides a technology and administrative services platform only. SnapShot does not provide medical advice, diagnosis, treatment, clinical decision-making, clinical monitoring, clinical oversight, or patient care services.</p>
+
+        <h2>2. Provider Responsibilities</h2>
+        
+        <p>Provider retains sole responsibility for:</p>
+        
+        <ul>
+            <li>All clinical decisions and patient care</li>
+            <li>Medical necessity and treatment appropriateness</li>
+            <li>Reviewing and responding to patient data</li>
+            <li>Billing, coding, and reimbursement</li>
+            <li>Patient onboarding, education, and expectations</li>
+        </ul>
+        
+        <p>SnapShot has <strong>no obligation</strong> to monitor, triage, escalate, or respond to patient data.</p>
+
+        <h2>3. Patient-Facing Applications</h2>
+        
+        <p>Provider authorizes SnapShot to make patient-facing applications available to Provider's patients.</p>
+        
+        <p>Provider is solely responsible for:</p>
+        
+        <ul>
+            <li>Instructing patients on use</li>
+            <li>Establishing review and response expectations</li>
+            <li>Responding to submissions</li>
+        </ul>
+        
+        <p>Patient-submitted data may be inaccurate or incomplete. SnapShot has no duty to validate such data.</p>
+
+        <h2>4. Fees</h2>
+        
+        <p>Fees are due as specified in the Order Form and are <strong>not contingent</strong> on reimbursement, outcomes, or patient adherence.</p>
+
+        <h2>5. Data and HIPAA</h2>
+        
+        <p>SnapShot acts solely as a Business Associate under the Business Associate Agreement set forth in Part II below. Provider retains patient relationships and clinical records.</p>
+        
+        <p>SnapShot retains all rights to the platform and to aggregated, de-identified data.</p>
+
+        <h2>6. Indemnification</h2>
+        
+        <p>Provider shall defend, indemnify, and hold harmless SnapShot from all claims arising out of:</p>
+        
+        <ul>
+            <li>Clinical decisions</li>
+            <li>Billing or reimbursement</li>
+            <li>Failure to obtain consent</li>
+            <li>Patient claims related to Provider care</li>
+        </ul>
+
+        <h2>7. Disclaimer of Warranties</h2>
+        
+        <p>THE SERVICES ARE PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.</p>
+
+        <h2>8. Limitation of Liability</h2>
+        
+        <p>SnapShot's total aggregate liability shall not exceed the fees paid by Provider in the twelve (12) months preceding the claim.</p>
+
+        <h2>9. Arbitration</h2>
+        
+        <p>All disputes shall be resolved by confidential binding arbitration in Dallas County, Texas.</p>
+
+        <h2>10. Governing Law</h2>
+        
+        <p>Texas law governs these SaaS Terms.</p>
+
+        <h2>11. Survival</h2>
+        
+        <p>Indemnification, liability limits, arbitration, and IP provisions survive termination.</p>
+
+        <!-- PART II: BAA -->
+        <div class="section-divider" id="baa">
+            <h2>Part II: Business Associate Agreement</h2>
+            <p class="section-subtitle">HIPAA-compliant terms for Protected Health Information</p>
+        </div>
+
+        <p>This Business Associate Agreement ("BAA") is entered into by and between SnapShot Health Inc, a Texas corporation ("Business Associate"), and the healthcare provider or entity identified in an applicable Order Form or Provider SaaS Terms ("Covered Entity"), and is effective as of the date services commence.</p>
+        
+        <p>This BAA is intended to satisfy the requirements of the Health Insurance Portability and Accountability Act of 1996, as amended, and its implementing regulations, including the HIPAA Privacy Rule, Security Rule, and Breach Notification Rule (collectively, "HIPAA").</p>
+
+        <h2>1. Definitions</h2>
+        
+        <p>Terms used but not otherwise defined in this BAA shall have the meanings set forth in HIPAA.</p>
+
+        <h2>2. Permitted Uses and Disclosures</h2>
+        
+        <p>Business Associate may use and disclose Protected Health Information ("PHI") solely as necessary to perform services for Covered Entity as described in the Provider SaaS Terms and applicable Order Forms, and as permitted or required by HIPAA.</p>
+        
+        <p>Business Associate may use PHI for proper management and administration of its business and to carry out its legal responsibilities, provided that disclosures are required by law or subject to reasonable assurances of confidentiality. Business Associate may de-identify PHI in accordance with 45 C.F.R. §164.514(a)-(c). Once de-identified, such data is no longer PHI and may be used and disclosed by Business Associate for analytics, benchmarking, security, platform improvement, and other lawful business purposes.</p>
+        
+        <p>Business Associate is expressly authorized to make patient-facing applications available to Covered Entity's patients for the purpose of viewing health information and submitting patient-generated health data on behalf of Covered Entity.</p>
+
+        <h2>3. Safeguards</h2>
+        
+        <p>Business Associate shall implement appropriate administrative, physical, and technical safeguards to protect the confidentiality, integrity, and availability of PHI in accordance with the HIPAA Security Rule.</p>
+
+        <h2>4. Subcontractors</h2>
+        
+        <p>Business Associate may use subcontractors that create, receive, maintain, or transmit PHI on its behalf, provided that such subcontractors agree in writing to the same restrictions and conditions that apply to Business Associate under this BAA.</p>
+
+        <h2>5. Breach Notification</h2>
+        
+        <p>Business Associate shall notify Covered Entity without unreasonable delay, and in no event later than sixty (60) days after discovery, of any breach of unsecured PHI as defined by HIPAA. Business Associate shall also notify Covered Entity without unreasonable delay of any material Security Incident involving PHI, subject to reasonable investigation and mitigation efforts.</p>
+
+        <h2>6. Access, Amendment, and Accounting</h2>
+        
+        <p>Business Associate shall make PHI available to Covered Entity as necessary to satisfy Covered Entity's obligations under HIPAA with respect to access, amendment, and accounting of disclosures.</p>
+
+        <h2>7. Compliance and Cooperation</h2>
+        
+        <p>Business Associate shall make its internal practices, books, and records relating to the use and disclosure of PHI available to the Secretary of the U.S. Department of Health and Human Services as required by HIPAA.</p>
+
+        <h2>8. Term and Termination</h2>
+        
+        <p>This BAA shall remain in effect until terminated by either party. Either party may terminate this BAA upon material breach by the other party if such breach is not cured within thirty (30) days of written notice.</p>
+        
+        <p>Upon termination, Business Associate shall return or destroy PHI if feasible, or continue to protect such PHI if return or destruction is not feasible.</p>
+
+        <h2>9. No Sale or Marketing of PHI</h2>
+        
+        <div class="info-box">
+            <p>Business Associate shall not sell PHI or use PHI for marketing or advertising purposes.</p>
+        </div>
+
+        <h2>10. Miscellaneous</h2>
+        
+        <p>This BAA is governed by the laws of the State of Texas, to the extent not preempted by federal law.</p>
+        
+        <p>This BAA may be amended as necessary to comply with changes in applicable law.</p>
+
+        <h2>11. Priority</h2>
+        
+        <p>In the event of a conflict between this BAA and the Provider SaaS Terms or any Order Form, this BAA shall control with respect to PHI.</p>
+
+        <div class="contact-box">
+            <h2>12. Contact Information</h2>
+            <p>If you have any questions about this Agreement, please contact us:</p>
+            <p>
+                <strong>SnapShot Health Inc</strong><br>
+                Dallas, Texas<br>
+                Email: <a href="mailto:support@snapshothealth.io">support@snapshothealth.io</a><br>
+                Phone: <a href="tel:+14693423753">(469) 342-3753</a>
+            </p>
+        </div>
+    </section>
+
+    <script src="header.js"></script>
+</body>
+</html>
