@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: transparent;
+            overflow: hidden;
+        }
+        
+        .cards-container {
+            position: relative;
+            width: 100%;
+            height: 450px;
+        }
+        
+        .card {
+            position: absolute;
+            border-radius: 12px;
+            padding: 16px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 212, 170, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Card 1: Patient Card */
+        .patient-card {
+            width: 260px;
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+            left: 30px;
+            top: 40px;
+            animation: bounce1 3s ease-in-out infinite;
+            z-index: 1;
+        }
+        
+        @keyframes bounce1 {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-12px) rotate(-2deg); }
+        }
+        
+        .patient-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .patient-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            color: white;
+        }
+        
+        .patient-info h3 {
+            color: #FFFFFF;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        
+        .patient-info span {
+            color: #94A3B8;
+            font-size: 12px;
+        }
+        
+        .vitals-grid {
+            display: grid;
+            gap: 12px;
+        }
+        
+        .vital-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .vital-label {
+            color: #94A3B8;
+            font-size: 13px;
+        }
+        
+        .vital-value {
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .vital-value.critical {
+            color: #EF4444;
+            text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+        }
+        
+        .vital-value.normal {
+            color: #00D4AA;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 12px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        /* Card 2: Alert Card */
+        .alert-card {
+            width: 280px;
+            background: linear-gradient(145deg, rgba(239, 68, 68, 0.15), rgba(15, 23, 42, 0.95));
+            right: 30px;
+            top: 20px;
+            animation: bounce2 3s ease-in-out infinite;
+            animation-delay: -1s;
+            z-index: 1;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        @keyframes bounce2 {
+            0%, 100% { transform: translateY(0) rotate(2deg); }
+            50% { transform: translateY(-14px) rotate(2deg); }
+        }
+        
+        .alert-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        
+        .alert-icon {
+            width: 30px;
+            height: 30px;
+            background: rgba(239, 68, 68, 0.2);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse-alert 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-alert {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+        }
+        
+        .alert-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: #EF4444;
+        }
+        
+        .alert-title {
+            color: #EF4444;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .alert-message {
+            color: #E2E8F0;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        .alert-message strong {
+            color: #EF4444;
+        }
+        
+        .alert-time {
+            color: #64748B;
+            font-size: 11px;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .alert-time::before {
+            content: '';
+            width: 5px;
+            height: 5px;
+            background: #EF4444;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        /* Card 3: Concierge Card */
+        .concierge-card {
+            width: 300px;
+            background: linear-gradient(145deg, rgba(0, 212, 170, 0.1), rgba(15, 23, 42, 0.95));
+            left: 50%;
+            transform: translateX(-50%);
+            top: 210px;
+            animation: bounce3 3s ease-in-out infinite;
+            animation-delay: -2s;
+            z-index: 3;
+            border: 1px solid rgba(0, 212, 170, 0.2);
+        }
+        
+        @keyframes bounce3 {
+            0%, 100% { transform: translateX(-50%) translateY(0) rotate(1deg); }
+            50% { transform: translateX(-50%) translateY(-10px) rotate(1deg); }
+        }
+        
+        .concierge-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        
+        .concierge-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00D4AA, #00B4D8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .concierge-avatar::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 10px;
+            height: 10px;
+            background: #22C55E;
+            border-radius: 50%;
+            border: 2px solid #0F172A;
+        }
+        
+        .concierge-avatar svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+        
+        .concierge-info h3 {
+            color: #00D4AA;
+            font-size: 15px;
+            font-weight: 600;
+        }
+        
+        .concierge-info span {
+            color: #94A3B8;
+            font-size: 12px;
+        }
+        
+        .call-quote {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 14px;
+            position: relative;
+        }
+        
+        .call-quote::before {
+            content: '"';
+            position: absolute;
+            top: 6px;
+            left: 10px;
+            font-size: 36px;
+            color: rgba(0, 212, 170, 0.3);
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+        
+        .call-quote p {
+            color: #E2E8F0;
+            font-size: 13px;
+            line-height: 1.6;
+            padding-left: 20px;
+            font-style: italic;
+        }
+        
+        .call-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+        }
+        
+        .call-btn {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        
+        .call-btn.primary {
+            background: linear-gradient(135deg, #00D4AA, #00B89C);
+            color: #0F172A;
+        }
+        
+        .call-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #94A3B8;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Connection lines */
+        .connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+        
+        .connection-line {
+            stroke: url(#lineGradient);
+            stroke-width: 2;
+            fill: none;
+            stroke-dasharray: 8 4;
+            animation: dash 20s linear infinite;
+            opacity: 0.6;
+        }
+        
+        .connection-line-red {
+            stroke: url(#redGradient);
+            stroke-width: 2;
+            fill: none;
+            stroke-dasharray: 6 6;
+            animation: dash 15s linear infinite;
+            opacity: 0.8;
+        }
+        
+        @keyframes dash {
+            to { stroke-dashoffset: -200; }
+        }
+        
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #00D4AA;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 85%; top: 40%; animation-delay: -1s; }
+        .particle:nth-child(3) { left: 70%; top: 85%; animation-delay: -2s; }
+        .particle:nth-child(4) { left: 15%; top: 75%; animation-delay: -3s; }
+        .particle:nth-child(5) { left: 50%; top: 8%; animation-delay: -0.5s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; }
+            50% { transform: translateY(-15px) scale(1.2); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cards-container">
+        <!-- Floating particles -->
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        
+        <!-- Connection lines SVG -->
+        <svg class="connections" viewBox="0 0 600 450">
+            <defs>
+                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#00D4AA;stop-opacity:0.3" />
+                    <stop offset="50%" style="stop-color:#00D4AA;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#00B4D8;stop-opacity:0.3" />
+                </linearGradient>
+                <linearGradient id="redGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#EF4444;stop-opacity:0.3" />
+                    <stop offset="50%" style="stop-color:#EF4444;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#EF4444;stop-opacity:0.3" />
+                </linearGradient>
+            </defs>
+            <!-- Patient card to Angie card -->
+            <path class="connection-line" d="M 220 190 Q 260 220 280 240" />
+            <!-- Alert card to Angie card -->
+            <path class="connection-line-red" d="M 380 190 Q 350 220 330 240" />
+        </svg>
+        
+        <!-- Card 1: Patient Card -->
+        <div class="card patient-card">
+            <div class="patient-header">
+                <div class="patient-avatar">CJ</div>
+                <div class="patient-info">
+                    <h3>Cathy Jones</h3>
+                    <span>Patient ID: RPM-4821</span>
+                </div>
+            </div>
+            <div class="vitals-grid">
+                <div class="vital-row">
+                    <span class="vital-label">Blood Pressure</span>
+                    <span class="vital-value critical">155/122</span>
+                </div>
+                <div class="vital-row">
+                    <span class="vital-label">Pulse</span>
+                    <span class="vital-value normal">75 bpm</span>
+                </div>
+            </div>
+            <div class="status-badge">⚠ HYPERTENSIVE CRISIS</div>
+        </div>
+        
+        <!-- Card 2: Alert Card -->
+        <div class="card alert-card">
+            <div class="alert-header">
+                <div class="alert-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                </div>
+                <span class="alert-title">🚨 Proactive Alert</span>
+            </div>
+            <p class="alert-message">
+                <strong>Hypertensive Crisis Alert</strong> — Call patient immediately and verify BP medication was taken.
+            </p>
+            <div class="alert-time">Just now • High Priority</div>
+        </div>
+        
+        <!-- Card 3: Concierge Card -->
+        <div class="card concierge-card">
+            <div class="concierge-header">
+                <div class="concierge-avatar">
+                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                </div>
+                <div class="concierge-info">
+                    <h3>Angie</h3>
+                    <span>Your Concierge Care Team</span>
+                </div>
+            </div>
+            <div class="call-quote">
+                <p>Hi Mrs. Jones, I noticed your BP reading was elevated. Just checking in — did you take your medication today?</p>
+            </div>
+            <div class="call-actions">
+                <button class="call-btn primary">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+                    Call Completed
+                </button>
+                <button class="call-btn secondary">View Notes</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
