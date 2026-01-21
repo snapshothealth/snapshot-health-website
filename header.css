@@ -359,7 +359,10 @@ nav {
 .mobile-menu-cta {
     padding: 1.5rem 1.75rem;
     border-top: 1px solid rgba(0, 180, 216, 0.15);
-    background: #E8F6F8;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .mobile-menu-cta .btn {
