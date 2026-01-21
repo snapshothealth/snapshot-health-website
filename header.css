@@ -380,7 +380,11 @@ nav {
         display: none;
     }
 
-    .nav-cta {
+   .nav-cta {
+        display: none;
+    }
+
+    nav .btn-primary {
         display: none;
     }
 
