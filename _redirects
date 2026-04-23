@@ -1,0 +1,36 @@
+# SnapShot Health contract document redirects
+# Maps clean URLs to HTML files. Place this file in your Netlify publish directory
+# (same folder as your index.html, alongside the HTML files below).
+
+# Clean URLs (no .html extension)
+/sign-everything    /sign_everything.html    200
+/clinician-terms    /clinician-terms.html    200
+/baa                /baa.html                200
+/order              /order-form.html         200
+/why-snapshot       /why-snapshot.html       200
+/review-and-sign    /review-and-sign.html    200
+
+# /sign routes to the unified signing page, defaulting to the Remote
+# Concierge Care (turnkey) program. Query params (practice, signer,
+# title, email, program, existing) pass through to pre-fill the form.
+/sign               /sign-everything?program=turnkey    302
+
+# Also handle trailing-slash variants gracefully
+/sign-everything/   /sign_everything.html    200
+/clinician-terms/   /clinician-terms.html    200
+/baa/               /baa.html                200
+/order/             /order-form.html         200
+/sign/              /sign-everything?program=turnkey    302
+/why-snapshot/      /why-snapshot.html       200
+/review-and-sign/   /review-and-sign.html    200
+
+# Backward-compat: the old MSA+BAA-only Sign & Start page remains reachable
+# directly if ever needed. Not publicly linked from any current page.
+/sign-and-start     /sign_and_start.html     200
+/sign-and-start/    /sign_and_start.html     200
+
+# DEPRECATED — /provider-terms split into separate MSA + BAA
+# 301 permanent redirect so search engines update their indexes and
+# anyone with a bookmark still lands on the current documents.
+/provider-terms     /clinician-terms         301
+/provider-terms/    /clinician-terms         301
