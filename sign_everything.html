@@ -893,20 +893,9 @@
       <div class="sig-section">
         <label class="field-label" style="margin-bottom: 0.5rem;">Signature</label>
         <div class="sig-pad-wrap" data-sigpad="main">
-          <div class="sig-tabs" role="tablist">
-            <button type="button" class="sig-tab active" data-mode="type">✍ Type</button>
-            <button type="button" class="sig-tab" data-mode="draw">✎ Draw</button>
-          </div>
           <div class="sig-panel active" data-panel="type">
             <input type="text" class="sig-type-input" placeholder="Type your full legal name…" autocomplete="off">
             <div class="sig-type-preview empty" data-preview></div>
-          </div>
-          <div class="sig-panel" data-panel="draw">
-            <div class="sig-canvas-wrap">
-              <canvas class="sig-canvas" width="600" height="110"></canvas>
-              <div class="sig-canvas-hint">Sign with finger, stylus, or mouse</div>
-              <button type="button" class="sig-clear-btn">Clear</button>
-            </div>
           </div>
           <div class="sig-caption">
             <div>
@@ -1110,9 +1099,7 @@
   function hasSignature() {
     const wrap = document.querySelector('.sig-pad-wrap');
     const typeVal = wrap.querySelector('.sig-type-input').value.trim();
-    const activePanel = wrap.querySelector('.sig-panel.active').dataset.panel;
-    if (activePanel === 'type') return typeVal.length > 0;
-    return wrap.dataset.hasDrawn === 'true';
+    return typeVal.length > 0;
   }
 
   checkbox.addEventListener('change', () => {
@@ -1128,24 +1115,9 @@
   document.querySelectorAll('.sig-pad-wrap').forEach(initSigPad);
 
   function initSigPad(wrap) {
-    const tabs = wrap.querySelectorAll('.sig-tab');
-    const panels = wrap.querySelectorAll('.sig-panel');
     const typeInput = wrap.querySelector('.sig-type-input');
     const typePreview = wrap.querySelector('[data-preview]');
-    const canvas = wrap.querySelector('.sig-canvas');
-    const hint = wrap.querySelector('.sig-canvas-hint');
-    const clearBtn = wrap.querySelector('.sig-clear-btn');
     const timestamp = wrap.querySelector('[data-timestamp]');
-    const ctx = canvas.getContext('2d');
-
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        const mode = tab.dataset.mode;
-        tabs.forEach(t => t.classList.toggle('active', t === tab));
-        panels.forEach(p => p.classList.toggle('active', p.dataset.panel === mode));
-        updateSubmitState();
-      });
-    });
 
     function updateTypePreview() {
       const v = typeInput.value.trim();
@@ -1156,90 +1128,6 @@
     }
     typeInput.addEventListener('input', updateTypePreview);
 
-    function resizeCanvas() {
-      const dpr = window.devicePixelRatio || 1;
-      const rect = canvas.getBoundingClientRect();
-      // Guard: if the canvas has no layout yet (width 0), bail and retry later
-      if (rect.width === 0) {
-        setTimeout(resizeCanvas, 50);
-        return;
-      }
-      // Setting width/height resets the context; set them only if they've
-      // actually changed so we don't wipe an in-progress drawing.
-      const newW = Math.round(rect.width * dpr);
-      const newH = Math.round(rect.height * dpr);
-      if (canvas.width !== newW || canvas.height !== newH) {
-        canvas.width = newW;
-        canvas.height = newH;
-      }
-      // Reset the transform matrix to identity before applying DPR scale,
-      // so repeated calls don't compound the scaling and push strokes
-      // off-canvas (that was the old bug).
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.scale(dpr, dpr);
-      // Re-assert stroke style — some browsers reset on width/height change.
-      ctx.strokeStyle = '#0A1120';
-      ctx.lineWidth = 2;
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-    }
-    // Run immediately AND on next tick AND on resize. The first call may be
-    // a no-op if layout hasn't settled; the retry inside the function handles that.
-    resizeCanvas();
-    setTimeout(resizeCanvas, 0);
-    setTimeout(resizeCanvas, 100);
-    window.addEventListener('resize', resizeCanvas);
-
-    let drawing = false;
-
-    function getPos(e) {
-      const rect = canvas.getBoundingClientRect();
-      const pt = e.touches ? e.touches[0] : e;
-      return { x: pt.clientX - rect.left, y: pt.clientY - rect.top };
-    }
-    function start(e) {
-      e.preventDefault();
-      drawing = true;
-      const p = getPos(e);
-      ctx.beginPath();
-      ctx.moveTo(p.x, p.y);
-      if (wrap.dataset.hasDrawn !== 'true') {
-        hint.classList.add('hidden');
-        wrap.dataset.hasDrawn = 'true';
-        stampTime();
-        updateSubmitState();
-      }
-    }
-    function move(e) {
-      if (!drawing) return;
-      e.preventDefault();
-      const p = getPos(e);
-      ctx.lineTo(p.x, p.y);
-      ctx.stroke();
-    }
-    function end(e) {
-      if (!drawing) return;
-      e.preventDefault();
-      drawing = false;
-      ctx.beginPath();
-    }
-
-    canvas.addEventListener('mousedown', start);
-    canvas.addEventListener('mousemove', move);
-    canvas.addEventListener('mouseup', end);
-    canvas.addEventListener('mouseleave', end);
-    canvas.addEventListener('touchstart', start, { passive: false });
-    canvas.addEventListener('touchmove', move, { passive: false });
-    canvas.addEventListener('touchend', end, { passive: false });
-    canvas.addEventListener('touchcancel', end, { passive: false });
-
-    clearBtn.addEventListener('click', () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      hint.classList.remove('hidden');
-      wrap.dataset.hasDrawn = 'false';
-      updateSubmitState();
-    });
-
     function stampTime() {
       if (!timestamp) return;
       const now = new Date();
@@ -1248,7 +1136,6 @@
     }
   }
 
-  // ================= SUBMIT =================
   // ================= HUBSPOT FORMS API SUBMISSION =================
   // Submits signed agreements to HubSpot Forms API v3.
   // Portal: SnapShot Health (47989991)
@@ -1303,12 +1190,10 @@
     const existingError = document.getElementById('submitError');
     if (existingError) existingError.remove();
 
-    // Gather signature data
+    // Gather signature data (typed only — drawn option removed)
     const wrap = document.querySelector('.sig-pad-wrap');
-    const sigMode = wrap.querySelector('.sig-panel.active').dataset.panel;
-    const sigData = sigMode === 'type'
-      ? wrap.querySelector('.sig-type-input').value.trim()
-      : wrap.querySelector('.sig-canvas').toDataURL('image/png');
+    const sigMode = 'type';
+    const sigData = wrap.querySelector('.sig-type-input').value.trim();
 
     // Gather all form inputs
     const practiceName = document.getElementById('practiceName').value.trim();
