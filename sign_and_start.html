@@ -584,7 +584,7 @@
       <div class="field-grid">
         <div>
           <label class="field-label" for="practiceName">Practice Name</label>
-          <input type="text" id="practiceName" class="field-input" placeholder="e.g., Signet Heart Group" required>
+          <input type="text" id="practiceName" class="field-input" placeholder="e.g., Your Practice Name" required>
         </div>
         <div class="field-row">
           <div>
@@ -685,7 +685,7 @@
   }
 
   // ================= URL PRE-FILL =================
-  // Supports links like: /sign?practice=Signet+Heart+Group&signer=Dr.+Nikhil+Joshi&title=Managing+Physician&email=dr.joshi@signet.com
+  // Supports links like: /sign?practice=Your+Practice+Name&signer=Dr.+Jane+Smith&title=Managing+Physician&email=dr.smith@yourpractice.com
   // All parameters optional. Values from the URL populate (and lock, via title) the corresponding fields.
   (function prefillFromURL() {
     const params = new URLSearchParams(window.location.search);
