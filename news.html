@@ -33,84 +33,139 @@
         .featured { position: relative; z-index: 1; }
         .featured-card { display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; background: linear-gradient(145deg, rgba(15,26,46,0.9) 0%, rgba(7,11,18,0.95) 100%); border: 1px solid var(--border-light); border-radius: 24px; overflow: hidden; transition: all 0.3s; }
         .featured-card:hover { transform: translateY(-4px); box-shadow: 0 30px 80px rgba(0,0,0,0.4); }
-        .featured-image { background: linear-gradient(135deg, rgba(0,180,216,0.2) 0%, rgba(0,212,170,0.15) 100%); min-height: 350px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        .featured-image { background: radial-gradient(ellipse at center, rgba(0,180,216,0.15) 0%, rgba(7,11,18,0.4) 70%); min-height: 350px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
         .featured-icon { width: 100px; height: 100px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
 
-        /* Animated holo-hub (matches homepage hero) */
-        .holo-scene { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
-        .holo-hub-featured {
-            position: relative;
-            width: 110px;
-            height: 110px;
-            background: var(--gradient-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 40px rgba(0, 212, 170, 0.4), 0 0 80px rgba(0, 180, 216, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.2);
-            animation: hubPulse 3s ease-in-out infinite;
-            z-index: 3;
-        }
-        .holo-hub-featured svg { width: 52px; height: 52px; color: var(--bg-darkest); }
-        @keyframes hubPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 40px rgba(0, 212, 170, 0.4), 0 0 80px rgba(0, 180, 216, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.2); }
-            50% { transform: scale(1.05); box-shadow: 0 0 60px rgba(0, 212, 170, 0.5), 0 0 100px rgba(0, 180, 216, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.2); }
-        }
+        /* Concierge scene — humanoid nurse with orbiting care elements */
+        .concierge-scene { position: relative; width: 340px; height: 340px; display: flex; align-items: center; justify-content: center; }
 
-        /* Orbiting rings */
-        .holo-ring { position: absolute; top: 50%; left: 50%; border-radius: 50%; border: 1px solid rgba(0, 212, 170, 0.25); pointer-events: none; z-index: 1; }
-        .holo-ring-1 { width: 190px; height: 190px; transform: translate(-50%, -50%); animation: ringSpin 12s linear infinite; }
-        .holo-ring-2 { width: 260px; height: 260px; transform: translate(-50%, -50%); border-color: rgba(0, 180, 216, 0.18); border-style: dashed; animation: ringSpin 24s linear infinite reverse; }
+        /* Rotating ambient rings */
+        .concierge-ring { position: absolute; top: 50%; left: 50%; border-radius: 50%; pointer-events: none; }
+        .concierge-ring-outer { width: 320px; height: 320px; transform: translate(-50%, -50%); border: 1px dashed rgba(0, 180, 216, 0.18); animation: ringSpin 30s linear infinite; }
+        .concierge-ring-mid { width: 240px; height: 240px; transform: translate(-50%, -50%); border: 1px solid rgba(0, 212, 170, 0.2); animation: ringSpin 18s linear infinite reverse; }
         @keyframes ringSpin { to { transform: translate(-50%, -50%) rotate(360deg); } }
 
-        /* Orbiting data nodes */
-        .holo-node {
+        /* Central nurse portrait */
+        .nurse-portrait {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            z-index: 5;
+            animation: portraitFloat 4s ease-in-out infinite;
+        }
+        .nurse-portrait svg { width: 100%; height: 100%; filter: drop-shadow(0 0 24px rgba(0, 212, 170, 0.35)); }
+        @keyframes portraitFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        /* Pulsing aura behind nurse */
+        .nurse-aura {
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 32px;
-            height: 32px;
-            background: rgba(15, 26, 46, 0.9);
-            border: 1px solid rgba(0, 212, 170, 0.5);
+            width: 180px;
+            height: 180px;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 212, 170, 0.28) 0%, rgba(0, 180, 216, 0.12) 45%, transparent 70%);
+            animation: auraPulse 3s ease-in-out infinite;
+            z-index: 1;
+        }
+        @keyframes auraPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+        }
+
+        /* Call-indicator pulsing dot next to headset */
+        .call-indicator {
+            position: absolute;
+            top: 38%;
+            left: 22%;
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--primary), 0 0 24px rgba(0, 212, 170, 0.6);
+            animation: callBlink 1.5s ease-in-out infinite;
+            z-index: 6;
+        }
+        @keyframes callBlink {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.7); }
+        }
+
+        /* Floating care chips around nurse */
+        .care-chip {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            padding: 8px 10px;
+            background: linear-gradient(145deg, rgba(15, 26, 46, 0.95) 0%, rgba(7, 11, 18, 0.9) 100%);
+            border: 1px solid rgba(0, 212, 170, 0.4);
             border-radius: 10px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 212, 170, 0.15);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 0 20px rgba(0, 212, 170, 0.2);
-            z-index: 2;
+            z-index: 4;
         }
-        .holo-node-1 { animation: nodeOrbit1 8s ease-in-out infinite; }
-        .holo-node-2 { animation: nodeOrbit2 10s ease-in-out infinite; }
-        .holo-node-3 { animation: nodeOrbit3 12s ease-in-out infinite; }
-        .holo-node-4 { animation: nodeOrbit4 9s ease-in-out infinite; }
-        @keyframes nodeOrbit1 {
-            0%, 100% { transform: translate(-50%, -50%) translate(95px, -50px); }
-            50% { transform: translate(-50%, -50%) translate(105px, -40px); }
+        .care-chip svg { width: 20px; height: 20px; }
+
+        /* Each chip has its own orbit path + delay */
+        .care-chip-heart { animation: chipOrbit1 7s ease-in-out infinite; }
+        .care-chip-bp { animation: chipOrbit2 9s ease-in-out infinite 0.4s; }
+        .care-chip-msg { animation: chipOrbit3 8s ease-in-out infinite 0.8s; }
+        .care-chip-pulse { animation: chipOrbit4 10s ease-in-out infinite 1.2s; }
+
+        @keyframes chipOrbit1 {
+            0%, 100% { transform: translate(-50%, -50%) translate(120px, -70px); }
+            50% { transform: translate(-50%, -50%) translate(130px, -60px); }
         }
-        @keyframes nodeOrbit2 {
-            0%, 100% { transform: translate(-50%, -50%) translate(-95px, 50px); }
-            50% { transform: translate(-50%, -50%) translate(-105px, 40px); }
+        @keyframes chipOrbit2 {
+            0%, 100% { transform: translate(-50%, -50%) translate(-120px, 60px); }
+            50% { transform: translate(-50%, -50%) translate(-130px, 70px); }
         }
-        @keyframes nodeOrbit3 {
-            0%, 100% { transform: translate(-50%, -50%) translate(-80px, -75px); }
-            50% { transform: translate(-50%, -50%) translate(-70px, -85px); }
+        @keyframes chipOrbit3 {
+            0%, 100% { transform: translate(-50%, -50%) translate(-110px, -80px); }
+            50% { transform: translate(-50%, -50%) translate(-100px, -90px); }
         }
-        @keyframes nodeOrbit4 {
-            0%, 100% { transform: translate(-50%, -50%) translate(80px, 75px); }
-            50% { transform: translate(-50%, -50%) translate(70px, 85px); }
+        @keyframes chipOrbit4 {
+            0%, 100% { transform: translate(-50%, -50%) translate(110px, 80px); }
+            50% { transform: translate(-50%, -50%) translate(100px, 90px); }
         }
 
-        /* Ambient glow particles */
-        .holo-particle { position: absolute; border-radius: 50%; background: var(--primary); filter: blur(1px); opacity: 0.6; pointer-events: none; }
-        .holo-particle-1 { width: 4px; height: 4px; top: 20%; left: 30%; animation: particleFloat 5s ease-in-out infinite; }
-        .holo-particle-2 { width: 3px; height: 3px; top: 70%; right: 25%; animation: particleFloat 7s ease-in-out infinite 1s; }
-        .holo-particle-3 { width: 5px; height: 5px; bottom: 20%; left: 20%; animation: particleFloat 6s ease-in-out infinite 0.5s; background: var(--secondary); }
-        .holo-particle-4 { width: 3px; height: 3px; top: 35%; right: 20%; animation: particleFloat 8s ease-in-out infinite 1.5s; background: var(--secondary); }
-        @keyframes particleFloat {
-            0%, 100% { transform: translate(0, 0); opacity: 0.3; }
-            50% { transform: translate(10px, -15px); opacity: 0.8; }
+        /* Data line connecting chips to nurse */
+        .data-line {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(0, 212, 170, 0.6) 0%, transparent 100%);
+            transform-origin: 0 50%;
+            z-index: 2;
+            opacity: 0.5;
+        }
+        .data-line-1 { transform: translate(0, 0) rotate(-30deg); animation: lineFlow 4s ease-in-out infinite; }
+        .data-line-2 { transform: translate(0, 0) rotate(150deg); animation: lineFlow 4s ease-in-out infinite 1s; }
+        .data-line-3 { transform: translate(0, 0) rotate(-145deg); animation: lineFlow 4s ease-in-out infinite 0.5s; }
+        .data-line-4 { transform: translate(0, 0) rotate(35deg); animation: lineFlow 4s ease-in-out infinite 1.5s; }
+        @keyframes lineFlow {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Ambient particles */
+        .concierge-particle { position: absolute; border-radius: 50%; filter: blur(1px); pointer-events: none; }
+        .cp-1 { width: 3px; height: 3px; background: var(--primary); top: 15%; left: 30%; animation: particleDrift 6s ease-in-out infinite; opacity: 0.6; }
+        .cp-2 { width: 2px; height: 2px; background: var(--secondary); top: 80%; right: 30%; animation: particleDrift 8s ease-in-out infinite 1s; opacity: 0.5; }
+        .cp-3 { width: 4px; height: 4px; background: var(--primary); bottom: 25%; left: 15%; animation: particleDrift 7s ease-in-out infinite 0.5s; opacity: 0.4; }
+        .cp-4 { width: 2px; height: 2px; background: var(--secondary); top: 30%; right: 18%; animation: particleDrift 9s ease-in-out infinite 2s; opacity: 0.5; }
+        @keyframes particleDrift {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(12px, -18px); }
         }
         .featured-content { padding: 3rem 3rem 3rem 0; display: flex; flex-direction: column; justify-content: center; }
         .featured-tag { display: inline-flex; padding: 0.375rem 0.875rem; background: rgba(0,212,170,0.15); border-radius: 100px; font-size: 0.75rem; font-weight: 600; color: var(--primary); text-transform: uppercase; margin-bottom: 1rem; width: fit-content; }
@@ -246,24 +301,122 @@
         <div class="section-container">
             <div class="featured-card">
                 <div class="featured-image">
-                    <div class="holo-scene">
-                        <div class="holo-ring holo-ring-2"></div>
-                        <div class="holo-ring holo-ring-1"></div>
-                        <div class="holo-particle holo-particle-1"></div>
-                        <div class="holo-particle holo-particle-2"></div>
-                        <div class="holo-particle holo-particle-3"></div>
-                        <div class="holo-particle holo-particle-4"></div>
-                        <div class="holo-node holo-node-1">❤️</div>
-                        <div class="holo-node holo-node-2">💬</div>
-                        <div class="holo-node holo-node-3">📊</div>
-                        <div class="holo-node holo-node-4">🩺</div>
-                        <div class="holo-hub-featured">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="11" width="18" height="10" rx="2" ry="2"></rect>
-                                <circle cx="12" cy="5" r="2"></circle>
-                                <path d="M12 7v4"></path>
-                                <line x1="8" y1="16" x2="8" y2="16"></line>
-                                <line x1="16" y1="16" x2="16" y2="16"></line>
+                    <div class="concierge-scene">
+                        <!-- Ambient particles -->
+                        <div class="concierge-particle cp-1"></div>
+                        <div class="concierge-particle cp-2"></div>
+                        <div class="concierge-particle cp-3"></div>
+                        <div class="concierge-particle cp-4"></div>
+
+                        <!-- Rotating rings -->
+                        <div class="concierge-ring concierge-ring-outer"></div>
+                        <div class="concierge-ring concierge-ring-mid"></div>
+
+                        <!-- Data flow lines -->
+                        <div class="data-line data-line-1"></div>
+                        <div class="data-line data-line-2"></div>
+                        <div class="data-line data-line-3"></div>
+                        <div class="data-line data-line-4"></div>
+
+                        <!-- Pulsing aura -->
+                        <div class="nurse-aura"></div>
+
+                        <!-- Central nurse portrait -->
+                        <div class="nurse-portrait">
+                            <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="nurseBody" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="#00D4AA"/>
+                                        <stop offset="100%" stop-color="#00B4D8"/>
+                                    </linearGradient>
+                                    <linearGradient id="nurseFace" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="#E8F7FA"/>
+                                        <stop offset="100%" stop-color="#B8E4EC"/>
+                                    </linearGradient>
+                                    <linearGradient id="nurseHair" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="#1F3652"/>
+                                        <stop offset="100%" stop-color="#0F1A2E"/>
+                                    </linearGradient>
+                                    <radialGradient id="cheekGlow" cx="50%" cy="50%" r="50%">
+                                        <stop offset="0%" stop-color="#FF9BB5" stop-opacity="0.5"/>
+                                        <stop offset="100%" stop-color="#FF9BB5" stop-opacity="0"/>
+                                    </radialGradient>
+                                </defs>
+
+                                <!-- Shoulders / uniform -->
+                                <path d="M 30 145 Q 30 115 55 108 Q 80 105 105 108 Q 130 115 130 145 Z" fill="url(#nurseBody)"/>
+
+                                <!-- Nurse cross on uniform -->
+                                <g transform="translate(80, 128)">
+                                    <circle cx="0" cy="0" r="8" fill="rgba(255,255,255,0.95)"/>
+                                    <rect x="-4" y="-1.2" width="8" height="2.4" fill="#00D4AA"/>
+                                    <rect x="-1.2" y="-4" width="2.4" height="8" fill="#00D4AA"/>
+                                </g>
+
+                                <!-- Neck -->
+                                <rect x="72" y="95" width="16" height="16" fill="url(#nurseFace)"/>
+
+                                <!-- Head -->
+                                <ellipse cx="80" cy="75" rx="26" ry="30" fill="url(#nurseFace)"/>
+
+                                <!-- Hair (short, tucked back) -->
+                                <path d="M 54 70 Q 54 45 80 42 Q 106 45 106 70 Q 106 60 100 54 Q 90 48 80 49 Q 70 48 60 54 Q 54 60 54 70 Z" fill="url(#nurseHair)"/>
+
+                                <!-- Headset band over head -->
+                                <path d="M 56 62 Q 80 38 104 62" fill="none" stroke="#0F1A2E" stroke-width="3.5" stroke-linecap="round"/>
+                                <path d="M 56 62 Q 80 38 104 62" fill="none" stroke="#00D4AA" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+
+                                <!-- Headset ear cups -->
+                                <ellipse cx="54" cy="74" rx="6" ry="8" fill="#0F1A2E"/>
+                                <ellipse cx="54" cy="74" rx="3.5" ry="5" fill="#00D4AA" opacity="0.3"/>
+                                <ellipse cx="106" cy="74" rx="6" ry="8" fill="#0F1A2E"/>
+                                <ellipse cx="106" cy="74" rx="3.5" ry="5" fill="#00D4AA" opacity="0.3"/>
+
+                                <!-- Headset mic boom -->
+                                <path d="M 52 78 Q 45 88 55 95" fill="none" stroke="#0F1A2E" stroke-width="2.5" stroke-linecap="round"/>
+                                <circle cx="56" cy="95" r="3" fill="#0F1A2E"/>
+                                <circle cx="56" cy="95" r="1.5" fill="#00D4AA"/>
+
+                                <!-- Cheek blush -->
+                                <circle cx="67" cy="82" r="5" fill="url(#cheekGlow)"/>
+                                <circle cx="93" cy="82" r="5" fill="url(#cheekGlow)"/>
+
+                                <!-- Eyes (closed, content, smiling) -->
+                                <path d="M 66 76 Q 69 74 72 76" fill="none" stroke="#0F1A2E" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M 88 76 Q 91 74 94 76" fill="none" stroke="#0F1A2E" stroke-width="2" stroke-linecap="round"/>
+
+                                <!-- Smile -->
+                                <path d="M 74 88 Q 80 92 86 88" fill="none" stroke="#0F1A2E" stroke-width="2" stroke-linecap="round"/>
+
+                                <!-- Stethoscope around neck -->
+                                <path d="M 68 108 Q 60 118 65 128 Q 70 132 75 128" fill="none" stroke="#0F1A2E" stroke-width="2" stroke-linecap="round"/>
+                                <circle cx="76" cy="130" r="2.5" fill="#0F1A2E"/>
+                                <path d="M 92 108 Q 100 116 98 124" fill="none" stroke="#0F1A2E" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+
+                        <!-- Live call indicator dot -->
+                        <div class="call-indicator"></div>
+
+                        <!-- Floating care chips -->
+                        <div class="care-chip care-chip-heart">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#FF6B8A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </div>
+                        <div class="care-chip care-chip-bp">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#00D4AA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 12h4l3-9 4 18 3-9h4"/>
+                            </svg>
+                        </div>
+                        <div class="care-chip care-chip-msg">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#00B4D8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            </svg>
+                        </div>
+                        <div class="care-chip care-chip-pulse">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#00D4AA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
                             </svg>
                         </div>
                     </div>
