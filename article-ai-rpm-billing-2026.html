@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Assisted Engagement & 2026 RPM/CCM Billing | SnapShot Health</title>
+    <meta name="description" content="For the first time, CMS has opened the door to AI-generated prompts and automated messaging counting toward RPM treatment management time. Here's what the 2026 Physician Fee Schedule Final Rule means for your practice.">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="header.css">
+    <style>
+        :root {
+            --bg-darkest: #070B12;
+            --bg-dark: #070B12;
+            --bg-card: #0F1A2E;
+            --primary: #00D4AA;
+            --primary-glow: rgba(0, 212, 170, 0.4);
+            --secondary: #00B4D8;
+            --accent-purple: #8B5CF6;
+            --accent-orange: #F59E0B;
+            --accent-red: #EF4444;
+            --white: #FFFFFF;
+            --text-primary: rgba(255,255,255,0.95);
+            --text-secondary: rgba(255,255,255,0.7);
+            --text-muted: rgba(255,255,255,0.5);
+            --border: rgba(255,255,255,0.1);
+            --border-light: rgba(255,255,255,0.12);
+            --gradient-primary: linear-gradient(135deg, #00B4D8 0%, #00D4AA 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.8;
+            font-size: 18px;
+        }
+
+        /* Article Container */
+        .article-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 7rem 2rem 2rem;
+        }
+
+        /* Hero Section */
+        .article-hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(0,180,216,0.1) 0%, rgba(0,212,170,0.1) 100%);
+            border-radius: 24px;
+            margin-bottom: 3rem;
+            border: 1px solid var(--border);
+        }
+
+        .article-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0,212,170,0.15);
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .article-badge svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .article-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            color: var(--text-muted);
+            font-size: 0.9375rem;
+        }
+
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Content Styles */
+        .article-content {
+            padding: 0 1rem;
+        }
+
+        .article-content h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin: 3rem 0 1.5rem;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .article-content h2 .icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .article-content h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            color: var(--primary);
+        }
+
+        .article-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content strong {
+            color: var(--white);
+        }
+
+        /* Simple Language Callout */
+        .simple-explanation {
+            background: linear-gradient(135deg, rgba(139,92,246,0.1) 0%, rgba(0,180,216,0.1) 100%);
+            border-left: 4px solid var(--accent-purple);
+            border-radius: 0 16px 16px 0;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .simple-explanation-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            color: var(--accent-purple);
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .simple-explanation p {
+            color: var(--text-primary);
+            margin: 0;
+            font-size: 1.0625rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Visual Diagram */
+        .visual-diagram {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+        }
+
+        .diagram-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.125rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--white);
+        }
+
+        .process-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .process-step {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .process-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, rgba(0,180,216,0.2) 0%, rgba(0,212,170,0.2) 100%);
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin: 0 auto 0.75rem;
+        }
+
+        .process-label {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+        }
+
+        .process-arrow {
+            font-size: 1.5rem;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 0.9375rem;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: var(--bg-dark);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 700;
+        }
+
+        .comparison-table th:first-child {
+            border-radius: 12px 0 0 0;
+        }
+
+        .comparison-table th:last-child {
+            border-radius: 0 12px 0 0;
+        }
+
+        .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .comparison-table tr:last-child td:first-child {
+            border-radius: 0 0 0 12px;
+        }
+
+        .comparison-table tr:last-child td:last-child {
+            border-radius: 0 0 12px 0;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: rgba(255,255,255,0.02);
+        }
+
+        .comparison-table .highlight {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Key Takeaway Box */
+        .key-takeaway {
+            background: linear-gradient(135deg, rgba(0,212,170,0.15) 0%, rgba(0,180,216,0.15) 100%);
+            border: 1px solid rgba(0,212,170,0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+        }
+
+        .key-takeaway-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .key-takeaway-header span {
+            font-size: 1.5rem;
+        }
+
+        .key-takeaway ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .key-takeaway li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .key-takeaway li::before {
+            content: "✓";
+            color: var(--primary);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* Icon List */
+        .icon-list {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+
+        .icon-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .icon-list .list-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, rgba(0,180,216,0.2) 0%, rgba(0,212,170,0.2) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .icon-list .list-content h4 {
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 0.25rem;
+        }
+
+        .icon-list .list-content p {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.9375rem;
+        }
+
+        /* Billing Code Card */
+        .billing-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .billing-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .billing-code {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .billing-amount {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .billing-description {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background: rgba(245,158,11,0.1);
+            border-left: 4px solid var(--accent-orange);
+            border-radius: 0 12px 12px 0;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            color: var(--accent-orange);
+            margin-bottom: 0.5rem;
+        }
+
+        .warning-box p {
+            color: var(--text-primary);
+            margin: 0;
+            font-size: 0.9375rem;
+        }
+
+        /* Image Placeholder */
+        .image-placeholder {
+            background: linear-gradient(135deg, rgba(0,180,216,0.1) 0%, rgba(0,212,170,0.1) 100%);
+            border: 2px dashed var(--border);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .image-placeholder-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .image-placeholder-text {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* Lead Capture Box */
+        .lead-capture {
+            background: linear-gradient(145deg, rgba(0,180,216,0.12) 0%, rgba(0,212,170,0.08) 100%);
+            border: 1px solid rgba(0,212,170,0.25);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .lead-capture-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 1.25rem;
+        }
+
+        .lead-capture h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 0.75rem;
+        }
+
+        .lead-capture p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .lead-capture .hubspot-form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* Back to News Link */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+        }
+
+        .back-link svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* CTA Section */
+        .article-cta {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .article-cta h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--bg-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .article-cta p {
+            color: rgba(7,11,18,0.7);
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: var(--bg-dark);
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 100px;
+            transition: transform 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .article-container {
+                padding: 1rem;
+            }
+
+            .article-hero {
+                padding: 2rem 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .process-flow {
+                flex-direction: column;
+            }
+
+            .process-arrow {
+                transform: rotate(90deg);
+            }
+
+            .article-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+    <!-- Mobile Menu Panel -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <a class='mobile-menu-logo' href='/'>
+                <img src="logo_icon_nav.png" alt="SnapShot Health" class="logo-mark">
+                <div class="logo-text">SnapShot Health</div>
+            </a>
+        </div>
+        <nav class="mobile-menu-nav">
+            <div class="mobile-menu-item"><a class='mobile-menu-link' href='/#how-it-works'><span class="mobile-menu-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>How It Works</a></div>
+            <div class="mobile-menu-item"><a class='mobile-menu-link' href='/clinicians'><span class="mobile-menu-icon"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>For Doctors</a></div>
+            <div class="mobile-menu-item"><a class='mobile-menu-link' href='/health-systems'><span class="mobile-menu-icon"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg></span>For Hospitals</a></div>
+            <div class="mobile-menu-item"><a class='mobile-menu-link' href='/patients'><span class="mobile-menu-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>For Patients</a></div>
+            <div class="mobile-menu-item"><a class='mobile-menu-link' href='/about'><span class="mobile-menu-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span>About Us</a></div>
+            <div class="mobile-menu-item"><a class='mobile-menu-link' href='/news'><span class="mobile-menu-icon"><svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/></svg></span>News</a></div>
+        </nav>
+        <div class="mobile-menu-cta"><a href="contact.html" class="btn btn-primary">Schedule a Demo</a></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a class='logo' href='/'>
+                <img src="logo_icon_nav.png" alt="SnapShot Health" class="logo-mark">
+                <div class="logo-text">SnapShot Health</div>
+            </a>
+            <ul class="nav-links">
+                <li><a href='/#how-it-works'>How It Works</a></li>
+                <li><a href='/clinicians'>For Doctors</a></li>
+                <li><a href='/health-systems'>For Hospitals</a></li>
+                <li><a href='/patients'>For Patients</a></li>
+                <li><a href='/about'>About Us</a></li>
+                <li><a href='/news'>News</a></li>
+            </ul>
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle mobile menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+            <a href="contact.html" class="nav-cta">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                Get Started
+            </a>
+        </div>
+    </nav>
+
+    <article class="article-container">
+        <!-- Back Link -->
+        <a class='back-link' href='/news'>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Back to News
+        </a>
+
+        <!-- Hero Section -->
+        <header class="article-hero">
+            <div class="article-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+                Clinical Update · 2026 CMS Final Rule
+            </div>
+            <h1 class="article-title">AI-Assisted Patient Engagement Now Counts Toward Your RPM &amp; CCM Billing Time</h1>
+            <p style="color: var(--text-secondary); font-size: 1.125rem; margin-bottom: 1.5rem;">What the 2026 Physician Fee Schedule Final Rule Means for Your Practice</p>
+            <div class="article-meta">
+                <span>📅 January 2026</span>
+                <span>⏱️ 8 min read</span>
+                <span>📊 SnapShot Health Research</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+            <!-- Introduction -->
+            <p><strong>For the first time, CMS has opened the door to technology-enabled communication counting toward RPM treatment management time.</strong> Secure messaging, asynchronous chat, and AI-generated prompts can now contribute to the interactive communication time required to bill RPM codes — so long as the monthly live-touchpoint requirement is preserved. SnapShot Health is already running this workflow across our partner practices.</p>
+
+            <div class="simple-explanation">
+                <div class="simple-explanation-header">
+                    <span>💡</span> In Simple Terms
+                </div>
+                <p><strong>The way you get paid for RPM just got easier.</strong> Before 2026, only the minutes your nurses spent on the phone with a patient counted toward billing. Now, the time your technology spends talking to patients — AI check-ins, text reminders, adherence nudges — counts too. You still need at least one live call per month, but everything around it finally shows up on the clock.</p>
+            </div>
+
+            <!-- HEADLINE CALLOUT -->
+            <div class="key-takeaway">
+                <div class="key-takeaway-header">
+                    <span>📣</span> The Headline
+                </div>
+                <ul>
+                    <li>The 2026 Physician Fee Schedule Final Rule clarifies that automated bi-directional messaging and AI prompts can count toward time for CPT <strong>99457, 99458, and the new 99470</strong></li>
+                    <li>Two new RPM codes expand what's billable: <strong>99445</strong> (device supply for 2–15 days) and <strong>99470</strong> (first 10–19 minutes of treatment management)</li>
+                    <li>The monthly requirement of at least one <strong>live, synchronous interactive communication</strong> is preserved — AI contributes to time, it does not replace the human touchpoint</li>
+                    <li>Patients who previously fell below the 16-day or 20-minute thresholds are now revenue-positive</li>
+                </ul>
+            </div>
+
+            <!-- Section 1: What Changed -->
+            <h2><span class="icon">📈</span> What Changed in the 2026 Final Rule</h2>
+
+            <p>Two shifts matter most for practices running RPM and CCM programs:</p>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🤖</div>
+                    <div class="stat-value">AI</div>
+                    <div class="stat-label">Automated messaging & AI prompts now contribute to billable time</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🆕</div>
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">new RPM codes added (99445 and 99470)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📉</div>
+                    <div class="stat-value">2–15</div>
+                    <div class="stat-label">days of device data now billable (was 16-day minimum)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⏱️</div>
+                    <div class="stat-value">10 min</div>
+                    <div class="stat-label">threshold for short-touchpoint treatment management</div>
+                </div>
+            </div>
+
+            <div class="simple-explanation">
+                <div class="simple-explanation-header">
+                    <span>💡</span> Why This Matters
+                </div>
+                <p>The 16-day and 20-minute thresholds were the two cliffs where practices lost revenue every month. A post-discharge patient who only used their cuff 10 days? Zero reimbursement. A stable patient who only needed a 12-minute check-in? Zero reimbursement. In 2026, both of those patients become billable — without adding a single clinical hour.</p>
+            </div>
+
+            <!-- Section 2: New Codes -->
+            <h2><span class="icon">💵</span> Two New RPM Codes You Can Bill in 2026</h2>
+
+            <div class="billing-card">
+                <div class="billing-header">
+                    <div class="billing-code">CPT 99445</div>
+                    <div class="billing-amount">~$47</div>
+                </div>
+                <div class="billing-description"><strong>Device supply &amp; data transmission for 2–15 days</strong> in a 30-day period. Previously unbillable under the old 16-day threshold. Captures patients who are still engaged but not hitting the old 16-day bar — post-discharge, medication-change, and lighter-engagement chronic patients all qualify.</div>
+            </div>
+
+            <div class="billing-card">
+                <div class="billing-header">
+                    <div class="billing-code">CPT 99470</div>
+                    <div class="billing-amount">~$26</div>
+                </div>
+                <div class="billing-description"><strong>First 10–19 minutes of treatment management time.</strong> Captures the short, high-value touchpoints that used to go unreimbursed when clinical time fell below the 20-minute 99457 threshold. At scale across your panel, this is real money.</div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-box-header">⚠️ Billing Rules to Know</div>
+                <p><strong>99445 is not additive with 99454.</strong> You bill one or the other based on how many days the patient transmitted. <strong>99470 is not additive with 99457.</strong> You bill one or the other based on how many minutes of treatment management time were logged. SnapShot's billing engine selects the correct code for each patient, each month, automatically.</p>
+            </div>
+
+            <!-- Section 3: How AI Creates Time -->
+            <h2><span class="icon">⚙️</span> How SnapShot's AI Workflow Creates Billable Time</h2>
+
+            <p>Here's the exact workflow SnapShot runs — and how each step produces documented, audit-ready time that rolls up into your monthly bill:</p>
+
+            <div class="visual-diagram">
+                <div class="diagram-title">The AI-Assisted Engagement Flow</div>
+                <div class="process-flow">
+                    <div class="process-step">
+                        <div class="process-icon">🤖</div>
+                        <div class="process-label">AI triage<br>every reading</div>
+                    </div>
+                    <div class="process-arrow">→</div>
+                    <div class="process-step">
+                        <div class="process-icon">💬</div>
+                        <div class="process-label">Automated<br>outreach logged</div>
+                    </div>
+                    <div class="process-arrow">→</div>
+                    <div class="process-step">
+                        <div class="process-icon">👩‍⚕️</div>
+                        <div class="process-label">RN live call<br>each month</div>
+                    </div>
+                    <div class="process-arrow">→</div>
+                    <div class="process-step">
+                        <div class="process-icon">📋</div>
+                        <div class="process-label">AI-drafted<br>summary &amp; co-sign</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>What Each Step Contributes</h3>
+
+            <ul class="icon-list">
+                <li>
+                    <div class="list-icon">🤖</div>
+                    <div class="list-content">
+                        <h4>Step 1 — AI Triage</h4>
+                        <p>Every incoming reading is classified in seconds — Stable, Watch, or Urgent — so your panel sees only what needs a human clinician. The triage event itself is logged and timestamped.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="list-icon">💬</div>
+                    <div class="list-content">
+                        <h4>Step 2 — Automated Outreach</h4>
+                        <p>Adherence nudges, refill reminders, and trend alerts are sent as documented, time-stamped patient touchpoints. Under the 2026 rule, this bi-directional messaging contributes to your monthly treatment management time.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="list-icon">👩‍⚕️</div>
+                    <div class="list-content">
+                        <h4>Step 3 — Clinical Review</h4>
+                        <p>Our RN team completes the required live, synchronous interactive communication — preserving the mandatory monthly touchpoint — and co-signs the AI-drafted monthly summary. Fully audit-ready, fully compliant.</p>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- Section 4: What It Means for the Practice -->
+            <h2><span class="icon">🎯</span> What This Means for Your Practice</h2>
+
+            <p>Three specific patient groups become revenue-positive for the first time:</p>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Patient Type</th>
+                        <th>Old Rule (2025)</th>
+                        <th>New Rule (2026)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Post-discharge, 10 days of readings</strong></td>
+                        <td>Not billable (under 16-day threshold)</td>
+                        <td class="highlight">99445 — ~$47</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Stable patient, 12 min of clinical time</strong></td>
+                        <td>Not billable (under 20-min threshold)</td>
+                        <td class="highlight">99470 — ~$26</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lighter-engagement chronic patient</strong></td>
+                        <td>Left on the table</td>
+                        <td class="highlight">99445 + 99470 — ~$73</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fully engaged patient</strong></td>
+                        <td>99454 + 99457 (~$91)</td>
+                        <td class="highlight">99454 + 99457 + AI time toward 99458</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>Because AI-assisted engagement contributes to time, <strong>more of the care your team is already delivering becomes billable</strong> without adding clinical hours. Practices layering RPM, CCM, and BHI can see roughly <strong>$200–$318 per patient, per month</strong> at full engagement — the upper end of that range was essentially unreachable before 2026.</p>
+
+            <!-- Compliance warning -->
+            <div class="warning-box">
+                <div class="warning-box-header">⚠️ The Fine Print · Compliance First</div>
+                <p>CMS still requires at least one live, synchronous interactive communication per calendar month for 99457, 99458, and 99470. AI prompts and automated messaging <strong>contribute</strong> to total time — they do not replace the live touchpoint. Every billed code must be backed by documented patient interaction, time logs, and device transmission records. Practices that try to bill without the live touchpoint are exposed to audit and recoupment.</p>
+            </div>
+
+            <!-- Bottom Line -->
+            <h2><span class="icon">✅</span> The Bottom Line</h2>
+
+            <p>The 2026 Final Rule is the biggest reimbursement shift for RPM since the codes were introduced. Practices that have built around manual workflows will see modest gains. Practices running AI-assisted engagement — with full documentation, timestamped messaging, and clean co-signed summaries — will capture the full upside.</p>
+
+            <div class="key-takeaway">
+                <div class="key-takeaway-header">
+                    <span>🧭</span> Keys to Capturing the 2026 Upside
+                </div>
+                <ul>
+                    <li>Ensure every AI and automated patient interaction is timestamped and logged to the patient chart</li>
+                    <li>Preserve at least one live clinician touchpoint per calendar month — this is non-negotiable</li>
+                    <li>Use a billing engine that automatically selects 99445 vs 99454 and 99470 vs 99457 based on days and minutes</li>
+                    <li>Document AI-drafted summaries with clinician co-signature to maintain audit defensibility</li>
+                    <li>Re-engage previously sub-threshold patients — post-discharge, medication-change, and lighter-engagement chronic patients are now revenue-positive</li>
+                </ul>
+            </div>
+
+            <!-- CTA -->
+            <div class="article-cta">
+                <h3>Ready to Capture the 2026 Upside?</h3>
+                <p>SnapShot Health provides the AI triage, automated engagement, clinical staff, documentation, and billing engine — built for the 2026 Final Rule from day one.</p>
+                <a href="contact.html" class="cta-button">
+                    Schedule a Demo
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Lead Capture Box -->
+            <div class="lead-capture">
+                <div class="lead-capture-icon">📄</div>
+                <h3>Download the 2026 Billing Playbook</h3>
+                <p>Get the full SnapShot Health 2026 RPM/CCM Billing Playbook — including the AI engagement documentation checklist, audit-defense templates, and per-patient revenue modeling by code mix.</p>
+
+                <!-- HubSpot Form Embed -->
+                <script src="https://js.hsforms.net/forms/embed/47989991.js" defer></script>
+                <div class="hs-form-frame" data-region="na1" data-form-id="6e26b86e-ca21-4de0-a9ba-b70ecfc2e10f" data-portal-id="47989991"></div>
+            </div>
+
+            <!-- Sources Note -->
+            <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+                <p style="font-size: 0.875rem; color: var(--text-muted);">
+                    <strong>Sources:</strong> CMS Medicare Physician Fee Schedule Final Rule 2026 (technology-enabled communication provisions); CMS RPM and CCM billing guidance (CPT 99453, 99454, 99457, 99458, and new codes 99445 and 99470); HHS Office of the National Coordinator guidance on AI-assisted clinical documentation; SnapShot Health internal analysis of client billing data across 30+ partner practices.
+                </p>
+                <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 1rem; font-style: italic;">
+                    For informational purposes only. Not legal or billing advice. Reimbursement figures are 2026 national averages per the CMS Physician Fee Schedule Final Rule and vary by locality and payer. Providers are responsible for proper code selection, medical necessity documentation, and compliance with Medicare supervision and consent requirements.
+                </p>
+            </div>
+        </div>
+    </article>
+
+    <script src="header.js"></script>
+</body>
+</html>
