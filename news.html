@@ -33,8 +33,85 @@
         .featured { position: relative; z-index: 1; }
         .featured-card { display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; background: linear-gradient(145deg, rgba(15,26,46,0.9) 0%, rgba(7,11,18,0.95) 100%); border: 1px solid var(--border-light); border-radius: 24px; overflow: hidden; transition: all 0.3s; }
         .featured-card:hover { transform: translateY(-4px); box-shadow: 0 30px 80px rgba(0,0,0,0.4); }
-        .featured-image { background: linear-gradient(135deg, rgba(0,180,216,0.2) 0%, rgba(0,212,170,0.15) 100%); min-height: 350px; display: flex; align-items: center; justify-content: center; }
+        .featured-image { background: linear-gradient(135deg, rgba(0,180,216,0.2) 0%, rgba(0,212,170,0.15) 100%); min-height: 350px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
         .featured-icon { width: 100px; height: 100px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+
+        /* Animated holo-hub (matches homepage hero) */
+        .holo-scene { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+        .holo-hub-featured {
+            position: relative;
+            width: 110px;
+            height: 110px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 40px rgba(0, 212, 170, 0.4), 0 0 80px rgba(0, 180, 216, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.2);
+            animation: hubPulse 3s ease-in-out infinite;
+            z-index: 3;
+        }
+        .holo-hub-featured svg { width: 52px; height: 52px; color: var(--bg-darkest); }
+        @keyframes hubPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 40px rgba(0, 212, 170, 0.4), 0 0 80px rgba(0, 180, 216, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.2); }
+            50% { transform: scale(1.05); box-shadow: 0 0 60px rgba(0, 212, 170, 0.5), 0 0 100px rgba(0, 180, 216, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.2); }
+        }
+
+        /* Orbiting rings */
+        .holo-ring { position: absolute; top: 50%; left: 50%; border-radius: 50%; border: 1px solid rgba(0, 212, 170, 0.25); pointer-events: none; z-index: 1; }
+        .holo-ring-1 { width: 190px; height: 190px; transform: translate(-50%, -50%); animation: ringSpin 12s linear infinite; }
+        .holo-ring-2 { width: 260px; height: 260px; transform: translate(-50%, -50%); border-color: rgba(0, 180, 216, 0.18); border-style: dashed; animation: ringSpin 24s linear infinite reverse; }
+        @keyframes ringSpin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+        /* Orbiting data nodes */
+        .holo-node {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 32px;
+            height: 32px;
+            background: rgba(15, 26, 46, 0.9);
+            border: 1px solid rgba(0, 212, 170, 0.5);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0, 212, 170, 0.2);
+            z-index: 2;
+        }
+        .holo-node-1 { animation: nodeOrbit1 8s ease-in-out infinite; }
+        .holo-node-2 { animation: nodeOrbit2 10s ease-in-out infinite; }
+        .holo-node-3 { animation: nodeOrbit3 12s ease-in-out infinite; }
+        .holo-node-4 { animation: nodeOrbit4 9s ease-in-out infinite; }
+        @keyframes nodeOrbit1 {
+            0%, 100% { transform: translate(-50%, -50%) translate(95px, -50px); }
+            50% { transform: translate(-50%, -50%) translate(105px, -40px); }
+        }
+        @keyframes nodeOrbit2 {
+            0%, 100% { transform: translate(-50%, -50%) translate(-95px, 50px); }
+            50% { transform: translate(-50%, -50%) translate(-105px, 40px); }
+        }
+        @keyframes nodeOrbit3 {
+            0%, 100% { transform: translate(-50%, -50%) translate(-80px, -75px); }
+            50% { transform: translate(-50%, -50%) translate(-70px, -85px); }
+        }
+        @keyframes nodeOrbit4 {
+            0%, 100% { transform: translate(-50%, -50%) translate(80px, 75px); }
+            50% { transform: translate(-50%, -50%) translate(70px, 85px); }
+        }
+
+        /* Ambient glow particles */
+        .holo-particle { position: absolute; border-radius: 50%; background: var(--primary); filter: blur(1px); opacity: 0.6; pointer-events: none; }
+        .holo-particle-1 { width: 4px; height: 4px; top: 20%; left: 30%; animation: particleFloat 5s ease-in-out infinite; }
+        .holo-particle-2 { width: 3px; height: 3px; top: 70%; right: 25%; animation: particleFloat 7s ease-in-out infinite 1s; }
+        .holo-particle-3 { width: 5px; height: 5px; bottom: 20%; left: 20%; animation: particleFloat 6s ease-in-out infinite 0.5s; background: var(--secondary); }
+        .holo-particle-4 { width: 3px; height: 3px; top: 35%; right: 20%; animation: particleFloat 8s ease-in-out infinite 1.5s; background: var(--secondary); }
+        @keyframes particleFloat {
+            0%, 100% { transform: translate(0, 0); opacity: 0.3; }
+            50% { transform: translate(10px, -15px); opacity: 0.8; }
+        }
         .featured-content { padding: 3rem 3rem 3rem 0; display: flex; flex-direction: column; justify-content: center; }
         .featured-tag { display: inline-flex; padding: 0.375rem 0.875rem; background: rgba(0,212,170,0.15); border-radius: 100px; font-size: 0.75rem; font-weight: 600; color: var(--primary); text-transform: uppercase; margin-bottom: 1rem; width: fit-content; }
         .featured-title { font-family: 'Outfit', sans-serif; font-size: 1.75rem; font-weight: 700; line-height: 1.3; margin-bottom: 1rem; }
@@ -168,7 +245,29 @@
     <section class="featured">
         <div class="section-container">
             <div class="featured-card">
-                <div class="featured-image"><div class="featured-icon">🤖</div></div>
+                <div class="featured-image">
+                    <div class="holo-scene">
+                        <div class="holo-ring holo-ring-2"></div>
+                        <div class="holo-ring holo-ring-1"></div>
+                        <div class="holo-particle holo-particle-1"></div>
+                        <div class="holo-particle holo-particle-2"></div>
+                        <div class="holo-particle holo-particle-3"></div>
+                        <div class="holo-particle holo-particle-4"></div>
+                        <div class="holo-node holo-node-1">❤️</div>
+                        <div class="holo-node holo-node-2">💬</div>
+                        <div class="holo-node holo-node-3">📊</div>
+                        <div class="holo-node holo-node-4">🩺</div>
+                        <div class="holo-hub-featured">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="10" rx="2" ry="2"></rect>
+                                <circle cx="12" cy="5" r="2"></circle>
+                                <path d="M12 7v4"></path>
+                                <line x1="8" y1="16" x2="8" y2="16"></line>
+                                <line x1="16" y1="16" x2="16" y2="16"></line>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="featured-content">
                     <div class="featured-tag">Featured · 2026 CMS Final Rule</div>
