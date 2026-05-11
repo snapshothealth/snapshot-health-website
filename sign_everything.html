@@ -458,6 +458,55 @@
   }
   .submit-hint strong { color: var(--ink-heading); font-weight: 600; }
 
+  /* ================= PDF MODE (?pdf_mode=1) =================
+     Rendered by PDFShift after form submission. Read-only confirmation
+     view showing the executed agreement with signer info, typed signature,
+     checked agreement box, and a timestamped EXECUTED badge in place of
+     the submit button. Field pre-fill green tint is suppressed so the
+     PDF looks like a clean executed document, not a fillable form. */
+  body.pdf-mode .field-input,
+  body.pdf-mode .sig-type-input {
+    background-color: transparent !important;
+  }
+  body.pdf-mode .field-input[readonly],
+  body.pdf-mode .sig-type-input[readonly] {
+    cursor: default;
+  }
+  body.pdf-mode .sig-tabs { display: none; }
+  body.pdf-mode .sig-panel[data-panel="draw"] { display: none !important; }
+  body.pdf-mode .sig-type-input {
+    border: none;
+    padding: 0;
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+    margin-bottom: 0.25rem;
+    pointer-events: none;
+  }
+  body.pdf-mode .sig-canvas-hint,
+  body.pdf-mode .sig-clear-btn { display: none; }
+  body.pdf-mode .checkbox-input { pointer-events: none; }
+  body.pdf-mode .term-card { pointer-events: none; }
+
+  .executed-badge {
+    width: 100%;
+    padding: 1.1rem 1.25rem;
+    background: linear-gradient(135deg, var(--success) 0%, #15803D 100%);
+    border-radius: var(--radius);
+    color: var(--white);
+    font: 600 1rem 'Outfit', sans-serif;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(22, 163, 74, 0.25);
+    margin-bottom: 1rem;
+  }
+  .executed-badge .executed-check {
+    display: inline-block;
+    margin-right: 0.5rem;
+    font-size: 1.15rem;
+    vertical-align: -1px;
+  }
+
   /* ================= FOOTER ================= */
   .doc-footer {
     background: var(--navy-900);
@@ -814,7 +863,7 @@
       <div class="field-grid">
         <div>
           <label class="field-label" for="practiceName">Practice Name</label>
-          <input type="text" id="practiceName" class="field-input" placeholder="e.g., Your Practice Name" required>
+          <input type="text" id="practiceName" class="field-input" placeholder="e.g., Signet Heart Group" required>
         </div>
         <div class="field-row">
           <div>
@@ -893,9 +942,20 @@
       <div class="sig-section">
         <label class="field-label" style="margin-bottom: 0.5rem;">Signature</label>
         <div class="sig-pad-wrap" data-sigpad="main">
+          <div class="sig-tabs" role="tablist">
+            <button type="button" class="sig-tab active" data-mode="type">✍ Type</button>
+            <button type="button" class="sig-tab" data-mode="draw">✎ Draw</button>
+          </div>
           <div class="sig-panel active" data-panel="type">
             <input type="text" class="sig-type-input" placeholder="Type your full legal name…" autocomplete="off">
             <div class="sig-type-preview empty" data-preview></div>
+          </div>
+          <div class="sig-panel" data-panel="draw">
+            <div class="sig-canvas-wrap">
+              <canvas class="sig-canvas" width="600" height="110"></canvas>
+              <div class="sig-canvas-hint">Sign with finger, stylus, or mouse</div>
+              <button type="button" class="sig-clear-btn">Clear</button>
+            </div>
           </div>
           <div class="sig-caption">
             <div>
@@ -945,7 +1005,7 @@
   }
 
   // ================= URL PRE-FILL =================
-  // Supports links like: /sign?practice=Your+Practice+Name&signer=Dr.+Jane+Smith&title=Managing+Physician&email=dr.smith@yourpractice.com
+  // Supports links like: /sign?practice=Signet+Heart+Group&signer=Dr.+Nikhil+Joshi&title=Managing+Physician&email=dr.joshi@signet.com
   // All parameters optional. Values from the URL populate (and lock, via title) the corresponding fields.
   (function prefillFromURL() {
     const params = new URLSearchParams(window.location.search);
@@ -1015,6 +1075,10 @@
     const programParam = params.get('program');
     if (programParam && PROGRAM_CONFIG[programParam]) {
       selectedProgram = programParam;
+    }
+    const termParam = params.get('term');
+    if (termParam === 'month-to-month' || termParam === '12-month') {
+      selectedTerm = termParam;
     }
     const existingParam = params.get('existing');
     if (existingParam === 'true' || existingParam === '1') {
@@ -1099,7 +1163,9 @@
   function hasSignature() {
     const wrap = document.querySelector('.sig-pad-wrap');
     const typeVal = wrap.querySelector('.sig-type-input').value.trim();
-    return typeVal.length > 0;
+    const activePanel = wrap.querySelector('.sig-panel.active').dataset.panel;
+    if (activePanel === 'type') return typeVal.length > 0;
+    return wrap.dataset.hasDrawn === 'true';
   }
 
   checkbox.addEventListener('change', () => {
@@ -1115,9 +1181,24 @@
   document.querySelectorAll('.sig-pad-wrap').forEach(initSigPad);
 
   function initSigPad(wrap) {
+    const tabs = wrap.querySelectorAll('.sig-tab');
+    const panels = wrap.querySelectorAll('.sig-panel');
     const typeInput = wrap.querySelector('.sig-type-input');
     const typePreview = wrap.querySelector('[data-preview]');
+    const canvas = wrap.querySelector('.sig-canvas');
+    const hint = wrap.querySelector('.sig-canvas-hint');
+    const clearBtn = wrap.querySelector('.sig-clear-btn');
     const timestamp = wrap.querySelector('[data-timestamp]');
+    const ctx = canvas.getContext('2d');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const mode = tab.dataset.mode;
+        tabs.forEach(t => t.classList.toggle('active', t === tab));
+        panels.forEach(p => p.classList.toggle('active', p.dataset.panel === mode));
+        updateSubmitState();
+      });
+    });
 
     function updateTypePreview() {
       const v = typeInput.value.trim();
@@ -1128,6 +1209,70 @@
     }
     typeInput.addEventListener('input', updateTypePreview);
 
+    function resizeCanvas() {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+      ctx.strokeStyle = '#0A1120';
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+    }
+    setTimeout(resizeCanvas, 50);
+    window.addEventListener('resize', () => setTimeout(resizeCanvas, 50));
+
+    let drawing = false;
+
+    function getPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      const pt = e.touches ? e.touches[0] : e;
+      return { x: pt.clientX - rect.left, y: pt.clientY - rect.top };
+    }
+    function start(e) {
+      e.preventDefault();
+      drawing = true;
+      const p = getPos(e);
+      ctx.beginPath();
+      ctx.moveTo(p.x, p.y);
+      if (wrap.dataset.hasDrawn !== 'true') {
+        hint.classList.add('hidden');
+        wrap.dataset.hasDrawn = 'true';
+        stampTime();
+        updateSubmitState();
+      }
+    }
+    function move(e) {
+      if (!drawing) return;
+      e.preventDefault();
+      const p = getPos(e);
+      ctx.lineTo(p.x, p.y);
+      ctx.stroke();
+    }
+    function end(e) {
+      if (!drawing) return;
+      e.preventDefault();
+      drawing = false;
+      ctx.beginPath();
+    }
+
+    canvas.addEventListener('mousedown', start);
+    canvas.addEventListener('mousemove', move);
+    canvas.addEventListener('mouseup', end);
+    canvas.addEventListener('mouseleave', end);
+    canvas.addEventListener('touchstart', start, { passive: false });
+    canvas.addEventListener('touchmove', move, { passive: false });
+    canvas.addEventListener('touchend', end, { passive: false });
+    canvas.addEventListener('touchcancel', end, { passive: false });
+
+    clearBtn.addEventListener('click', () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      hint.classList.remove('hidden');
+      wrap.dataset.hasDrawn = 'false';
+      updateSubmitState();
+    });
+
     function stampTime() {
       if (!timestamp) return;
       const now = new Date();
@@ -1136,6 +1281,7 @@
     }
   }
 
+  // ================= SUBMIT =================
   // ================= HUBSPOT FORMS API SUBMISSION =================
   // Submits signed agreements to HubSpot Forms API v3.
   // Portal: SnapShot Health (47989991)
@@ -1146,8 +1292,8 @@
   const HUBSPOT_SUBMIT_URL = 'https://api.hsforms.com/submissions/v3/integration/submit/' + HUBSPOT_PORTAL_ID + '/' + HUBSPOT_FORM_GUID;
 
   // Split a full name into HubSpot firstname/lastname. Splits on the final space:
-  //   "Jane Smith"           -> firstname="Jane",       lastname="Smith"
-  //   "Dr. Jane Smith"       -> firstname="Dr. Jane",   lastname="Smith"
+  //   "Nikhil Joshi"         -> firstname="Nikhil",     lastname="Joshi"
+  //   "Dr. Nikhil Joshi"     -> firstname="Dr. Nikhil", lastname="Joshi"
   //   "Madonna"              -> firstname="Madonna",    lastname=""
   //   "Maria de la Cruz"     -> firstname="Maria de la", lastname="Cruz" (imperfect but acceptable)
   function splitName(fullName) {
@@ -1190,10 +1336,12 @@
     const existingError = document.getElementById('submitError');
     if (existingError) existingError.remove();
 
-    // Gather signature data (typed only — drawn option removed)
+    // Gather signature data
     const wrap = document.querySelector('.sig-pad-wrap');
-    const sigMode = 'type';
-    const sigData = wrap.querySelector('.sig-type-input').value.trim();
+    const sigMode = wrap.querySelector('.sig-panel.active').dataset.panel;
+    const sigData = sigMode === 'type'
+      ? wrap.querySelector('.sig-type-input').value.trim()
+      : wrap.querySelector('.sig-canvas').toDataURL('image/png');
 
     // Gather all form inputs
     const practiceName = document.getElementById('practiceName').value.trim();
@@ -1297,6 +1445,89 @@
       showInlineError('We could not reach our servers.');
     }
   }
+
+  // ================= PDF MODE (?pdf_mode=1) =================
+  // Renders an executed view of the agreement for PDFShift to capture.
+  // Inputs are pre-filled by prefillFromURL() and initProgramAndTerm();
+  // this IIFE finishes the job by:
+  //   1. Populating the typed signature with the signer's name (Dancing Script renders it)
+  //   2. Checking the agreement checkbox
+  //   3. Stamping the timestamp from the `signed_at` URL param (ISO 8601)
+  //   4. Replacing the Sign & Submit button with a green EXECUTED badge
+  //   5. Making all inputs read-only and adding body.pdf-mode for styling
+  //
+  // Expected URL params (all optional except pdf_mode=1):
+  //   pdf_mode=1                 — activates PDF mode
+  //   practice, signer, title, email — populated by prefillFromURL()
+  //   program, term              — populated by initProgramAndTerm()
+  //   signed_at=2026-05-11T15:42:00-05:00  — ISO timestamp from HubSpot
+  //   signature_mode=type|draw   — drawn signatures fall back to typed rendering
+  //                                of the signer's name (drawn sig data can't fit in URL)
+  (function applyPdfMode() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('pdf_mode') !== '1') return;
+
+    document.body.classList.add('pdf-mode');
+
+    // 1. Populate typed signature with signer name
+    const signerName = params.get('signer') || '';
+    const wrap = document.querySelector('.sig-pad-wrap');
+    if (wrap && signerName) {
+      // Force type-mode tab active (drawn signatures fall back to typed rendering)
+      wrap.querySelectorAll('.sig-tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.mode === 'type');
+      });
+      wrap.querySelectorAll('.sig-panel').forEach(p => {
+        p.classList.toggle('active', p.dataset.panel === 'type');
+      });
+      const typeInput = wrap.querySelector('.sig-type-input');
+      const typePreview = wrap.querySelector('[data-preview]');
+      if (typeInput) typeInput.value = signerName;
+      if (typePreview) {
+        typePreview.textContent = signerName;
+        typePreview.classList.remove('empty');
+      }
+    }
+
+    // 2. Check the agreement checkbox
+    const cb = document.getElementById('agreeCheckbox');
+    const row = document.getElementById('checkboxRow');
+    if (cb) cb.checked = true;
+    if (row) row.classList.add('checked');
+
+    // 3. Stamp the timestamp from signed_at param (or fall back to now)
+    const ts = document.querySelector('[data-timestamp]');
+    if (ts) {
+      const signedAt = params.get('signed_at');
+      let date = new Date();
+      if (signedAt) {
+        const parsed = new Date(signedAt);
+        if (!isNaN(parsed.getTime())) date = parsed;
+      }
+      const opts = { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' };
+      ts.textContent = date.toLocaleString('en-US', opts);
+    }
+
+    // 4. Replace Sign & Submit button with EXECUTED badge
+    const submitBtn = document.getElementById('submitBtn');
+    if (submitBtn) {
+      const badge = document.createElement('div');
+      badge.className = 'executed-badge';
+      badge.innerHTML = '<span class="executed-check">\u2713</span> Executed';
+      submitBtn.parentNode.replaceChild(badge, submitBtn);
+    }
+
+    // 5. Replace submit-hint with executed copy
+    const hint = document.querySelector('.submit-hint');
+    if (hint) {
+      hint.innerHTML = 'Executed electronically under ESIGN, UETA, and HIPAA &sect;164.504. A complete record is retained by SnapShot Health.';
+    }
+
+    // 6. Make text inputs read-only
+    document.querySelectorAll('.field-input, .sig-type-input').forEach(el => {
+      el.setAttribute('readonly', 'readonly');
+    });
+  })();
 </script>
 
 </body>
