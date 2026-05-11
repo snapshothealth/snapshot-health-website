@@ -1496,6 +1496,9 @@
     if (row) row.classList.add('checked');
 
     // 3. Stamp the timestamp from signed_at param (or fall back to now)
+    // Force America/Chicago (Central Time) for customer-facing PDFs regardless of
+    // where PDFShift's render server lives. Practices in Dallas seeing a UTC stamp
+    // would assume the timestamp is wrong.
     const ts = document.querySelector('[data-timestamp]');
     if (ts) {
       const signedAt = params.get('signed_at');
@@ -1504,7 +1507,11 @@
         const parsed = new Date(signedAt);
         if (!isNaN(parsed.getTime())) date = parsed;
       }
-      const opts = { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' };
+      const opts = {
+        month: 'short', day: 'numeric', year: 'numeric',
+        hour: 'numeric', minute: '2-digit', timeZoneName: 'short',
+        timeZone: 'America/Chicago'
+      };
       ts.textContent = date.toLocaleString('en-US', opts);
     }
 
