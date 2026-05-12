@@ -922,12 +922,12 @@
         <p class="agreement-text">By signing below, you and the Practice you represent execute three agreements with SnapShot Health:</p>
         <ol class="agreement-list">
           <li>The <strong>Service Order Form</strong> shown below, covering your selected program, pricing, and term.</li>
-          <li>The <a href="https://snapshothealth.io/clinician-terms" target="_blank" rel="noopener"><strong>Master Service Agreement</strong></a>, which governs the partnership.</li>
+          <li>The <a href="https://snapshothealth.io/clinician-terms" id="msaIntroLink" target="_blank" rel="noopener"><strong>Master Service Agreement</strong></a>, which governs the partnership.</li>
           <li>The <a href="https://snapshothealth.io/baa" target="_blank" rel="noopener"><strong>Business Associate Agreement</strong></a>, required under HIPAA &sect;164.504(e).</li>
         </ol>
         <p class="agreement-text-note">Your signature below constitutes execution of all three documents.</p>
         <ul class="doc-links">
-          <li><a href="https://snapshothealth.io/clinician-terms" target="_blank" rel="noopener" class="doc-link-btn">Master Service Agreement <span class="arrow">→</span></a></li>
+          <li><a href="https://snapshothealth.io/clinician-terms" id="msaDocLink" target="_blank" rel="noopener" class="doc-link-btn">Master Service Agreement <span class="arrow">→</span></a></li>
           <li><a href="https://snapshothealth.io/baa" target="_blank" rel="noopener" class="doc-link-btn">Business Associate Agreement <span class="arrow">→</span></a></li>
         </ul>
       </div>
@@ -1041,6 +1041,8 @@
   const PROGRAM_CONFIG = {
     'turnkey': {
       name: 'Remote Concierge Care',
+      hubspotValue: 'Turnkey',                  // matches HubSpot Deal property service_program dropdown
+      audienceCompat: ['physician'],            // turnkey is not offered to HHA customers
       pricingMode: 'per-code',
       docTitle: 'Sign & Start · Remote Concierge Care',
       programNote: 'Per-CPT pricing for Remote Concierge Care. SnapShot Health\u2019s Care Concierge team performs enrollment, monitoring, documentation, and delivers billing-ready reports. Your Performance Guarantee applies \u2014 you only pay when patients are billable.',
@@ -1049,6 +1051,8 @@
     },
     'software-no-device': {
       name: 'Software Platform \u2014 No Device',
+      hubspotValue: 'Software 20',              // matches HubSpot Deal property service_program dropdown
+      audienceCompat: ['physician'],            // No-Device tier is physician-only (HHA always gets device)
       pricingMode: 'flat',
       flatRate: 20,
       docTitle: 'Sign & Start · Software Platform',
@@ -1058,6 +1062,8 @@
     },
     'software-with-device': {
       name: 'Software Platform \u2014 With Device',
+      hubspotValue: 'Software 45',              // matches HubSpot Deal property service_program dropdown
+      audienceCompat: ['physician', 'hha'],     // Software 45 is the only tier offered to HHA customers
       pricingMode: 'flat',
       flatRate: 45,
       docTitle: 'Sign & Start · Software Platform',
@@ -1067,15 +1073,56 @@
     }
   };
 
+  // ================= AUDIENCE CONFIG =================
+  // Audience is read from ?audience= URL param. Two valid values:
+  //   - physician                — Physician practices, clinics, multi-specialty groups
+  //   - hha                      — Licensed Home Health Agencies
+  //
+  // Audience controls which Master Service Agreement is referenced.
+  // Both audiences sign the same BAA.
+  const AUDIENCE_CONFIG = {
+    'physician': {
+      hubspotValue: 'Physician',
+      msaUrl: 'https://snapshothealth.io/clinician-terms',
+      msaLabel: 'Master Service Agreement'
+    },
+    'hha': {
+      hubspotValue: 'HHA',
+      msaUrl: 'https://snapshothealth.io/hha-clinician-terms',
+      msaLabel: 'Master Service Agreement (Home Health Agency)'
+    }
+  };
+
   let selectedProgram = 'turnkey';
   let selectedTerm = 'month-to-month';
+  let selectedAudience = 'physician';
 
   (function initProgramAndTerm() {
     const params = new URLSearchParams(window.location.search);
     const programParam = params.get('program');
-    if (programParam && PROGRAM_CONFIG[programParam]) {
-      selectedProgram = programParam;
+    const audienceParam = params.get('audience');
+
+    // Validate both program and audience are present and recognized.
+    // No silent default to turnkey/physician — every signing link
+    // must explicitly identify the tier and audience to prevent the
+    // wrong MSA being signed.
+    const programValid = programParam && PROGRAM_CONFIG[programParam];
+    const audienceValid = audienceParam && AUDIENCE_CONFIG[audienceParam];
+
+    if (!programValid || !audienceValid) {
+      showInvalidParamsError(!programValid, !audienceValid);
+      return;
     }
+
+    // Both valid — check the combination is allowed (e.g. turnkey+hha is not).
+    if (PROGRAM_CONFIG[programParam].audienceCompat.indexOf(audienceParam) === -1) {
+      showIncompatibleComboError(programParam, audienceParam);
+      return;
+    }
+
+    selectedProgram = programParam;
+    selectedAudience = audienceParam;
+
     const termParam = params.get('term');
     if (termParam === 'month-to-month' || termParam === '12-month') {
       selectedTerm = termParam;
@@ -1086,8 +1133,39 @@
       if (banner) banner.style.display = 'block';
     }
     applyProgramConfig();
+    applyAudienceConfig();
     applyTermSelection();
   })();
+
+  // ================= ERROR SCREENS =================
+  // Shown when URL params are missing or incompatible. Replaces the
+  // signing form entirely so the user can't accidentally proceed
+  // with the wrong MSA. Errors include contact info to recover.
+  function showInvalidParamsError(missingProgram, missingAudience) {
+    const reasons = [];
+    if (missingProgram) reasons.push('a valid <code>program</code> parameter');
+    if (missingAudience) reasons.push('a valid <code>audience</code> parameter');
+    document.body.innerHTML = '<div style="max-width:560px;margin:80px auto;padding:40px;font-family:Outfit,sans-serif;background:#fff;border-radius:8px;box-shadow:0 4px 14px rgba(11,79,138,0.08);">' +
+      '<h1 style="font-size:1.5rem;color:#0F1A2E;margin:0 0 1rem;">Signing link incomplete</h1>' +
+      '<p style="color:#374151;line-height:1.6;">This signing link is missing ' + reasons.join(' and ') + '. ' +
+      'Please use the personalized link your SnapShot Health representative sent you, or contact us to receive a corrected link.</p>' +
+      '<p style="color:#374151;line-height:1.6;margin-top:1.5rem;">' +
+      '<strong>SnapShot Health</strong><br>' +
+      '<a href="mailto:careteam@snapshothealth.io" style="color:#0F1A2E;">careteam@snapshothealth.io</a><br>' +
+      '<a href="tel:+14693423753" style="color:#0F1A2E;">(469) 342-3753</a></p></div>';
+  }
+
+  function showIncompatibleComboError(program, audience) {
+    const programName = PROGRAM_CONFIG[program] ? PROGRAM_CONFIG[program].name : program;
+    const audienceLabel = audience === 'hha' ? 'Home Health Agency' : 'physician practice';
+    document.body.innerHTML = '<div style="max-width:560px;margin:80px auto;padding:40px;font-family:Outfit,sans-serif;background:#fff;border-radius:8px;box-shadow:0 4px 14px rgba(11,79,138,0.08);">' +
+      '<h1 style="font-size:1.5rem;color:#0F1A2E;margin:0 0 1rem;">Program not available for your organization type</h1>' +
+      '<p style="color:#374151;line-height:1.6;">The <strong>' + programName + '</strong> program is not offered to ' + audienceLabel + ' customers. Please contact your SnapShot Health representative for a corrected signing link.</p>' +
+      '<p style="color:#374151;line-height:1.6;margin-top:1.5rem;">' +
+      '<strong>SnapShot Health</strong><br>' +
+      '<a href="mailto:careteam@snapshothealth.io" style="color:#0F1A2E;">careteam@snapshothealth.io</a><br>' +
+      '<a href="tel:+14693423753" style="color:#0F1A2E;">(469) 342-3753</a></p></div>';
+  }
 
   function applyProgramConfig() {
     const config = PROGRAM_CONFIG[selectedProgram];
@@ -1128,6 +1206,22 @@
     const orderFormLink = document.getElementById('serviceOrderFormLink');
     if (orderFormLink) {
       orderFormLink.href = 'https://snapshothealth.io/order?program=' + encodeURIComponent(selectedProgram);
+    }
+  }
+
+  function applyAudienceConfig() {
+    const config = AUDIENCE_CONFIG[selectedAudience];
+    if (!config) return;
+
+    // Update both MSA links (intro list reference and doc-links button)
+    // to point at the audience-appropriate Master Service Agreement.
+    const msaIntroLink = document.getElementById('msaIntroLink');
+    if (msaIntroLink) {
+      msaIntroLink.href = config.msaUrl;
+    }
+    const msaDocLink = document.getElementById('msaDocLink');
+    if (msaDocLink) {
+      msaDocLink.href = config.msaUrl;
     }
   }
 
@@ -1358,6 +1452,8 @@
       signer_email: signerEmail,
       program: selectedProgram,
       program_name: PROGRAM_CONFIG[selectedProgram].name.replace(/\u2014/g, '\u2014'),
+      service_program: PROGRAM_CONFIG[selectedProgram].hubspotValue,   // matches HubSpot Deal dropdown
+      audience: AUDIENCE_CONFIG[selectedAudience].hubspotValue,        // matches HubSpot Deal dropdown
       term: selectedTerm,
       discount_applied: selectedTerm === '12-month' ? '5%' : '',
       signature_mode: sigMode,
@@ -1380,6 +1476,8 @@
         { objectTypeId: '0-2', name: 'name',                value: payload.practice_name },
         { objectTypeId: '0-1', name: 'program',             value: payload.program },
         { objectTypeId: '0-1', name: 'program_name',        value: payload.program_name },
+        { objectTypeId: '0-1', name: 'service_program',     value: payload.service_program },
+        { objectTypeId: '0-1', name: 'audience',            value: payload.audience },
         { objectTypeId: '0-1', name: 'term',                value: payload.term },
         { objectTypeId: '0-1', name: 'discount_applied',    value: payload.discount_applied },
         { objectTypeId: '0-1', name: 'signature_mode',      value: payload.signature_mode },
