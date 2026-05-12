@@ -309,31 +309,7 @@
     border-color: var(--brand-cyan);
     box-shadow: 0 0 0 3px rgba(43, 169, 164, 0.1);
   }
-  .sig-tabs {
-    display: flex;
-    background: var(--light-bg);
-    border-bottom: 1px solid var(--line);
-  }
-  .sig-tab {
-    flex: 1;
-    padding: 0.65rem 0.75rem;
-    background: transparent;
-    border: none;
-    font: 600 0.78rem 'Outfit', sans-serif;
-    letter-spacing: 0.04em;
-    color: var(--ink-muted);
-    cursor: pointer;
-    transition: all 0.15s ease;
-    border-bottom: 2px solid transparent;
-  }
-  .sig-tab:hover { color: var(--navy-800); }
-  .sig-tab.active {
-    color: var(--navy-900);
-    background: var(--white);
-    border-bottom-color: var(--brand-cyan);
-  }
-  .sig-panel { display: none; padding: 14px; position: relative; }
-  .sig-panel.active { display: block; }
+  .sig-panel { padding: 14px; position: relative; }
 
   .sig-type-input {
     width: 100%;
@@ -367,42 +343,6 @@
     color: #B0B8C2;
     font-style: italic;
   }
-
-  .sig-canvas-wrap { position: relative; }
-  .sig-canvas {
-    width: 100%;
-    height: 110px;
-    background: repeating-linear-gradient(to bottom, transparent 0, transparent 54px, var(--line-soft) 54px, var(--line-soft) 55px);
-    border-bottom: 1px solid var(--ink-heading);
-    cursor: crosshair;
-    touch-action: none;
-    display: block;
-  }
-  .sig-canvas-hint {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 0.82rem;
-    color: #B0B8C2;
-    font-style: italic;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  .sig-canvas-hint.hidden { opacity: 0; }
-  .sig-clear-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    padding: 3px 10px;
-    background: var(--white);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-sm);
-    font: 500 0.7rem 'Outfit', sans-serif;
-    color: var(--ink-muted);
-    cursor: pointer;
-  }
-  .sig-clear-btn:hover { background: var(--light-bg); color: var(--navy-800); }
 
   .sig-caption {
     display: flex;
@@ -472,8 +412,6 @@
   body.pdf-mode .sig-type-input[readonly] {
     cursor: default;
   }
-  body.pdf-mode .sig-tabs { display: none; }
-  body.pdf-mode .sig-panel[data-panel="draw"] { display: none !important; }
   body.pdf-mode .sig-type-input {
     border: none;
     padding: 0;
@@ -482,8 +420,6 @@
     margin-bottom: 0.25rem;
     pointer-events: none;
   }
-  body.pdf-mode .sig-canvas-hint,
-  body.pdf-mode .sig-clear-btn { display: none; }
   body.pdf-mode .checkbox-input { pointer-events: none; }
   body.pdf-mode .term-card { pointer-events: none; }
 
@@ -598,9 +534,7 @@
   @media print {
     body { background: white; }
     .doc { box-shadow: none; margin: 0; max-width: 100%; }
-    .submit-btn, .sig-tabs, .sig-clear-btn, .sig-canvas-hint { display: none !important; }
-    .sig-panel { display: block !important; }
-    .sig-panel:not(.active) { display: none !important; }
+    .submit-btn { display: none !important; }
   }
 
   /* === Program badge (identifies which program is being signed) === */
@@ -942,20 +876,9 @@
       <div class="sig-section">
         <label class="field-label" style="margin-bottom: 0.5rem;">Signature</label>
         <div class="sig-pad-wrap" data-sigpad="main">
-          <div class="sig-tabs" role="tablist">
-            <button type="button" class="sig-tab active" data-mode="type">✍ Type</button>
-            <button type="button" class="sig-tab" data-mode="draw">✎ Draw</button>
-          </div>
-          <div class="sig-panel active" data-panel="type">
+          <div class="sig-panel" data-panel="type">
             <input type="text" class="sig-type-input" placeholder="Type your full legal name…" autocomplete="off">
             <div class="sig-type-preview empty" data-preview></div>
-          </div>
-          <div class="sig-panel" data-panel="draw">
-            <div class="sig-canvas-wrap">
-              <canvas class="sig-canvas" width="600" height="110"></canvas>
-              <div class="sig-canvas-hint">Sign with finger, stylus, or mouse</div>
-              <button type="button" class="sig-clear-btn">Clear</button>
-            </div>
           </div>
           <div class="sig-caption">
             <div>
@@ -1257,9 +1180,7 @@
   function hasSignature() {
     const wrap = document.querySelector('.sig-pad-wrap');
     const typeVal = wrap.querySelector('.sig-type-input').value.trim();
-    const activePanel = wrap.querySelector('.sig-panel.active').dataset.panel;
-    if (activePanel === 'type') return typeVal.length > 0;
-    return wrap.dataset.hasDrawn === 'true';
+    return typeVal.length > 0;
   }
 
   checkbox.addEventListener('change', () => {
@@ -1275,34 +1196,9 @@
   document.querySelectorAll('.sig-pad-wrap').forEach(initSigPad);
 
   function initSigPad(wrap) {
-    const tabs = wrap.querySelectorAll('.sig-tab');
-    const panels = wrap.querySelectorAll('.sig-panel');
     const typeInput = wrap.querySelector('.sig-type-input');
     const typePreview = wrap.querySelector('[data-preview]');
-    const canvas = wrap.querySelector('.sig-canvas');
-    const hint = wrap.querySelector('.sig-canvas-hint');
-    const clearBtn = wrap.querySelector('.sig-clear-btn');
     const timestamp = wrap.querySelector('[data-timestamp]');
-    const ctx = canvas.getContext('2d');
-
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        const mode = tab.dataset.mode;
-        tabs.forEach(t => t.classList.toggle('active', t === tab));
-        panels.forEach(p => p.classList.toggle('active', p.dataset.panel === mode));
-        // Lazy-init the canvas the first time the Draw tab is activated.
-        // We can't size it correctly at page load because the Draw panel
-        // is hidden (display: none) and getBoundingClientRect returns 0x0.
-        if (mode === 'draw' && !wrap.dataset.canvasReady) {
-          // Delay one frame so the .active class takes effect before measuring
-          requestAnimationFrame(() => {
-            resizeCanvas();
-            wrap.dataset.canvasReady = 'true';
-          });
-        }
-        updateSubmitState();
-      });
-    });
 
     function updateTypePreview() {
       const v = typeInput.value.trim();
@@ -1312,74 +1208,6 @@
       updateSubmitState();
     }
     typeInput.addEventListener('input', updateTypePreview);
-
-    function resizeCanvas() {
-      const rect = canvas.getBoundingClientRect();
-      // Guard: do nothing if canvas is hidden (rect is 0x0).
-      // Setting canvas.width=0 would erase any existing signature drawing.
-      if (rect.width === 0 || rect.height === 0) return;
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      ctx.scale(dpr, dpr);
-      ctx.strokeStyle = '#0A1120';
-      ctx.lineWidth = 2;
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-    }
-    // No eager init at page load - canvas is in a hidden panel, so resize
-    // would clobber it to 0x0. We initialize lazily on first Draw tab click.
-    window.addEventListener('resize', () => setTimeout(resizeCanvas, 50));
-
-    let drawing = false;
-
-    function getPos(e) {
-      const rect = canvas.getBoundingClientRect();
-      const pt = e.touches ? e.touches[0] : e;
-      return { x: pt.clientX - rect.left, y: pt.clientY - rect.top };
-    }
-    function start(e) {
-      e.preventDefault();
-      drawing = true;
-      const p = getPos(e);
-      ctx.beginPath();
-      ctx.moveTo(p.x, p.y);
-      if (wrap.dataset.hasDrawn !== 'true') {
-        hint.classList.add('hidden');
-        wrap.dataset.hasDrawn = 'true';
-        stampTime();
-        updateSubmitState();
-      }
-    }
-    function move(e) {
-      if (!drawing) return;
-      e.preventDefault();
-      const p = getPos(e);
-      ctx.lineTo(p.x, p.y);
-      ctx.stroke();
-    }
-    function end(e) {
-      if (!drawing) return;
-      e.preventDefault();
-      drawing = false;
-      ctx.beginPath();
-    }
-
-    canvas.addEventListener('mousedown', start);
-    canvas.addEventListener('mousemove', move);
-    canvas.addEventListener('mouseup', end);
-    canvas.addEventListener('mouseleave', end);
-    canvas.addEventListener('touchstart', start, { passive: false });
-    canvas.addEventListener('touchmove', move, { passive: false });
-    canvas.addEventListener('touchend', end, { passive: false });
-    canvas.addEventListener('touchcancel', end, { passive: false });
-
-    clearBtn.addEventListener('click', () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      hint.classList.remove('hidden');
-      wrap.dataset.hasDrawn = 'false';
-      updateSubmitState();
-    });
 
     function stampTime() {
       if (!timestamp) return;
@@ -1444,12 +1272,10 @@
     const existingError = document.getElementById('submitError');
     if (existingError) existingError.remove();
 
-    // Gather signature data
+    // Gather signature data (typed signature only)
     const wrap = document.querySelector('.sig-pad-wrap');
-    const sigMode = wrap.querySelector('.sig-panel.active').dataset.panel;
-    const sigData = sigMode === 'type'
-      ? wrap.querySelector('.sig-type-input').value.trim()
-      : wrap.querySelector('.sig-canvas').toDataURL('image/png');
+    const sigMode = 'type';
+    const sigData = wrap.querySelector('.sig-type-input').value.trim();
 
     // Gather all form inputs
     const practiceName = document.getElementById('practiceName').value.trim();
@@ -1583,13 +1409,6 @@
     const signerName = params.get('signer') || '';
     const wrap = document.querySelector('.sig-pad-wrap');
     if (wrap && signerName) {
-      // Force type-mode tab active (drawn signatures fall back to typed rendering)
-      wrap.querySelectorAll('.sig-tab').forEach(t => {
-        t.classList.toggle('active', t.dataset.mode === 'type');
-      });
-      wrap.querySelectorAll('.sig-panel').forEach(p => {
-        p.classList.toggle('active', p.dataset.panel === 'type');
-      });
       const typeInput = wrap.querySelector('.sig-type-input');
       const typePreview = wrap.querySelector('[data-preview]');
       if (typeInput) typeInput.value = signerName;
