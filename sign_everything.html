@@ -423,6 +423,26 @@
   body.pdf-mode .checkbox-input { pointer-events: none; }
   body.pdf-mode .term-card { pointer-events: none; }
 
+  /* ================= PDF MODE — page break layout =================
+   * Forces a clean two-page layout when PDFShift renders:
+   *   Page 1: Hero, practice info, term selection, service description
+   *   Page 2: Agreement language, MSA/BAA links, checkbox, signature, executed badge
+   * Without this, the service-description card splits across pages.
+   * The page-break anchors to a stable DOM element (.agreement), so the
+   * break point is consistent across all program/audience/term combinations. */
+  body.pdf-mode .agreement {
+    page-break-before: always;
+    break-before: page;
+  }
+  body.pdf-mode .service-card,
+  body.pdf-mode .agreement,
+  body.pdf-mode .checkbox-row,
+  body.pdf-mode .sig-section,
+  body.pdf-mode .sig-pad-wrap,
+  body.pdf-mode .executed-badge {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
   .executed-badge {
     width: 100%;
     padding: 1.1rem 1.25rem;
