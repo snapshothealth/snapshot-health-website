@@ -1585,6 +1585,139 @@
     padding: 0;
   }
 
+  /* ================= SOF PURPOSE NOTE (Fix C reframe, always visible) =======
+   * Surfaces the intent of the SOF: program/pricing reference, not data-capture.
+   * Practice info fields are completed during onboarding by Lucy/Angie.
+   * Per CONTRACT_DOCS_FIX_HANDOFF.md (May 13, 2026), Choice 1.
+   */
+  .sof-purpose-note {
+    margin: 0 0 1.5rem;
+    padding: 1rem 1.25rem;
+    background: #F0F9FF;
+    border-left: 4px solid var(--brand-cyan);
+    border-radius: 0 6px 6px 0;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--ink-body);
+  }
+  .sof-purpose-note strong { color: var(--ink-heading); }
+
+  /* ================= PDF MODE (?pdf_mode=1) =================
+   * Fix A + Fix B + Fix D from CONTRACT_DOCS_FIX_HANDOFF.md (May 13, 2026).
+   * Hides § 08 signature widgets, populates practiceName from URL params,
+   * renders an executed attestation panel, neutralizes cross-doc anchor
+   * links (Fix D).
+   */
+  body.pdf-mode #signatures-section { display: none !important; }
+  body.pdf-mode .sig-intro,
+  body.pdf-mode .signature-block,
+  body.pdf-mode .sof-signature-block { display: none !important; }
+
+  body.pdf-mode .field-input,
+  body.pdf-mode .field-input[readonly] {
+    background: var(--paper);
+    border-color: #E5E7EB;
+    color: var(--ink-heading);
+  }
+  body.pdf-mode .field-input::placeholder { color: transparent; }
+  body.pdf-mode .sig-line::placeholder { color: transparent; }
+
+  body.pdf-mode .executed-attestation {
+    margin: 2rem 0 1rem;
+    padding: 1.75rem 1.75rem 1.5rem;
+    border: 1px solid var(--brand-teal);
+    border-top: 4px solid var(--brand-teal);
+    border-radius: 8px;
+    background: linear-gradient(180deg, #F0FDFA 0%, #FAFBFD 100%);
+    page-break-inside: avoid;
+  }
+  body.pdf-mode .executed-attestation-head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #D1FAE5;
+  }
+  body.pdf-mode .executed-badge-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.75rem;
+    background: var(--brand-teal);
+    color: #fff;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    border-radius: 999px;
+    text-transform: uppercase;
+  }
+  body.pdf-mode .executed-attestation-title {
+    font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+    font-weight: 600;
+    color: var(--ink-heading);
+    font-size: 1.05rem;
+  }
+  body.pdf-mode .executed-attestation-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+  body.pdf-mode .executed-attestation-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  body.pdf-mode .executed-attestation-label {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  body.pdf-mode .executed-attestation-value {
+    font-family: 'Inter', system-ui, sans-serif;
+    color: var(--ink-heading);
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+  body.pdf-mode .executed-attestation-signature {
+    font-family: 'Dancing Script', 'Brush Script MT', cursive;
+    font-size: 2rem;
+    color: var(--ink-heading);
+    line-height: 1;
+    padding: 0.25rem 0 0.4rem;
+    border-bottom: 1px solid var(--ink-muted);
+    margin-bottom: 0.4rem;
+  }
+  body.pdf-mode .executed-attestation-footnote {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    line-height: 1.5;
+    padding-top: 0.85rem;
+    border-top: 1px solid #D1FAE5;
+  }
+  body.pdf-mode .executed-attestation-footnote strong { color: var(--ink-heading); }
+
+  /* Fix D: neutralize cross-doc anchor links so the executed PDF doesn't
+   * surface live blank templates. */
+  body.pdf-mode a[href*="snapshothealth.io/order"],
+  body.pdf-mode a[href*="snapshothealth.io/baa"],
+  body.pdf-mode a[href*="snapshothealth.io/sign"],
+  body.pdf-mode a[href*="snapshothealth.io/clinician-terms"],
+  body.pdf-mode a[href*="snapshothealth.io/hha-clinician-terms"],
+  body.pdf-mode a[href*="snapshothealth.io/review-and-sign"] {
+    color: var(--ink-heading);
+    text-decoration: none;
+    pointer-events: none;
+    cursor: default;
+  }
+
   </style>
 </head>
 <body>
@@ -1646,6 +1779,13 @@
         <span class="section-num">§ 01</span>
         <h2 class="section-title">Practice Information</h2>
       </div>
+
+      <p class="sof-purpose-note">
+        This Service Order Form documents your <strong>selected program, service package,
+        and fee schedule</strong>. Practice contact details below are captured by your
+        SnapShot Health Care Concierge team during onboarding &mdash; they do not need to
+        be completed before signing at <span style="white-space: nowrap;">snapshothealth.io/sign</span>.
+      </p>
 
       <div class="grid grid-2">
         <div class="field grid-span-2">
@@ -2062,7 +2202,7 @@
     </section>
 
     <!-- ================= § 07 SIGNATURES ================= -->
-    <section class="section">
+    <section class="section" id="signatures-section">
       <div class="section-header">
         <span class="section-num">§ 08</span>
         <h2 class="section-title">Acceptance &amp; Signatures</h2>
@@ -2421,6 +2561,134 @@
         block.classList.remove('active');
       }
     });
+  })();
+</script>
+
+<script>
+  // ================= PDF MODE (?pdf_mode=1) =================
+  // Fix A + Fix B + Fix D from CONTRACT_DOCS_FIX_HANDOFF.md (May 13, 2026).
+  //
+  // When this page is fetched standalone with ?pdf_mode=1 (PDFShift render OR
+  // clicked from an executed PDF), activates an executed view:
+  //   1. Hides § 08 Acceptance & Signatures (vestigial Type/Draw widgets)
+  //      and any field placeholders via CSS
+  //   2. Populates #practiceName from URL param
+  //   3. Injects an "Executed via /sign-everything" attestation panel
+  //   4. Neutralizes cross-doc anchor links via CSS (no live blank templates)
+  //
+  // Per Fix C (Choice 1), the remaining § 01 fields (Address, EIN, NPI,
+  // contact roles) intentionally stay blank in pdf_mode. They are captured
+  // by the Care Concierge team during onboarding. The sof-purpose-note
+  // (always visible, not just in pdf_mode) explains this.
+  //
+  // Expected URL params (all optional except pdf_mode=1):
+  //   pdf_mode=1                — activates PDF mode
+  //   practice                  — Practice / Organization legal name
+  //   signer                    — Authorized signatory name
+  //   title                     — Signatory title
+  //   email                     — Signatory email
+  //   program                   — turnkey | software-no-device | software-with-device
+  //                                (consumed by initOrderProgram above)
+  //   signed_at                 — ISO 8601 timestamp (forced to America/Chicago)
+  (function applyPdfMode() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('pdf_mode') !== '1') return;
+
+    document.body.classList.add('pdf-mode');
+
+    const practice = params.get('practice') || '';
+    const signer = params.get('signer') || '';
+    const title = params.get('title') || '';
+    const email = params.get('email') || '';
+    const signedAt = params.get('signed_at');
+
+    // 1. Populate the practice name field (only id-attached field on this page)
+    if (practice) {
+      const practiceField = document.getElementById('practiceName');
+      if (practiceField) {
+        practiceField.value = practice;
+        practiceField.setAttribute('readonly', 'readonly');
+      }
+    }
+
+    // 2. Format timestamp in America/Chicago to match /sign-everything pdf_mode
+    let dateStr = '';
+    let date = new Date();
+    if (signedAt) {
+      const parsed = new Date(signedAt);
+      if (!isNaN(parsed.getTime())) date = parsed;
+    }
+    try {
+      dateStr = date.toLocaleString('en-US', {
+        month: 'short', day: 'numeric', year: 'numeric',
+        hour: 'numeric', minute: '2-digit', timeZoneName: 'short',
+        timeZone: 'America/Chicago'
+      });
+    } catch (e) {
+      dateStr = date.toLocaleString('en-US');
+    }
+
+    // 3. Build and insert the attestation panel
+    const esc = (s) => String(s).replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[c]);
+
+    const panel = document.createElement('div');
+    panel.className = 'executed-attestation';
+    panel.innerHTML = `
+      <div class="executed-attestation-head">
+        <span class="executed-badge-inline"><span aria-hidden="true">\u2713</span> Executed</span>
+        <span class="executed-attestation-title">Service Order Form &mdash; Acceptance Record</span>
+      </div>
+      <div class="executed-attestation-grid">
+        <div class="executed-attestation-row" style="grid-column: 1 / -1;">
+          <span class="executed-attestation-label">Customer (Practice)</span>
+          <span class="executed-attestation-value">${esc(practice) || '&mdash;'}</span>
+        </div>
+        <div class="executed-attestation-row" style="grid-column: 1 / -1;">
+          <span class="executed-attestation-label">Signature of Authorized Signatory</span>
+          <span class="executed-attestation-signature">${esc(signer) || '&mdash;'}</span>
+        </div>
+        <div class="executed-attestation-row">
+          <span class="executed-attestation-label">Printed Name</span>
+          <span class="executed-attestation-value">${esc(signer) || '&mdash;'}</span>
+        </div>
+        <div class="executed-attestation-row">
+          <span class="executed-attestation-label">Title</span>
+          <span class="executed-attestation-value">${esc(title) || '&mdash;'}</span>
+        </div>
+        <div class="executed-attestation-row">
+          <span class="executed-attestation-label">Email</span>
+          <span class="executed-attestation-value">${esc(email) || '&mdash;'}</span>
+        </div>
+        <div class="executed-attestation-row">
+          <span class="executed-attestation-label">Executed</span>
+          <span class="executed-attestation-value">${esc(dateStr) || '&mdash;'}</span>
+        </div>
+        <div class="executed-attestation-row" style="grid-column: 1 / -1;">
+          <span class="executed-attestation-label">SnapShot Health Inc.</span>
+          <span class="executed-attestation-value">Jimmy LaRose, Founder &amp; CEO</span>
+        </div>
+      </div>
+      <p class="executed-attestation-footnote">
+        <strong>This Service Order Form was executed</strong> as part of a unified signing
+        session at <span>snapshothealth.io/sign-everything</span>, where the Customer\u2019s
+        authorized signatory accepted this Service Order Form together with the Master
+        Service Agreement and Business Associate Agreement under ESIGN Act &amp; UETA.
+        Practice operational details (address, EIN/NPI, contact roles) are captured
+        during onboarding by the SnapShot Health Care Concierge team. A complete record
+        of execution is retained by SnapShot Health.
+      </p>
+    `;
+
+    // Insert before the (now-hidden) signatures section so the document flow
+    // ends with the attestation panel as the final block.
+    const sigSection = document.getElementById('signatures-section');
+    if (sigSection && sigSection.parentNode) {
+      sigSection.parentNode.insertBefore(panel, sigSection);
+    } else {
+      document.body.appendChild(panel);
+    }
   })();
 </script>
 
