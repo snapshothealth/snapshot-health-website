@@ -803,14 +803,20 @@
   }
 
   // ============ BUILD SIGN BUTTON URL ============
-  // Route to /sign-everything with program, practice info, and existing flag
-  // forwarded so the unified signing page opens pre-configured.
+  // Route to /sign-everything with program, audience, practice info, and existing
+  // flag forwarded so the unified signing page opens pre-configured.
   //
   // Program defaults to 'turnkey' (Remote Concierge Care) if not specified.
   // Valid program values: turnkey, software-no-device, software-with-device
+  // Valid audience values: physician, hha (forwarded only when explicitly set
+  // and valid, so a typo doesn't override the signing page's default).
   var programParam = params.get('program') || 'turnkey';
+  var audienceParam = params.get('audience');
   var signUrl = '/sign-everything';
   var forwarded = ['program=' + encodeURIComponent(programParam)];
+  if (audienceParam === 'physician' || audienceParam === 'hha') {
+    forwarded.push('audience=' + encodeURIComponent(audienceParam));
+  }
   if (practice) forwarded.push('practice=' + encodeURIComponent(practice));
   if (signer) forwarded.push('signer=' + encodeURIComponent(signer));
   if (title) forwarded.push('title=' + encodeURIComponent(title));
