@@ -426,13 +426,10 @@
   /* ================= PDF MODE — page break layout =================
    * Forces a clean two-page layout when PDFShift renders:
    *   Page 1: Hero, $0-upfront bar, practice info, signer info, term selection
-   *   Page 2: Continuation header → "Your Service" card → Agreement language
-   *           → MSA/BAA links → checkbox → signature → executed badge → footer
-   * Without this, the service description card splits across pages mid-paragraph.
-   * The page-break anchors to .your-service (a stable DOM block), so the break
-   * point is consistent across all program/audience/term combinations.
-   * The .pdf-continuation-header inside .your-service renders branding at the
-   * top of page 2 so the second page doesn't start cold. */
+   *   Page 2: "Your Service" card → Agreement language → MSA/BAA links →
+   *           checkbox → signature → executed badge → footer
+   * Anchored to .your-service (stable DOM block) so the break point is
+   * consistent across all program/audience/term combinations. */
   body.pdf-mode .your-service {
     page-break-before: always;
     break-before: page;
@@ -447,31 +444,30 @@
     break-inside: avoid;
   }
 
-  /* Page 2 continuation header — hidden by default, shown only in pdf_mode */
-  .pdf-continuation-header { display: none; }
-  body.pdf-mode .pdf-continuation-header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0 0 1rem;
-    margin: 0 0 1.75rem;
-    border-bottom: 2px solid var(--brand-teal);
+  /* PDF MODE — eliminate sources of an extra blank page 3:
+   *   1. background-attachment: fixed causes PDFShift to render an extra
+   *      viewport-height of fixed background after the last content block
+   *   2. .doc bottom margin (32px) + box-shadow extend past the page edge
+   *      and spill content rendering into a new page
+   *   3. @page margin tightens the page padding so content fits without
+   *      bleeding into a third page */
+  body.pdf-mode {
+    background: white !important;
+    background-image: none !important;
+    background-attachment: scroll !important;
   }
-  body.pdf-mode .pdf-continuation-mark {
-    font-family: 'Outfit', 'Inter', system-ui, sans-serif;
-    font-weight: 700;
-    font-size: 1rem;
-    color: var(--navy-900);
-    letter-spacing: -0.01em;
+  body.pdf-mode .doc {
+    margin: 0 auto !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
   }
-  body.pdf-mode .pdf-continuation-tag {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: var(--brand-cyan);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+  @media print {
+    @page {
+      margin: 0.5in;
+      size: letter;
+    }
+    body.pdf-mode { margin: 0; padding: 0; }
+    body.pdf-mode .doc { margin: 0 !important; max-width: 100% !important; }
   }
   .executed-badge {
     width: 100%;
@@ -886,12 +882,6 @@
 
       <!-- Your Service (compact display of what was configured) -->
       <div class="your-service">
-        <!-- pdf_mode only: page 2 continuation header (display:none in normal view) -->
-        <div class="pdf-continuation-header" aria-hidden="true">
-          <span class="pdf-continuation-mark">SnapShot Health</span>
-          <span class="pdf-continuation-tag">Connected Care. Better Outcomes.</span>
-        </div>
-
         <p class="your-service-label">Your Service</p>
         <div class="your-service-card">
           <div class="your-service-program">
