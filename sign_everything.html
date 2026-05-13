@@ -425,16 +425,19 @@
 
   /* ================= PDF MODE — page break layout =================
    * Forces a clean two-page layout when PDFShift renders:
-   *   Page 1: Hero, practice info, term selection, service description
-   *   Page 2: Agreement language, MSA/BAA links, checkbox, signature, executed badge
-   * Without this, the service-description card splits across pages.
-   * The page-break anchors to a stable DOM element (.agreement), so the
-   * break point is consistent across all program/audience/term combinations. */
-  body.pdf-mode .agreement {
+   *   Page 1: Hero, $0-upfront bar, practice info, signer info, term selection
+   *   Page 2: Continuation header → "Your Service" card → Agreement language
+   *           → MSA/BAA links → checkbox → signature → executed badge → footer
+   * Without this, the service description card splits across pages mid-paragraph.
+   * The page-break anchors to .your-service (a stable DOM block), so the break
+   * point is consistent across all program/audience/term combinations.
+   * The .pdf-continuation-header inside .your-service renders branding at the
+   * top of page 2 so the second page doesn't start cold. */
+  body.pdf-mode .your-service {
     page-break-before: always;
     break-before: page;
   }
-  body.pdf-mode .service-card,
+  body.pdf-mode .your-service-card,
   body.pdf-mode .agreement,
   body.pdf-mode .checkbox-row,
   body.pdf-mode .sig-section,
@@ -442,6 +445,33 @@
   body.pdf-mode .executed-badge {
     page-break-inside: avoid;
     break-inside: avoid;
+  }
+
+  /* Page 2 continuation header — hidden by default, shown only in pdf_mode */
+  .pdf-continuation-header { display: none; }
+  body.pdf-mode .pdf-continuation-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0 0 1rem;
+    margin: 0 0 1.75rem;
+    border-bottom: 2px solid var(--brand-teal);
+  }
+  body.pdf-mode .pdf-continuation-mark {
+    font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--navy-900);
+    letter-spacing: -0.01em;
+  }
+  body.pdf-mode .pdf-continuation-tag {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--brand-cyan);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
   .executed-badge {
     width: 100%;
@@ -856,6 +886,12 @@
 
       <!-- Your Service (compact display of what was configured) -->
       <div class="your-service">
+        <!-- pdf_mode only: page 2 continuation header (display:none in normal view) -->
+        <div class="pdf-continuation-header" aria-hidden="true">
+          <span class="pdf-continuation-mark">SnapShot Health</span>
+          <span class="pdf-continuation-tag">Connected Care. Better Outcomes.</span>
+        </div>
+
         <p class="your-service-label">Your Service</p>
         <div class="your-service-card">
           <div class="your-service-program">
