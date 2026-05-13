@@ -707,6 +707,110 @@
       print-color-adjust: exact;
     }
 }
+
+  /* ================= PDF MODE (?pdf_mode=1) =================
+   * Activated by the applyPdfMode() IIFE near </body>. Hides the vestigial
+   * Type/Draw signature widgets (Execution section) and renders an executed
+   * attestation panel showing the data captured at /sign-everything.
+   * Acceptance language carrying the unified-signing binding stays visible.
+   * Fix A + Fix B from CONTRACT_DOCS_FIX_HANDOFF.md (May 13, 2026).
+   */
+  body.pdf-mode .execution-section { display: none !important; }
+
+  body.pdf-mode .executed-attestation {
+    margin-top: 2rem;
+    padding: 1.75rem 1.75rem 1.5rem;
+    border: 1px solid var(--brand-teal);
+    border-top: 4px solid var(--brand-teal);
+    border-radius: 8px;
+    background: linear-gradient(180deg, #F0FDFA 0%, #FAFBFD 100%);
+    page-break-inside: avoid;
+  }
+  body.pdf-mode .executed-attestation-head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #D1FAE5;
+  }
+  body.pdf-mode .executed-badge-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.75rem;
+    background: var(--brand-teal);
+    color: #fff;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    border-radius: 999px;
+    text-transform: uppercase;
+  }
+  body.pdf-mode .executed-attestation-title {
+    font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+    font-weight: 600;
+    color: var(--ink-heading);
+    font-size: 1.05rem;
+  }
+  body.pdf-mode .executed-attestation-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+  body.pdf-mode .executed-attestation-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  body.pdf-mode .executed-attestation-label {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  body.pdf-mode .executed-attestation-value {
+    font-family: 'Inter', system-ui, sans-serif;
+    color: var(--ink-heading);
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+  body.pdf-mode .executed-attestation-signature {
+    font-family: 'Dancing Script', 'Brush Script MT', cursive;
+    font-size: 2rem;
+    color: var(--ink-heading);
+    line-height: 1;
+    padding: 0.25rem 0 0.4rem;
+    border-bottom: 1px solid var(--ink-muted);
+    margin-bottom: 0.4rem;
+  }
+  body.pdf-mode .executed-attestation-footnote {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+    line-height: 1.5;
+    padding-top: 0.85rem;
+    border-top: 1px solid #D1FAE5;
+  }
+  body.pdf-mode .executed-attestation-footnote strong { color: var(--ink-heading); }
+
+  /* Fix D: in pdf_mode, render cross-doc anchors as plain text so the
+   * executed PDF doesn't link out to live blank templates. */
+  body.pdf-mode a[href*="snapshothealth.io/order"],
+  body.pdf-mode a[href*="snapshothealth.io/baa"],
+  body.pdf-mode a[href*="snapshothealth.io/sign"],
+  body.pdf-mode a[href*="snapshothealth.io/clinician-terms"],
+  body.pdf-mode a[href*="snapshothealth.io/hha-clinician-terms"],
+  body.pdf-mode a[href*="snapshothealth.io/review-and-sign"] {
+    color: var(--ink-heading);
+    text-decoration: none;
+    pointer-events: none;
+    cursor: default;
+  }
 </style>
 </head>
 <body>
@@ -1080,6 +1184,119 @@
       timestamp.textContent = now.toLocaleString('en-US', opts);
     }
   }
+</script>
+
+<script>
+  // ================= PDF MODE (?pdf_mode=1) =================
+  // Fix A + Fix B from CONTRACT_DOCS_FIX_HANDOFF.md (May 13, 2026).
+  //
+  // When this page is fetched standalone (PDFShift render OR clicked from
+  // an executed PDF), ?pdf_mode=1 activates an executed view:
+  //   1. Hides the vestigial Execution section (Type/Draw widgets) via CSS
+  //   2. Injects an "Executed via /sign-everything" attestation panel
+  //      populated from URL params (practice, signer, title, email, signed_at)
+  //   3. Neutralizes cross-doc anchor links via CSS (no live blank templates)
+  //
+  // The legal binding of the BAA flows from the signature on /sign-everything
+  // under ESIGN/UETA & HIPAA §164.504. This view documents that fact.
+  //
+  // Expected URL params (all optional except pdf_mode=1):
+  //   pdf_mode=1                — activates PDF mode
+  //   practice                  — Covered Entity (practice) legal name
+  //   signer                    — Authorized signatory name
+  //   title                     — Signatory title
+  //   email                     — Signatory email
+  //   signed_at                 — ISO 8601 timestamp (forced to America/Chicago)
+  (function applyPdfMode() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('pdf_mode') !== '1') return;
+
+    document.body.classList.add('pdf-mode');
+
+    const practice = params.get('practice') || '';
+    const signer = params.get('signer') || '';
+    const title = params.get('title') || '';
+    const email = params.get('email') || '';
+    const signedAt = params.get('signed_at');
+
+    // Format timestamp to America/Chicago (matches /sign-everything pdf_mode)
+    let dateStr = '';
+    let date = new Date();
+    if (signedAt) {
+      const parsed = new Date(signedAt);
+      if (!isNaN(parsed.getTime())) date = parsed;
+    }
+    try {
+      dateStr = date.toLocaleString('en-US', {
+        month: 'short', day: 'numeric', year: 'numeric',
+        hour: 'numeric', minute: '2-digit', timeZoneName: 'short',
+        timeZone: 'America/Chicago'
+      });
+    } catch (e) {
+      dateStr = date.toLocaleString('en-US');
+    }
+
+    // Build the attestation panel
+    const esc = (s) => String(s).replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[c]);
+
+    const panel = document.createElement('div');
+    panel.className = 'executed-attestation';
+    panel.innerHTML = `
+      <div class="executed-attestation-head">
+        <span class="executed-badge-inline"><span aria-hidden="true">\u2713</span> Executed</span>
+        <span class="executed-attestation-title">Business Associate Agreement &mdash; Acceptance Record</span>
+      </div>
+      <div class="executed-attestation-grid">
+        <div class="executed-attestation-row" style="grid-column: 1 / -1;">
+          <span class="executed-attestation-label">Covered Entity (Practice)</span>
+          <span class="executed-attestation-value">${esc(practice) || '&mdash;'}</span>
+        </div>
+        <div class="executed-attestation-row" style="grid-column: 1 / -1;">
+          <span class="executed-attestation-label">Signature of Authorized Signatory</span>
+          <span class="executed-attestation-signature">${esc(signer) || '&mdash;'}</span>
+        </div>
+        <div class="executed-attestation-row">
+          <span class="executed-attestation-label">Printed Name</span>
+          <span class="executed-attestation-value">${esc(signer) || '&mdash;'}</span>
+        </div>
+        <div class="executed-attestation-row">
+          <span class="executed-attestation-label">Title</span>
+          <span class="executed-attestation-value">${esc(title) || '&mdash;'}</span>
+        </div>
+        <div class="executed-attestation-row">
+          <span class="executed-attestation-label">Email</span>
+          <span class="executed-attestation-value">${esc(email) || '&mdash;'}</span>
+        </div>
+        <div class="executed-attestation-row">
+          <span class="executed-attestation-label">Executed</span>
+          <span class="executed-attestation-value">${esc(dateStr) || '&mdash;'}</span>
+        </div>
+        <div class="executed-attestation-row" style="grid-column: 1 / -1;">
+          <span class="executed-attestation-label">Business Associate</span>
+          <span class="executed-attestation-value">SnapShot Health Inc. &middot; Jimmy LaRose, Founder &amp; CEO</span>
+        </div>
+      </div>
+      <p class="executed-attestation-footnote">
+        <strong>This Business Associate Agreement was executed</strong> as part of a unified
+        signing session at <span>snapshothealth.io/sign-everything</span>, where the
+        Covered Entity\u2019s authorized signatory accepted the Service Order Form,
+        Master Service Agreement, and this BAA together under ESIGN Act, UETA, and
+        HIPAA \u00a7164.504(e). A complete record of execution is retained by SnapShot
+        Health and is available on request to <span>privacy@snapshothealth.io</span>.
+      </p>
+    `;
+
+    // Insert before the (now-hidden) execution-section so anchor scrolling and
+    // page-break flow still work.
+    const exec = document.querySelector('.execution-section');
+    if (exec && exec.parentNode) {
+      exec.parentNode.insertBefore(panel, exec);
+    } else {
+      document.body.appendChild(panel);
+    }
+  })();
 </script>
 
 </body>
