@@ -2690,6 +2690,36 @@
       document.body.appendChild(panel);
     }
   })();
+
+  // ================= TERM SELECTION FROM URL =================
+  // Honor ?term= URL param on every page load (not just pdf_mode), parallel
+  // to how sign_everything.html applies the term selection.
+  //
+  // Valid values: month-to-month (default) | 12-month
+  //
+  // Without this, the SOF page in the executed PDF would always show
+  // "Month-to-Month" checked even for customers who signed a 12-month
+  // commitment with 5% discount — a misrepresentation, not just an
+  // incomplete record. The data lives in HubSpot (term + discount_applied)
+  // and must be forwarded by Make.com on the PDFShift fetch URL as
+  // &term={{1.fields.term}} for this to take effect end-to-end.
+  (function initOrderTerm() {
+    const params = new URLSearchParams(window.location.search);
+    const termParam = params.get('term');
+    if (termParam !== 'month-to-month' && termParam !== '12-month') return;
+
+    const mtmRadio = document.getElementById('term-mtm');
+    const twelveRadio = document.getElementById('term-12');
+    if (!mtmRadio || !twelveRadio) return;
+
+    if (termParam === '12-month') {
+      mtmRadio.checked = false;
+      twelveRadio.checked = true;
+    } else {
+      mtmRadio.checked = true;
+      twelveRadio.checked = false;
+    }
+  })();
 </script>
 
 </body>
