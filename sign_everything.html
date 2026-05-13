@@ -1406,6 +1406,22 @@
 
     document.body.classList.add('pdf-mode');
 
+    // Fix D (CONTRACT_DOCS_FIX_HANDOFF.md, May 13, 2026): rewrite cross-doc
+    // anchor links inside the executed PDF so they forward pdf_mode=1 and the
+    // current URL params (practice, signer, title, email, signed_at, program,
+    // audience, etc.). Clicking "view your Service Order Form" or the MSA/BAA
+    // doc-link buttons from inside the executed PDF now opens a populated
+    // executed view of that document rather than a live blank template.
+    const forwardQs = '?' + params.toString();
+    document.querySelectorAll('a[href^="https://snapshothealth.io/"]').forEach(a => {
+      const href = a.getAttribute('href');
+      if (!href) return;
+      const m = href.match(/^https:\/\/snapshothealth\.io\/(order|baa|clinician-terms|hha-clinician-terms|sign|sign-everything|review-and-sign)(?:\?.*)?$/);
+      if (m) {
+        a.setAttribute('href', 'https://snapshothealth.io/' + m[1] + forwardQs);
+      }
+    });
+
     // 1. Populate typed signature with signer name
     const signerName = params.get('signer') || '';
     const wrap = document.querySelector('.sig-pad-wrap');
