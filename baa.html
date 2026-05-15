@@ -957,7 +957,7 @@
 
     <div class="sig-grid">
       <div class="sig-block covered">
-        <div class="sig-title">Covered Entity (Practice)</div>
+        <div class="sig-title">Covered Entity (<span data-hha="Agency">Practice</span>)</div>
         <div class="sig-field">
           <span class="sig-field-label">Signature</span>
           <div class="sig-pad-wrap" data-sigpad="covered">
@@ -1003,7 +1003,7 @@
           </div>
         </div>
         <div class="sig-field">
-          <span class="sig-field-label">Practice / Organization</span>
+          <span class="sig-field-label"><span data-hha="Agency">Practice</span> / Organization</span>
           <input type="text" class="sig-line" placeholder="Practice legal name">
         </div>
       </div>
@@ -1187,6 +1187,34 @@
 </script>
 
 <script>
+  // ================= AUDIENCE LABELS (?audience=physician|hha) =================
+  // Swaps physician-flavored labels (Practice) for HHA-flavored equivalents
+  // (Agency) when audience=hha. The BAA's legal terms don't vary by audience —
+  // both physician practices and HHAs are HIPAA "Covered Entities" — but the
+  // visible labels in the signature block and executed-PDF attestation read
+  // more naturally with the right noun.
+  //
+  // Expected URL param:
+  //   audience                  — physician (default) or hha
+  //
+  // Each affected span carries a data-hha attribute with the swap text;
+  // we just copy that into textContent. We also stash the resolved audience
+  // on document.body.dataset.audience so applyPdfMode can use it when
+  // building the executed-PDF attestation panel.
+  (function applyAudienceConfig() {
+    const params = new URLSearchParams(window.location.search);
+    let audience = params.get('audience') || 'physician';
+    if (audience !== 'physician' && audience !== 'hha') audience = 'physician';
+
+    document.body.dataset.audience = audience;
+
+    if (audience === 'hha') {
+      document.querySelectorAll('[data-hha]').forEach(el => {
+        el.textContent = el.dataset.hha;
+      });
+    }
+  })();
+
   // ================= PDF MODE (?pdf_mode=1) =================
   // Fix A + Fix B from CONTRACT_DOCS_FIX_HANDOFF.md (May 13, 2026).
   //
@@ -1202,11 +1230,14 @@
   //
   // Expected URL params (all optional except pdf_mode=1):
   //   pdf_mode=1                — activates PDF mode
-  //   practice                  — Covered Entity (practice) legal name
+  //   practice                  — Covered Entity legal name (practice or agency)
   //   signer                    — Authorized signatory name
   //   title                     — Signatory title
   //   email                     — Signatory email
   //   signed_at                 — ISO 8601 timestamp (forced to America/Chicago)
+  //   audience                  — physician (default) or hha (consumed by
+  //                                applyAudienceConfig above; we read the
+  //                                resolved value from body.dataset here)
   (function applyPdfMode() {
     const params = new URLSearchParams(window.location.search);
     if (params.get('pdf_mode') !== '1') return;
@@ -1243,6 +1274,7 @@
 
     const panel = document.createElement('div');
     panel.className = 'executed-attestation';
+    const ceLabel = document.body.dataset.audience === 'hha' ? 'Agency' : 'Practice';
     panel.innerHTML = `
       <div class="executed-attestation-head">
         <span class="executed-badge-inline"><span aria-hidden="true">\u2713</span> Executed</span>
@@ -1250,7 +1282,7 @@
       </div>
       <div class="executed-attestation-grid">
         <div class="executed-attestation-row" style="grid-column: 1 / -1;">
-          <span class="executed-attestation-label">Covered Entity (Practice)</span>
+          <span class="executed-attestation-label">Covered Entity (${ceLabel})</span>
           <span class="executed-attestation-value">${esc(practice) || '&mdash;'}</span>
         </div>
         <div class="executed-attestation-row" style="grid-column: 1 / -1;">
