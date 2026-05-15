@@ -1988,11 +1988,11 @@
             <div class="software-service-icon">⌘</div>
           </div>
 
-          <p class="software-service-intro">Full access to the SnapShot Health software platform at a flat monthly rate per billable patient, inclusive of one 4G-cellular connected device per enrolled patient. Your practice handles enrollment, monitoring, and documentation using our tools &mdash; SnapShot ships, replaces, and recovers devices on your behalf.</p>
+          <p class="software-service-intro">Full access to the SnapShot Health software platform at a flat monthly rate per billable patient, inclusive of one 4G-cellular connected device per enrolled patient. <span data-hha="Your agency">Your practice</span> handles enrollment, monitoring, and documentation using our tools &mdash; SnapShot ships, replaces, and recovers devices on your behalf.</p>
 
           <p class="software-section-label">What&rsquo;s included</p>
           <ul class="software-includes-list">
-            <li>Full platform access for your practice team (unlimited users)</li>
+            <li>Full platform access for <span data-hha="your agency">your practice</span> team (unlimited users)</li>
             <li>Patient portal for device pairing, daily transmissions, and engagement</li>
             <li>HIPAA-compliant data transmission and storage infrastructure</li>
             <li><strong>One FDA-cleared 4G cellular device per enrolled patient</strong> (BP cuff, scale, glucose, pulse-ox, or thermometer &mdash; your choice)</li>
@@ -2002,7 +2002,7 @@
             <li>Documentation and time-tracking tools for 99453, 99454, 99445, 99457, 99458, 99470, 99490, 99439, 99487, 99489, 99484, G0556, G0557, G0558, G0568, G0569, G0570</li>
           </ul>
 
-          <p class="software-section-label muted">Not included (handled by your practice)</p>
+          <p class="software-section-label muted">Not included (handled by <span data-hha="your agency">your practice</span>)</p>
           <ul class="software-excludes-list">
             <li>Patient enrollment calls and consent capture</li>
             <li>Daily clinical monitoring and alert triage</li>
@@ -2043,7 +2043,7 @@
 
       <div class="device-note">
         <div class="device-note-icon">✦</div>
-        <div><strong>Turnkey fulfillment.</strong> All devices are FDA-cleared, HIPAA-compliant, and fully managed by SnapShot Health — from inventory and shipping to patient activation, replacement, and reverse logistics. Device mix is tailored to each patient's clinical profile and payer-covered services. <strong>Devices remain the property of SnapShot Health</strong> and are provided for active program participation. Unreturned or damaged devices may be billed to the Provider.</div>
+        <div><strong>Turnkey fulfillment.</strong> All devices are FDA-cleared, HIPAA-compliant, and fully managed by SnapShot Health — from inventory and shipping to patient activation, replacement, and reverse logistics. Device mix is tailored to each patient's clinical profile and payer-covered services. <strong>Devices remain the property of SnapShot Health</strong> and are provided for active program participation. Unreturned or damaged devices may be billed to the <span data-hha="Agency">Provider</span>.</div>
       </div>
     </section>
 
@@ -2531,6 +2531,13 @@
     let program = params.get('program') || 'turnkey';
     if (!ORDER_PROGRAM_CONFIG[program]) program = 'turnkey';
 
+    // Audience param — physician (default) or hha. HHA is only valid with
+    // software-with-device, but we don't enforce that here; this page is a
+    // reference doc, not a binding contract. Signing-page validation owns
+    // strict program/audience pairing.
+    let audience = params.get('audience') || 'physician';
+    if (audience !== 'physician' && audience !== 'hha') audience = 'physician';
+
     const config = ORDER_PROGRAM_CONFIG[program];
 
     // Update program badge
@@ -2561,6 +2568,17 @@
         block.classList.remove('active');
       }
     });
+
+    // Audience-flavored terminology swap. When audience=hha, replace
+    // physician-flavored words (your practice / Provider) with HHA-flavored
+    // equivalents (your agency / Agency) inside the software-with-device
+    // block. Each affected span carries a data-hha attribute with the swap
+    // text; we just copy that into textContent.
+    if (audience === 'hha') {
+      document.querySelectorAll('[data-hha]').forEach(el => {
+        el.textContent = el.dataset.hha;
+      });
+    }
   })();
 </script>
 
