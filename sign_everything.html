@@ -903,12 +903,12 @@
         <ol class="agreement-list">
           <li>The <a href="https://snapshothealth.io/order" id="orderIntroLink" target="_blank" rel="noopener"><strong>Service Order Form</strong></a>, covering your selected program, pricing, and term.</li>
           <li>The <a href="https://snapshothealth.io/clinician-terms" id="msaIntroLink" target="_blank" rel="noopener"><strong>Master Service Agreement</strong></a>, which governs the partnership.</li>
-          <li>The <a href="https://snapshothealth.io/baa" target="_blank" rel="noopener"><strong>Business Associate Agreement</strong></a>, required under HIPAA &sect;164.504(e).</li>
+          <li>The <a href="https://snapshothealth.io/baa" id="baaIntroLink" target="_blank" rel="noopener"><strong>Business Associate Agreement</strong></a>, required under HIPAA &sect;164.504(e).</li>
         </ol>
         <p class="agreement-text-note">Your signature below constitutes execution of all three documents.</p>
         <ul class="doc-links">
           <li><a href="https://snapshothealth.io/clinician-terms" id="msaDocLink" target="_blank" rel="noopener" class="doc-link-btn">Master Service Agreement <span class="arrow">→</span></a></li>
-          <li><a href="https://snapshothealth.io/baa" target="_blank" rel="noopener" class="doc-link-btn">Business Associate Agreement <span class="arrow">→</span></a></li>
+          <li><a href="https://snapshothealth.io/baa" id="baaDocLink" target="_blank" rel="noopener" class="doc-link-btn">Business Associate Agreement <span class="arrow">→</span></a></li>
         </ul>
       </div>
 
@@ -1170,12 +1170,26 @@
         : '<strong>\u2713</strong> Flat, predictable pricing';
     }
 
-    // Update Order Form link to forward the selected program so the
-    // Order Form renders the matching Service Package and Fee Schedule.
-    const orderFormLink = document.getElementById('serviceOrderFormLink');
-    if (orderFormLink) {
-      orderFormLink.href = 'https://snapshothealth.io/order?program=' + encodeURIComponent(selectedProgram);
-    }
+    // Update Order Form and BAA review links to forward selected program AND
+    // audience, so a prospect clicking to review what they're about to sign
+    // sees the document configured for their program/audience -- not the
+    // default Remote Concierge Care content. Both SOF links (Your Service
+    // card + Agreement & Acceptance list) and both BAA links (Agreement &
+    // Acceptance list + doc-links button) are kept in sync. MSA links are
+    // handled separately in applyAudienceConfig() since the MSA URL itself
+    // changes by audience (physician vs HHA), not by query parameter.
+    const progEncoded = encodeURIComponent(selectedProgram);
+    const audEncoded = encodeURIComponent(selectedAudience);
+    const orderFormUrl = 'https://snapshothealth.io/order?program=' + progEncoded + '&audience=' + audEncoded;
+    const baaUrl = 'https://snapshothealth.io/baa?program=' + progEncoded + '&audience=' + audEncoded;
+    ['serviceOrderFormLink', 'orderIntroLink'].forEach(function(id) {
+      const link = document.getElementById(id);
+      if (link) link.href = orderFormUrl;
+    });
+    ['baaIntroLink', 'baaDocLink'].forEach(function(id) {
+      const link = document.getElementById(id);
+      if (link) link.href = baaUrl;
+    });
   }
 
   function applyAudienceConfig() {
